@@ -1,0 +1,43 @@
+{% extends "shell.html" %}
+
+{% block content %}
+    <h2>Find and share tourist attractions</h2>
+    <p>Going away is great, but what you really need is someone who knows the places to visit.</p>
+    <p>to.uri.st is the free database of tourist attractions anyone can edit, if you're passionate about seeing things and want to help others discover places around the World that you love, we need your help.</p>
+    <a href="about.html">About the site</a> | <a href="http://wiki.to.uri.st/">Community wiki</a>
+    
+    <form methd="get" action="search.html">
+        <label>Look at <input type="text" name="q"></label>
+        <input type="submit">
+        <p>Why not try <a href="search.html?q=london uk">london uk</a> or <a href="search.html?q=new york ny">new york ny</a></p>
+    </form>
+    
+    <h3>Recent changes</h3>
+    {% ifnotequal recent.count 0 %}
+        <ul>
+        {% for attraction in recent %}
+            <li>
+                <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                {{ attraction.modified|date:"jS F Y H:i" }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nothing</p>
+    {% endifnotequal %}
+    
+    <h3>Popular attractions</h3>
+    {% ifnotequal popular.count 0 %}
+        <ul>
+        {% for attraction in popular %}
+            <li>
+                <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                {{ attraction.modified|date:"jS F Y H:i" }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nothing</p>
+    {% endifnotequal %}
+    
+{% endblock %}

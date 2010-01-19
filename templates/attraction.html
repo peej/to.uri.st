@@ -1,0 +1,12 @@
+{% extends "shell.html" %}
+
+{% block content %}
+    <h2>{{ attraction.name|escape }}</h2>
+    {{ attraction.description|escape|linebreaks }}
+    
+    {% if attraction.parent %}
+    <p>Last modified {{ attraction.modified|date:"jS F Y H:i" }} ({{ attraction.modified|timesince}} ago)</p>
+    {% endif %}
+    <p>Created {{ attraction.created|date:"jS F Y H:i"}} ({{ attraction.created|timesince}} ago)</p>
+    
+{% endblock %}
