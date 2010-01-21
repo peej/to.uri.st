@@ -25,8 +25,7 @@ class AttractionLoader(bulkloader.Loader):
                 ('picture', lambda x: None if x == '\N' else db.Link(x)),
                 ('region', str),
                 ('free', lambda x: True if x == 'y' else False),
-                ('created', lambda x: datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')),
-                ('modified', lambda x: datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
+                ('datetime', lambda x: datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
             ]
         )
 

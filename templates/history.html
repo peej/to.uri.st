@@ -1,0 +1,13 @@
+{% extends "shell.html" %}
+
+{% block content %}
+    
+    <h2>History of "{{ name|escape }}"</h2>
+    
+    <ol>
+    {% for attraction in attractions %}
+        <li><a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by User</li>
+    {% endfor %}
+    </ol>
+    
+{% endblock %}

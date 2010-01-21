@@ -18,7 +18,7 @@
         {% for attraction in recent %}
             <li>
                 <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                {{ attraction.modified|date:"jS F Y H:i" }}
+                {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
             </li>
         {% endfor %}
         </ul>
@@ -32,7 +32,7 @@
         {% for attraction in popular %}
             <li>
                 <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                {{ attraction.modified|date:"jS F Y H:i" }}
+                {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
             </li>
         {% endfor %}
         </ul>

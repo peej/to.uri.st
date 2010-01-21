@@ -1,12 +1,29 @@
 {% extends "shell.html" %}
 
 {% block content %}
+    {% if attraction.next %}
+    <p>This is an old version of this tourist attraction</p>
+    {% endif %}
+    
     <h2>{{ attraction.name|escape }}</h2>
+    
+    {% if attraction.picture %}
+    <img src="{{ attraction.picture|escape }}" alt="">
+    {% endif %}
+    
     {{ attraction.description|escape|linebreaks }}
     
-    {% if attraction.parent %}
-    <p>Last modified {{ attraction.modified|date:"jS F Y H:i" }} ({{ attraction.modified|timesince}} ago)</p>
+    <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}">
+    
+    {% if attraction.href %}
+    <a href="{{ attraction.href|escape }}">More info...</a>
     {% endif %}
-    <p>Created {{ attraction.created|date:"jS F Y H:i"}} ({{ attraction.created|timesince}} ago)</p>
+    
+    <p>{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by User</p>
+    
+    <a href="/attractions/{{ attraction.id }}/edit.html">Edit</a>
+    {% if not attraction.next %}
+    <a href="/attractions/{{ attraction.id }}/history.html">History</a>
+    {% endif %}
     
 {% endblock %}

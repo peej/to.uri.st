@@ -1,11 +1,9 @@
-from google.appengine.ext import webapp
-import os
-from google.appengine.ext.webapp import template
 from google.appengine.ext import db
 
+from controllers.controller import Controller
 from models.attraction import Attraction
 
-class AttractionPage(webapp.RequestHandler):
+class AttractionPage(Controller):
     def get(self, attractionId):
         
         attraction = Attraction.all()
@@ -15,9 +13,5 @@ class AttractionPage(webapp.RequestHandler):
             'attraction': attraction.get()
         }
         
-        path = os.path.join(os.path.dirname(__file__), '../templates/attraction.html')
-        
-        self.response.headers.add_header('Content-type', 'text/html')
-        
-        self.response.out.write(template.render(path, template_values))
+        self.output('attraction.html', template_values)
         

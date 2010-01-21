@@ -3,7 +3,7 @@ from google.appengine.ext import db
 class Attraction(db.Model):
     id = db.StringProperty()
     previous = db.StringProperty(default = None)
-    visible = db.BooleanProperty(default = True)
+    next = db.StringProperty(default = None)
     location = db.GeoPtProperty(required = True)
     name = db.StringProperty(required = True)
     description = db.TextProperty()
@@ -12,5 +12,5 @@ class Attraction(db.Model):
     region = db.StringProperty()
     free = db.BooleanProperty(default = True)
     rating = db.RatingProperty()
-    created = db.DateTimeProperty()
-    modified = db.DateTimeProperty()
+    user = db.UserProperty()
+    datetime = db.DateTimeProperty()

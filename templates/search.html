@@ -1,0 +1,22 @@
+{% extends "shell.html" %}
+
+{% block content %}
+    <h2>Look at: {{ search|escape}} </h2>
+    
+    {% if error %}
+    
+    <p>Nothing found for "{{ search|escape }}"</p>
+    
+    {% else %}
+    
+    <ul>
+        {% for result in results %}
+        <li>
+            <a href="/search.html?c={{ result.Point.coordinates.1|floatformat:4 }},{{ result.Point.coordinates.0|floatformat:4 }}">{{ result.address|escape }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    {% endif %}
+    
+{% endblock %}
