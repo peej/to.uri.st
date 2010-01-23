@@ -13,17 +13,23 @@ class AttractionLoader(bulkloader.Loader):
         parts = x.split(',')
         return db.GeoPt(parts[0], parts[1])
     
+    def fixName(self, x):
+        if x == '':
+            return 'No name'
+        else:
+            return unicode(x.replace("\n", " "), 'utf-8')
+    
     def __init__(self):
         bulkloader.Loader.__init__(self,
             'Attraction',
             [
                 ('id', str),
                 ('location', self.createLocation),
-                ('name', str),
-                ('description', str),
-                ('href', lambda x: None if x == '\N' else db.Link(x)),
-                ('picture', lambda x: None if x == '\N' else db.Link(x)),
-                ('region', str),
+                ('name', self.fixName),
+                ('description', lambda x: unicode(x, 'utf-8')),
+                ('href', lambda x: unicode(x, 'utf-8')),
+                ('picture', lambda x: unicode(x, 'utf-8')),
+                ('region', lambda x: unicode(x, 'utf-8')),
                 ('free', lambda x: True if x == 'y' else False),
                 ('datetime', lambda x: datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
             ]

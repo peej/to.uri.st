@@ -1,13 +1,9 @@
 {% extends "shell.html" %}
 
 {% block content %}
-    <h2>Look at: {{ search|escape}} </h2>
+    <h2>Look at: {{ search|escape }} ({{ coords|escape }})</h2>
     
-    {% if error %}
-    
-    <p>Nothing found for "{{ search|escape }}"</p>
-    
-    {% else %}
+    {% if results %}
     
     <ul>
         {% for result in results %}
@@ -17,6 +13,22 @@
         {% endfor %}
     </ul>
     
-    {% endif %}
+    {% else %}{% if attractions %}
+    
+    <ol style="list-style: upper-alpha;">
+        {% for attraction in attractions %}
+        <li>
+            <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+        </li>
+        {% endfor %}
+    </ol>
+    
+    <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers=color:{{ attraction.colour }}|label:{{ attraction.marker }}|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map">
+    
+    {% else %}
+    
+    <p>Nothing found for "{{ search|escape }}"</p>
+    
+    {% endif %}{% endif %}
     
 {% endblock %}

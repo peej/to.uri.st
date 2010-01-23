@@ -14,7 +14,7 @@
                 <li><a href="http://wiki.to.uri.st">Wiki</a></li>
             </ul>
             <form methd="get" action="/search.html">
-                <label>Look at <input type="text" name="q"></label>
+                <label>Look at <input type="text" name="q" value="{{ q|escape }}"></label>
                 <input type="submit">
             </form>
         </div>
