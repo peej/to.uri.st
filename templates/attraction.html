@@ -6,6 +6,7 @@
     {% endif %}
     
     <h2>{{ attraction.name|escape }}</h2>
+    <h3>{{ attraction.region|escape }}</h3>
     
     {% if attraction.picture %}
     <img src="{{ attraction.picture|escape }}" alt="">
