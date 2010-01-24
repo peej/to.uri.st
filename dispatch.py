@@ -6,6 +6,7 @@ from controllers.search import SearchPage
 from controllers.attraction import AttractionPage
 from controllers.history import HistoryPage
 from controllers.edit import EditPage
+from controllers.recent import RecentPage
 
 application = webapp.WSGIApplication(
     [
@@ -14,7 +15,8 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})(?:\.html)?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.html)?', HistoryPage),
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),
-        ('/attractions/add(?:\.html)?', EditPage)
+        ('/add(?:\.html)?', EditPage),
+        ('/recent(?:\.html)?', RecentPage)
     ],
     debug=True
 )
