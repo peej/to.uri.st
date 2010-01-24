@@ -1,0 +1,45 @@
+{% extends "shell.html" %}
+
+{% block content %}
+    
+    <h2>Edit "{{ attraction.name|escape }}"</h2>
+    
+    <form action="/attractions/{{ attraction.id }}/edit.html" method="post">
+        
+        <label>
+            Attraction name:
+            <input type="text" name="name" value="{{ attraction.name|escape }}">
+        </label>
+        
+        <label>
+            Region:
+            <input type="text" name="region" value="{{ attraction.region|escape }}">
+        </label>
+        
+        <label>
+            Description:
+            <textarea name="description">{{ attraction.description|escape }}</textarea>
+        </label>
+        
+        <label class="location">
+            Location:
+            <input type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
+            <input type="hidden" name="lat" value="{{ attraction.location.lat }}">
+            <input type="hidden" name="lon" value="{{ attraction.location.lon }}">
+        </label>
+        
+        <label>
+            More information URL:
+            <input type="text" name="href" value="{{ attraction.href|escape }}">
+        </label>
+        
+        <label>
+            Picture URL:
+            <input type="text" name="picture" value="{{ attraction.picture|escape }}">
+        </label>
+        
+        <input type="submit">
+        
+    </form>
+    
+{% endblock %}
