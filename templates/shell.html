@@ -7,15 +7,15 @@
     <body>
         
         <div id="header">
-            <h1>to.uri.st</h1>
-            <ul>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="http://blog.to.uri.st">Blog</a></li>
-                <li><a href="http://wiki.to.uri.st">Wiki</a></li>
-            </ul>
+            <h1><a href="/">to.uri.st</a></h1>
             <form methd="get" action="/search.html">
-                <label>Look at <input type="text" name="q" value="{{ q|escape }}"></label>
-                <input type="submit">
+                <ul>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="http://blog.to.uri.st">Blog</a></li>
+                    <li><a href="http://wiki.to.uri.st">Wiki</a></li>
+                </ul>
+                <label>Search <input type="text" name="q" value="{{ q|escape }}"></label>
+                <input type="submit" value="Go">
             </form>
         </div>
         

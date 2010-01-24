@@ -27,7 +27,9 @@ body {
 }
 
 #footer {
+    clear: both;
     border-top: 1px solid #dde;
+    font-size: 80%;
 }
 
 h2, h3, h4, h5, h6 {
@@ -38,3 +40,127 @@ h2, h3, h4, h5, h6 {
 p {
     margin: 0.5em 0;
 }
+
+#header {
+    height: 60px;
+}
+
+#header h1 {
+    float: left;
+    font-size: 40px;
+}
+
+#header h1 a {
+    display: block;
+    background: url(/_/icon.png) no-repeat center left;
+    padding: 10px 0 10px 60px;
+    color: #000;
+    text-decoration: none;
+}
+
+#header form {
+    float: right;
+    text-align: right;
+}
+
+#header ul {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+#header ul li {
+    display: inline;
+}
+
+#header form label {
+    display: inline;
+}
+
+#header form label input {
+    width: auto;
+}
+
+#search-results img {
+    float: right;
+    margin: 0 0 10px 10px;
+}
+
+#search-results ol {
+    list-style: upper-alpha;
+}
+
+form label {
+    display: block;
+    margin: 10px 0;
+}
+
+form label input,
+form label textarea {
+    width: 100%;
+    border: 1px solid #999;
+    padding: 4px 2px 2px;
+}
+
+form label textarea {
+    height: 200px;
+}
+
+form label.location input {
+    display: block;
+    width: 300px;
+    height: 150px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+form input[type=submit] {
+    cursor: pointer;
+}
+
+form#lookat {
+    background-color: #fc6;
+    border: 1px solid #fc6;
+    margin: 10px 0;
+    text-align: center;
+}
+
+form#lookat label {
+    display: inline;
+    margin: 10px;
+}
+
+form#lookat label input {
+    width: 50%;
+    margin-left: 10px;
+}
+
+form#lookat input {
+    font-size: 120%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+form#lookat p {
+    font-size: 80%;
+}
+
+div.homepage-list {
+    float: left;
+    width: 45%;
+    margin: 0 5% 20px 0;
+}
+
+div.homepage-list ul {
+    list-style: inside square;
+}
+
+div.homepage-list li {
+    margin: 4px 0;
+}
+
+a#add {
+    display: block;
+    margin: 20px 0;
+    text-align: right;
+}
+

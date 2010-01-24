@@ -6,38 +6,45 @@
     <p>to.uri.st is the free database of tourist attractions anyone can edit, if you're passionate about seeing things and want to help others discover places around the World that you love, we need your help.</p>
     <a href="about.html">About the site</a> | <a href="http://wiki.to.uri.st/">Community wiki</a>
     
-    <form methd="get" action="search.html">
-        <label>Look at <input type="text" name="q"></label>
-        <input type="submit">
+    <form id="lookat" method="get" action="search.html">
+        <label>Find attractions in <input type="text" name="q"></label>
+        <input type="submit" value="Search">
         <p>Why not try <a href="search.html?q=london uk">london uk</a> or <a href="search.html?q=new york ny">new york ny</a></p>
     </form>
     
-    <h3>Recent changes</h3>
-    {% ifnotequal recent.count 0 %}
-        <ul>
-        {% for attraction in recent %}
-            <li>
-                <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nothing</p>
-    {% endifnotequal %}
+    <div class="homepage-list">
+        <h3>Recent changes</h3>
+        {% ifnotequal recent.count 0 %}
+            <ul>
+            {% for attraction in recent %}
+                <li>
+                    <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
+                </li>
+            {% endfor %}
+            </ul>
+            <a href="/recent.html">View more</a>
+        {% else %}
+            <p>Nothing</p>
+        {% endifnotequal %}
+    </div>
     
-    <h3>Popular attractions</h3>
-    {% ifnotequal popular.count 0 %}
-        <ul>
-        {% for attraction in popular %}
-            <li>
-                <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nothing</p>
-    {% endifnotequal %}
+    <div class="homepage-list">
+        <h3>Popular attractions</h3>
+        {% ifnotequal popular.count 0 %}
+            <ul>
+            {% for attraction in popular %}
+                <li>
+                    <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nothing</p>
+        {% endifnotequal %}
+    </div>
+    
+    <a href="/add.html" id="add">Add a new attraction</a>
     
 {% endblock %}
