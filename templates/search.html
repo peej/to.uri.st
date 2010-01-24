@@ -15,15 +15,16 @@
     
     {% else %}{% if attractions %}
     
-    <ol style="list-style: upper-alpha;">
-        {% for attraction in attractions %}
-        <li>
-            <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-        </li>
-        {% endfor %}
-    </ol>
-    
-    <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers=color:{{ attraction.colour }}|label:{{ attraction.marker }}|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map">
+    <div id="search-results">
+        <img id="" src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers={% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map">
+        <ol>
+            {% for attraction in attractions %}
+            <li>
+                <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
     
     {% else %}
     
