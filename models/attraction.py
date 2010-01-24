@@ -13,4 +13,4 @@ class Attraction(db.Model):
     free = db.BooleanProperty(default = True)
     rating = db.RatingProperty()
     user = db.UserProperty()
-    datetime = db.DateTimeProperty()
+    datetime = db.DateTimeProperty(auto_now_add = True)
