@@ -6,7 +6,16 @@
     
     <ol>
     {% for attraction in attractions %}
-        <li><a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by User</li>
+        <li>
+            <a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by User
+            {% if attraction.diff %}
+            <ol class="diff">
+                {% for line in attraction.diff %}
+                <li class="{{ line.0 }}">{{ line.1 }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+        </li>
     {% endfor %}
     </ol>
     

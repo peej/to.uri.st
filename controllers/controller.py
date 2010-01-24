@@ -9,5 +9,7 @@ class Controller(webapp.RequestHandler):
         
         self.response.headers.add_header('Content-type', mimetype)
         
+        values['page'] = templateName[0:templateName.find('.')]
+        
         self.response.out.write(template.render(path, values))
         

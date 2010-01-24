@@ -6,11 +6,14 @@ from models.attraction import Attraction
 class AttractionPage(Controller):
     def get(self, attractionId):
         
-        attraction = Attraction.all()
-        attraction.filter("id =", attractionId)
+        attractions = Attraction.all()
+        attractions.filter("id =", attractionId)
+        attraction = attractions.get()
+        
+        attraction.picture = attraction.picture.replace('.jpg', '_m.jpg')
         
         template_values = {
-            'attraction': attraction.get()
+            'attraction': attraction
         }
         
         self.output('attraction.html', template_values)
