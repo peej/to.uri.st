@@ -22,10 +22,6 @@ body {
     border-bottom: 1px solid #dde;
 }
 
-#content {
-    
-}
-
 #footer {
     clear: both;
     border-top: 1px solid #dde;
@@ -40,6 +36,16 @@ h2, h3, h4, h5, h6 {
 p {
     margin: 0.5em 0;
 }
+
+ul, ol {
+    list-style: inside square;
+}
+
+li {
+    margin: 4px 0;
+}
+
+/* header */
 
 #header {
     height: 60px;
@@ -80,14 +86,7 @@ p {
     width: auto;
 }
 
-#search-results img {
-    float: right;
-    margin: 0 0 10px 10px;
-}
-
-#search-results ol {
-    list-style: upper-alpha;
-}
+/* forms */
 
 form label {
     display: block;
@@ -116,6 +115,14 @@ form label.location input {
 form input[type=submit] {
     cursor: pointer;
 }
+
+p.error,
+form label.error {
+    color: #f00;
+    font-weight: bold;
+}
+
+/* homepage */
 
 form#lookat {
     background-color: #fc6;
@@ -150,17 +157,20 @@ div.homepage-list {
     margin: 0 5% 20px 0;
 }
 
-div.homepage-list ul {
-    list-style: inside square;
-}
-
-div.homepage-list li {
-    margin: 4px 0;
-}
-
 a#add {
     display: block;
     margin: 20px 0;
     text-align: right;
+}
+
+/* search */
+
+#search-results img {
+    float: right;
+    margin: 0 0 10px 10px;
+}
+
+#search-results ol {
+    list-style-type: upper-alpha;
 }
 
