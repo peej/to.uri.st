@@ -55,6 +55,10 @@ textarea:focus {
     border-color: #f80;
 }
 
+.nav {
+    margin: 20px 0;
+}
+
 /* header */
 
 #header {
