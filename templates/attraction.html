@@ -1,5 +1,7 @@
 {% extends "shell.html" %}
 
+{% block title %}{{attraction.name|escape }} - to.uri.st{% endblock %}
+
 {% block content %}
     {% if attraction.next %}
     <p>This is an old version of this tourist attraction</p>
@@ -19,7 +21,7 @@
     <a href="{{ attraction.href|escape }}" class="ext">More info...</a>
     {% endif %}
     
-    <p>{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by User</p>
+    <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}</p>
     
     <div class="nav">
         <a href="/attractions/{{ attraction.id }}/edit.html">Edit</a>

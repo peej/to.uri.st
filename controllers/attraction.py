@@ -10,7 +10,7 @@ class AttractionPage(Controller):
         attractions.filter("id =", attractionId)
         attraction = attractions.get()
         
-        attraction.picture = attraction.picture.replace('.jpg', '_m.jpg')
+        attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
         
         template_values = {
             'attraction': attraction

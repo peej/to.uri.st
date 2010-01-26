@@ -55,6 +55,10 @@ textarea:focus {
     border-color: #f80;
 }
 
+p.date {
+    font-size: 80%;
+}
+
 .nav {
     margin: 20px 0;
 }
@@ -172,21 +176,30 @@ div.homepage-list {
     margin: 0 5% 20px 0;
 }
 
-a#add {
-    display: block;
-    margin: 20px 0;
-    text-align: right;
-}
-
 /* search */
 
-#search-results img {
+#search-results img,
+#search-results #map {
     float: right;
     margin: 0 0 10px 10px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #999;
 }
 
 #search-results ol {
     list-style-type: upper-alpha;
+}
+
+#map-big {
+    float: right;
+    background: #999;
+    padding: 2px;
+    position: relative;
+    left: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 /* history */
@@ -213,4 +226,12 @@ ol.diff li.add {
 
 ol.diff li.take {
     background: #f33;
+}
+
+ol.diff li.pic img.new {
+    border: 5px solid #3f3;
+}
+
+ol.diff li.pic img.old {
+    border: 5px solid #f33;
 }

@@ -20,7 +20,7 @@
         <ol>
             {% for attraction in attractions %}
             <li>
-                <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                <a href="/attractions/{{ attraction.id }}.html" data-lat="{{ attraction.location.lat }}" data-lon="{{ attraction.location.lon }}">{{ attraction.name|escape }}</a>
             </li>
             {% endfor %}
         </ol>
