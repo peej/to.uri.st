@@ -72,7 +72,7 @@ class EditPage(Controller):
         else:
             
             next = attractionId
-            while next:
+            while next: # walk to newest version of this attraction
                 query = Attraction.all()
                 query.filter("id =", next)
                 latestAttraction = query.get()

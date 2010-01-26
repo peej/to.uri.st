@@ -1,5 +1,5 @@
 from google.appengine.ext import db
-import difflib
+import re, difflib
 
 from controllers.controller import Controller
 from models.attraction import Attraction
@@ -27,11 +27,11 @@ class HistoryPage(Controller):
             attractionId = attraction.previous if attraction.previous else False
         
         for index in range(0, len(attractions) - 1):
-            oldAttr = attractions[index]
-            newAttr = attractions[index + 1]
+            oldAttr = attractions[index + 1]
+            newAttr = attractions[index]
             attractions[index].diff = []
             
-            diffString = "Name: %s\nRegion: %s\nLocation: %.4f,%.4f\nMore info: %s\nPicture: %s\n\n%s"
+            diffString = "Name: %s\nRegion: %s\nLocation: %.4f,%.4f\nMore info: %s\n\n%s"
             
             old = diffString % (
                 oldAttr.name,
@@ -39,7 +39,6 @@ class HistoryPage(Controller):
                 oldAttr.location.lat,
                 oldAttr.location.lon,
                 oldAttr.href,
-                oldAttr.picture,
                 oldAttr.description
             )
             new = diffString % (
@@ -48,19 +47,24 @@ class HistoryPage(Controller):
                 newAttr.location.lat,
                 newAttr.location.lon,
                 newAttr.href,
-                newAttr.picture,
                 newAttr.description
             )
             
-            diff = difflib.unified_diff(new.splitlines(1), old.splitlines(1), n = 1)
+            diff = difflib.unified_diff(old.splitlines(1), new.splitlines(1), n = 3)
             for line in diff:
                 if line[0:3] != '---' and line[0:3] != '+++' and line[0:2] != '@@':
+                    #line = re.sub(r'Picture: (.+)', r'Picture: <img src="\1" alt="">', line)
                     if line[0:1] == '+':
                         attractions[index].diff.append(('add', line.strip(" \n+")))
                     elif line[0:1] == '-':
                         attractions[index].diff.append(('take', line.strip(" \n-")))
                     else:
                         attractions[index].diff.append(('', line.strip()))
+            
+            oldPic = self.convertFlickrUrl(oldAttr.picture, 's')
+            newPic = self.convertFlickrUrl(newAttr.picture, 's')
+            if oldPic != newPic:
+                attractions[index].diff.append(('pic', oldPic, newPic))
         
         template_values = {
             'name': attraction.name,

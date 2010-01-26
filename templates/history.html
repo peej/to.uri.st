@@ -7,11 +7,18 @@
     <ol>
     {% for attraction in attractions %}
         <li>
-            <a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by User
+            <a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}
             {% if attraction.diff %}
             <ol class="diff">
                 {% for line in attraction.diff %}
+                    {% ifequal line.0 'pic' %}
+                <li class="{{ line.0 }}">
+                    {% if line.1 %}<img src="{{ line.1 }}" alt="Old" class="old">{% endif %}
+                    {% if line.2 %}<img src="{{ line.2 }}" alt="New" class="new">{% endif %}
+                </li>
+                    {% else %}
                 <li class="{{ line.0 }}">{{ line.1 }}</li>
+                    {% endifequal %}
                 {% endfor %}
             </ol>
             {% endif %}
