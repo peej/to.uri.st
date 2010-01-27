@@ -28,9 +28,12 @@ class SearchPage(Controller):
                 
                 if geoboxes:
                     for attractionId in geoboxes.attractions:
-                        attraction = Attraction.all()
-                        attraction.filter("id =", attractionId)
-                        attractions.append(attraction.get())
+                        attractionQuery = Attraction.all()
+                        attractionQuery.filter("id =", attractionId)
+                        attractionQuery.filter("next =", None)
+                        attraction = attractionQuery.get()
+                        if attraction:
+                            attractions.append(attraction)
         
         numberOfAttractions = len(attractions)
         attractionCount = 64

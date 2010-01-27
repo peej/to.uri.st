@@ -31,21 +31,17 @@ class HistoryPage(Controller):
             newAttr = attractions[index]
             attractions[index].diff = []
             
-            diffString = "Name: %s\nRegion: %s\nLocation: %.4f,%.4f\nMore info: %s\n\n%s"
+            diffString = "Name: %s\nRegion: %s\nMore info: %s\n\n%s"
             
             old = diffString % (
                 oldAttr.name,
                 oldAttr.region,
-                oldAttr.location.lat,
-                oldAttr.location.lon,
                 oldAttr.href,
                 oldAttr.description
             )
             new = diffString % (
                 newAttr.name,
                 newAttr.region,
-                newAttr.location.lat,
-                newAttr.location.lon,
                 newAttr.href,
                 newAttr.description
             )
@@ -53,7 +49,6 @@ class HistoryPage(Controller):
             diff = difflib.unified_diff(old.splitlines(1), new.splitlines(1), n = 3)
             for line in diff:
                 if line[0:3] != '---' and line[0:3] != '+++' and line[0:2] != '@@':
-                    #line = re.sub(r'Picture: (.+)', r'Picture: <img src="\1" alt="">', line)
                     if line[0:1] == '+':
                         attractions[index].diff.append(('add', line.strip(" \n+")))
                     elif line[0:1] == '-':
@@ -65,7 +60,11 @@ class HistoryPage(Controller):
             newPic = self.convertFlickrUrl(newAttr.picture, 's')
             if oldPic != newPic:
                 attractions[index].diff.append(('pic', oldPic, newPic))
-        
+            
+            if oldAttr.location.lat != newAttr.location.lat and oldAttr.location.lon != newAttr.location.lon:
+                attractions[index].diff.append(('loc', oldAttr.location, newAttr.location))
+            
+            
         template_values = {
             'name': attraction.name,
             'attractions': attractions

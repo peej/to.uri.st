@@ -8,20 +8,26 @@
     {% for attraction in attractions %}
         <li>
             <a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}
-            {% if attraction.diff %}
             <ol class="diff">
+            {% if attraction.diff %}
                 {% for line in attraction.diff %}
                     {% ifequal line.0 'pic' %}
                 <li class="{{ line.0 }}">
                     {% if line.1 %}<img src="{{ line.1 }}" alt="Old" class="old">{% endif %}
                     {% if line.2 %}<img src="{{ line.2 }}" alt="New" class="new">{% endif %}
                 </li>
+                    {% else %}{% ifequal line.0 'loc' %}
+                <li class="{{ line.0 }}">
+                    <img src="http://maps.google.com/maps/api/staticmap?size=200x100&amp;maptype=roadmap&amp;markers=color:red|{{ line.1.lat|escape }},{{ line.1.lon|escape }}&amp;markers=color:green|{{ line.2.lat|escape }},{{ line.2.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
+                </li>
                     {% else %}
                 <li class="{{ line.0 }}">{{ line.1 }}</li>
-                    {% endifequal %}
+                    {% endifequal %}{% endifequal %}
                 {% endfor %}
-            </ol>
+            {% else %}
+                <li>Nothing changed between versions</li>
             {% endif %}
+            </ol>
         </li>
     {% endfor %}
     </ol>
