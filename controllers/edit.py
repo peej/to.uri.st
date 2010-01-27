@@ -1,5 +1,5 @@
 from google.appengine.ext import db
-import re, md5
+import re
 
 from controllers.controller import Controller
 from models.attraction import Attraction
@@ -60,7 +60,7 @@ class EditPage(Controller):
         if not len(attraction['picture']) == 0 and not re.match(r"^https?://.+$", attraction['href']):
             errors['picture'] = True
         
-        if errors:
+        if errors or (self.request.get('location.x') and self.request.get('location.y')):
             
             template_values = {
                 'attraction': attraction,
@@ -80,6 +80,12 @@ class EditPage(Controller):
             
             try:
                 newId = db.run_in_transaction(self.saveAttraction, latestAttraction.key(), attraction)
+                
+                oldGeoBox = self.calcGeoBoxId(latestAttraction.location.lat, latestAttraction.location.lon)
+                newGeoBox = self.calcGeoBoxId(attraction['location']['lat'], attraction['location']['lon'])
+                if oldGeoBox[0] != newGeoBox[0] or oldGeoBox[1] != newGeoBox[1]: # attraction has moved, update geoboxes
+                    db.run_in_transaction(self.updateGeoBoxes, latestAttraction.id, oldGeoBox, attraction['id'], newGeoBox)
+                    
                 self.redirect('/attractions/' + newId + '.html')
                 
             except db.Error:
@@ -91,19 +97,36 @@ class EditPage(Controller):
                     }
                 }
                 self.output('edit.html', template_values)
-                
+    
+    
+    def calcGeoBoxId(self, lat, lon):
+        return (round(float(lat), 2), round(float(lon) ,2))
+    
+    def updateGeoBoxes(self, oldAttractionId, oldGeoBoxId, newAttractionId, newGeoBoxId):
+        
+        from models.geobox import GeoBox
+        
+        geobox = GeoBox.all()
+        geobox.filter("lat =", oldGeoBoxId[0])
+        geobox.filter("lon =", oldGeoBoxId[1])
+        oldGeoBox = geobox.get()
+        oldGeoBox.attractions.remove(oldAttractionId)
+        oldGeoBox.put()
+        
+        geobox = GeoBox.all()
+        geobox.filter("lat =", newGeoBoxId[0])
+        geobox.filter("lon =", newGeoBoxId[1])
+        newGeoBox = geobox.get()
+        newGeoBox.attractions.remove(newAttractionId)
+        newGeoBox.put()
+    
     
     def saveAttraction(self, key, attractionData):
         
         oldAttraction = db.get(key)
         
-        newId = md5.new(unicode(attractionData)).hexdigest()
-        
-        oldAttraction.next = newId
-        
         newAttraction = Attraction(
             parent = oldAttraction,
-            id = newId,
             previous = oldAttraction.id,
             name = attractionData['name'],
             region = attractionData['region'],
@@ -119,7 +142,11 @@ class EditPage(Controller):
             user = None
         )
         
+        import md5
+        newAttraction.id = md5.new(unicode(newAttraction)).hexdigest()
+        oldAttraction.next = newAttraction.id
+        
         oldAttraction.put()
         newAttraction.put()
         
-        return newId
+        return newAttraction.id
