@@ -12,8 +12,8 @@ class SearchPage(Controller):
         lat = round(lat, 1)
         lon = round(lon, 1)
         
-        lats = [lat, lat + 0.1]
-        lons = [lon, lon + 0.1]
+        lats = [lat - 0.1, lat, lat + 0.1]
+        lons = [lon - 0.1, lon, lon + 0.1]
         
         attractions = []
         
