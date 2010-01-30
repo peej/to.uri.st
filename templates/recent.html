@@ -3,9 +3,10 @@
 {% block title %}Recent changes : to.uri.st{% endblock %}
 
 {% block content %}
-    <h2>Recent changes to attractions{% if coords %} (at {{ coords|escape }}){% endif %}</h2>
+    <h2>Recent changes to attractions{% if coords %} at {{ coords|escape }}{% endif %}</h2>
     
     <div id="search-results">
+    {% if attraction %}
         <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers={% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map">
         <ol>
             {% for attraction in attractions %}
@@ -16,6 +17,9 @@
             {% endfor %}
         </ol>
     </div>
+    {% else %}
+    <p>No changes{% if coords %} at this location{% endif %}.</p>
+    {% endif %}
     
     <div class="nav">
         {% if previous %}<a href="{{ previous }}">Previous page</a>{% endif %}
