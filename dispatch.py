@@ -12,13 +12,13 @@ from controllers.recent import RecentPage
 application = webapp.WSGIApplication(
     [
         ('/', HomePage),
-        ('/(?:about|legal)\.html', Controller),
-        ('/search(?:\.html)?', SearchPage),
+        ('/search(?:\.(html|atom|js))?', SearchPage),
         ('/attractions/([a-f0-9]{32})(?:\.html)?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.html)?', HistoryPage),
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),
         ('/add(?:\.html)?', EditPage),
         ('/recent(?:\.html)?', RecentPage),
+        ('/.*', Controller)
     ],
     debug=True
 )

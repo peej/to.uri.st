@@ -10,6 +10,9 @@ class Controller(webapp.RequestHandler):
         self.response.headers.add_header('Content-type', mimetype)
         
         values['page'] = templateName[0:templateName.find('.')]
+        values['get'] = {}
+        for query in self.request.arguments():
+            values['get'][query] = self.request.get(query)
         
         self.response.out.write(template.render(path, values))
         
@@ -24,4 +27,12 @@ class Controller(webapp.RequestHandler):
         
     def get(self):
         
-        self.output(self.request.path[1:self.request.path.find('.')] + '.html')
+        path = self.request.path
+        if os.path.exists(path):
+            self.output(path)
+        else:
+            path = self.request.path[1:self.request.path.find('.')] + '.html'
+            if os.path.exists(path):
+                self.output(path)
+            else:
+                self.output('404.html')
