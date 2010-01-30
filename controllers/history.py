@@ -70,5 +70,5 @@ class HistoryPage(Controller):
             'attractions': attractions
         }
         
-        self.output('history.html', template_values)
+        self.output('history', 'html', template_values)
         

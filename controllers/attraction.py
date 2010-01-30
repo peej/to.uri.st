@@ -16,5 +16,5 @@ class AttractionPage(Controller):
             'attraction': attraction
         }
         
-        self.output('attraction.html', template_values)
+        self.output('attraction', 'html', template_values)
         

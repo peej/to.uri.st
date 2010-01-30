@@ -3,13 +3,20 @@ import os, re
 from google.appengine.ext.webapp import template
 
 class Controller(webapp.RequestHandler):
-    def output(self, templateName, values = {}, mimetype = 'text/html'):
+    
+    mimetypes = {
+        'html': 'text/html',
+        'atom': 'application/atom+xml',
+        'js': 'application/javascript'
+    }
+    
+    def output(self, templateName, type = 'html', values = {}):
         
-        path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName)
+        path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName + '.' + type)
         
-        self.response.headers.add_header('Content-type', mimetype)
+        self.response.headers.add_header('Content-type', self.mimetypes[type])
         
-        values['page'] = templateName[0:templateName.find('.')]
+        values['page'] = templateName
         values['get'] = {}
         for query in self.request.arguments():
             values['get'][query] = self.request.get(query)

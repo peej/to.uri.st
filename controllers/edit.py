@@ -67,7 +67,7 @@ class EditPage(Controller):
                 'errors': errors
             }
             
-            self.output('edit.html', template_values)
+            self.output('edit', 'html', template_values)
             
         else:
             
@@ -142,7 +142,7 @@ class EditPage(Controller):
                     'save': True
                 }
             }
-            self.output('edit.html', template_values)
+            self.output('edit', 'html', template_values)
     
     
     def calcGeoBoxId(self, lat, lon):

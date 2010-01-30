@@ -27,5 +27,5 @@ class RecentPage(Controller):
             'nextpage': page + 1
         }
         
-        self.output('recent.html', template_values)
+        self.output('recent', 'html', template_values)
         

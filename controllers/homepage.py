@@ -19,5 +19,5 @@ class HomePage(Controller):
             'popular': popular.fetch(5)
         }
         
-        self.output('home.html', template_values)
+        self.output('home', 'html', template_values)
         
