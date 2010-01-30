@@ -14,3 +14,6 @@ class Attraction(db.Model):
     rating = db.RatingProperty()
     user = db.UserProperty()
     datetime = db.DateTimeProperty(auto_now_add = True)
+    
+    def __cmp__(self, other):
+        return cmp(self.datetime, other.datetime) * -1

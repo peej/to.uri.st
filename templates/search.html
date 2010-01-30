@@ -35,6 +35,7 @@
     {% endif %}{% endif %}
     
     <div class="nav">
+        {% if coords %}<a href="/recent.html?c={{ coords|escape }}">Recent changes</a>{% endif %}
         <a href="{{ atom|escape }}">Atom feed</a>
         <a href="{{ json|escape }}">JSON data</a>
     </div>
