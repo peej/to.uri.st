@@ -26,9 +26,9 @@
                 <li class="{{ line.0 }}">{{ line.1 }}</li>
                     {% endifequal %}{% endifequal %}
                 {% endfor %}
-            {% else %}
+            {% else %}{% if not forloop.last %}
                 <li>Nothing changed between versions</li>
-            {% endif %}
+            {% endif %}{% endif %}
             </ol>
         </li>
     {% endfor %}
