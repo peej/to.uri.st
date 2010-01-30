@@ -53,9 +53,11 @@ class SearchPage(Controller):
         
         if coords:
             
-            url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % urllib.quote(coords)
+            coords = coords.split(',')
             
-            template_values['coords'] = coords
+            url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(coords[0]), float(coords[1]))
+            
+            template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
             
             jsonString = urllib.urlopen(url).read()
             if jsonString:

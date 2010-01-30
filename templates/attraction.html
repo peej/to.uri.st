@@ -3,6 +3,7 @@
 {% block title %}{{attraction.name|escape }} - to.uri.st{% endblock %}
 
 {% block content %}
+    
     {% if attraction.next %}
     <p>This is an old version of this tourist attraction</p>
     {% endif %}
@@ -24,6 +25,7 @@
     <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}</p>
     
     <div class="nav">
+        <a href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}">More attractions</a>
         <a href="/attractions/{{ attraction.id }}/edit.html">Edit</a>
         <a href="/attractions/{{ attraction.id }}/history.html">History</a>
     </div>
