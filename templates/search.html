@@ -1,5 +1,7 @@
 {% extends "shell.html" %}
 
+{% block title %}{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{{ coords|escape }}{% endif %} : to.uri.st{% endblock %}
+
 {% block content %}
     <h2>Attractions in: {% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{{ coords|escape }}{% endif %}</h2>
     

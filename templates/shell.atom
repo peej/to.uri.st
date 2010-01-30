@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed
+	xmlns="http://www.w3.org/2005/Atom"
+	xmlns:georss="http://www.georss.org/georss"
+	xmlns:ar="http://purl.org/atompub/revision/1.0"
+>
+	<title>{% block title %}to.uri.st{% endblock %}</title>
+	<link rel="self" type="application/atom+xml" href="{{ url|escape }}"/>
+	{% if previous %}<link rel="previous" type="application/atom+xml" href="{{ previous|escape }}"/>{% endif %}
+	{% if next %}<link rel="next" type="application/atom+xml" href="{{ next|escape }}"/>{% endif %}
+	{% if html %}<link rel="alternate" type="text/html" href="{{ html|escape }}"/>{% endif %}
+	<updated>{{ updated|date:"Y-m-d\TH:i:s\Z" }}</updated>
+	<author>
+		<name>to.uri.st</name>
+		<uri>http://to.uri.st/</uri>
+	</author>
+	<id>tag:to.uri.st,2010:{{ tag|escape }}</id>
+	{% block entries %}{% endblock %}
+</feed>

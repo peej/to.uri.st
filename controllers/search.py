@@ -1,4 +1,4 @@
-import urllib, json
+import urllib, json, datetime
 from google.appengine.ext import db
 
 from controllers.controller import Controller
@@ -16,6 +16,7 @@ class SearchPage(Controller):
         lons = [lon - 0.1, lon, lon + 0.1]
         
         attractions = []
+        updated = None
         
         for latitude in lats:
             for longitude in lons:
@@ -34,6 +35,8 @@ class SearchPage(Controller):
                         attraction = attractionQuery.get()
                         if attraction:
                             attractions.append(attraction)
+                            if updated == None or attraction.datetime > updated:
+                                updated = attraction.datetime
         
         numberOfAttractions = len(attractions)
         attractionCount = 64
@@ -42,9 +45,9 @@ class SearchPage(Controller):
             if attractionCount < 91:
                 attraction.label = chr(attractionCount)
             
-        return attractions
+        return (attractions, updated)
     
-    def get(self):
+    def get(self, type):
         
         search = self.request.get("q")
         coords = self.request.get("c")
@@ -65,7 +68,7 @@ class SearchPage(Controller):
                 try:
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
-                    template_values['attractions'] = self.getAttractions(lat, lon)
+                    (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
                     try:
                         template_values['search'] = "%s, %s" % (
                             data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
@@ -79,7 +82,7 @@ class SearchPage(Controller):
                 parts = coords.split(",")
                 lat = parts[0]
                 lon = parts[1]
-                template_values['attractions'] = self.getAttractions(lat, lon)
+                (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
             
         else:
             
@@ -97,7 +100,7 @@ class SearchPage(Controller):
                     if len(data['Placemark']) > 1:
                         template_values['results'] = data['Placemark']
                     else:
-                        template_values['attractions'] = self.getAttractions(lat, lon)
+                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
                         try:
                             template_values['search'] = "%s, %s" % (
                                 data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
@@ -109,5 +112,9 @@ class SearchPage(Controller):
                     pass
             
         template_values['q'] = search
-        self.output('search.html', template_values)
         
+        template_values['url'] = self.request.url
+        template_values['tag'] = self.request.path
+        
+        self.output('search.' + type, template_values)
+
