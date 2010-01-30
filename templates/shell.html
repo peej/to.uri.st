@@ -3,6 +3,8 @@
     <head>
         <title>{% block title %}to.uri.st{% endblock %}</title>
         <link rel="stylesheet" href="/_/style.css" type="text/css">
+        {% if atom %}<link rel="alternate" type="application/atom+xml" href="{{ atom|escape }}"/>{% endif %}
+        {% if json %}<link rel="alternate" type="application/json" href="{{ json|escape }}"/>{% endif %}
 	</head>
     <body id="{{ page }}">
         
