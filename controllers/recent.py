@@ -5,7 +5,7 @@ from models.attraction import Attraction
 
 class RecentPage(Controller):
     
-    def get(self):
+    def get(self, type):
         
         coords = self.request.get("c")
         
@@ -59,14 +59,22 @@ class RecentPage(Controller):
                 template_values['previous'] = self.request.path + '?page=' + str(page - 1)
             template_values['next'] = self.request.path + '?page=' + str(page + 1)
         
+        updated = None
         numberOfAttractions = len(attractions)
         attractionCount = 64
         for attraction in attractions:
             attractionCount = attractionCount + 1
             if attractionCount < 91:
                 attraction.label = chr(attractionCount)
+            if updated == None or attraction.datetime > updated:
+                updated = attraction.datetime
         
         template_values['attractions'] = attractions
+        template_values['updated'] = updated
         
-        self.output('recent', 'html', template_values)
+        template_values['url'] = self.request.url
+        template_values['tag'] = self.request.path
+        template_values['atom'] = self.request.url.replace('.html', '.atom')
+        
+        self.output('recent', type, template_values)
         

@@ -17,7 +17,7 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/history(?:\.html)?', HistoryPage),
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),
         ('/add(?:\.html)?', EditPage),
-        ('/recent(?:\.html)?', RecentPage),
+        ('/recent(?:\.(html|atom))?', RecentPage),
         ('/.*', Controller)
     ],
     debug=True
