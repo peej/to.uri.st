@@ -9,7 +9,7 @@
             {% for attraction in attractions %}
             <li>
                 <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by User
+                {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}
             </li>
             {% endfor %}
         </ol>
