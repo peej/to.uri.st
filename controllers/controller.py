@@ -42,4 +42,4 @@ class Controller(webapp.RequestHandler):
             if os.path.exists(path):
                 self.output(path)
             else:
-                self.output('404.html')
+                self.output('404', 'html')
