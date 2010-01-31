@@ -30,7 +30,7 @@
     
     {% else %}
     
-    <p>Nothing found in "{{ search|escape }}".</p>
+    <p>Nothing found{% if search %} in "{{ search|escape }}"{% endif %}.</p>
     
     {% endif %}{% endif %}
     
