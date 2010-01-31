@@ -69,13 +69,17 @@ class SearchPage(Controller):
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
                     (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
-                    try:
+                    if (
+                        'Country' in data['Placemark'][0]['AddressDetails'] and 
+                        'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
+                        'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
+                        'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea'] and
+                        'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
+                    ):
                         template_values['search'] = "%s, %s" % (
                             data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                             data['Placemark'][0]['AddressDetails']['Country']['CountryName']
                         )
-                    finally:
-                        pass
                 finally:
                     pass
             else:
