@@ -7,13 +7,17 @@ from models.geobox import GeoBox
 
 class SearchPage(Controller):
     
-    def getAttractions(self, lat, lon):
+    def getAttractions(self, lat, lon, type):
         
         lat = round(lat, 1)
         lon = round(lon, 1)
         
-        lats = [lat - 0.1, lat, lat + 0.1]
-        lons = [lon - 0.1, lon, lon + 0.1]
+        if type == 'js':
+            lats = [lat]
+            lons = [lon]
+        else:
+            lats = [lat - 0.1, lat, lat + 0.1]
+            lons = [lon - 0.1, lon, lon + 0.1]
         
         attractions = []
         updated = None
@@ -68,7 +72,7 @@ class SearchPage(Controller):
                 try:
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
-                    (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
+                    (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
                     if (
                         'Country' in data['Placemark'][0]['AddressDetails'] and 
                         'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
@@ -86,7 +90,7 @@ class SearchPage(Controller):
                 parts = coords.split(",")
                 lat = parts[0]
                 lon = parts[1]
-                (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
+                (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
             
         else:
             
@@ -104,7 +108,7 @@ class SearchPage(Controller):
                     if len(data['Placemark']) > 1:
                         template_values['results'] = data['Placemark']
                     else:
-                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon)
+                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
                         try:
                             template_values['search'] = "%s, %s" % (
                                 data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],

@@ -60,8 +60,6 @@ $(function () {
             markers[boxId].push(marker);
         });
         
-        console.log(markers);
-        
         $("#map-big").click(function () {
             
             $("#search-results ol, #map-big").hide();
@@ -70,71 +68,89 @@ $(function () {
                 height: "400px"
             }, "fast", "swing", function () {
                 google.maps.event.trigger(map, "resize");
+                mapChanged();
             });
             
-            var loadData = function () {
-                
-                if (map.getZoom() > 10) {
-                    
-                    var bounds = map.getBounds();
-                    
-                    var sw = bounds.getSouthWest(),
-                        ne = bounds.getNorthEast();
-                        
-                    var minLat = Math.floor(sw.lat() * 3) / 3,
-                        maxLat = Math.ceil(ne.lat() * 3) / 3,
-                        minLon = Math.floor(sw.lng() * 3) / 3,
-                        maxLon = Math.ceil(ne.lng() * 3) / 3;
-                    
-                    for (var lat = minLat; lat < maxLat; lat = lat + 0.3) {
-                        lat = Math.round(lat * 10) / 10;
-                        for (var lon = minLon; lon < maxLon; lon = lon + 0.3) {
-                            lon = Math.round(lon * 10) / 10;
-                            var boxId = lat + "," + lon;
-                            if (typeof markers[boxId] == "undefined") {
-                                markers[boxId] = [];
-                                $.ajax({
-                                    url: "/search.js?c=" + lat + "," + lon,
-                                    dataType: "json",
-                                    success: function (data) {
-                                        if (typeof data == "object") {
-                                            $.each(data, function (index) {
-                                                var center = new google.maps.LatLng(this.location.lat, this.location.lon);
-                                                var marker = new google.maps.Marker({
-                                                    position: center,
-                                                    map: map,
-                                                    title: this.title
-                                                });
-                                                google.maps.event.addListener(marker, 'click', function() {
-                                                    document.location = "/attractions/" + data[index].id + ".html";
-                                                });
-                                                markers[boxId].push(marker);
-                                            });
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                    
-                } else {
-                    
-                    console.log("remove", markers);
-                    $.each(markers, function () {
-                        $.each(this, function () {
-                            console.log("remove it");
-                            this.setMap(null);
-                        });
-                    });
-                    markers = {};
-                    
-                }
-            };
+            google.maps.event.addListener(map, "dragend", mapChanged);
+            google.maps.event.addListener(map, "zoom_changed", mapChanged);
             
-            google.maps.event.addListener(map, "dragend", loadData);
-            google.maps.event.addListener(map, "zoom_changed", loadData);
+            $("#map").after('<div id="loading">Loading data</div>');
             
         });
+        
+        var timeout = null;
+        
+        var mapChanged = function () {
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(loadData, 1000);
+        }
+        
+        var loadData = function () {
+            
+            $("#loading").show();
+            var loading = 0;
+            
+            if (map.getZoom() > 10) {
+                
+                var bounds = map.getBounds();
+                
+                var sw = bounds.getSouthWest(),
+                    ne = bounds.getNorthEast();
+                    
+                var minLat = Math.floor(sw.lat() * 10) / 10,
+                    maxLat = Math.ceil(ne.lat() * 10) / 10,
+                    minLon = Math.floor(sw.lng() * 10) / 10,
+                    maxLon = Math.ceil(ne.lng() * 10) / 10;
+                
+                for (var lat = minLat; lat < maxLat; lat = lat + 0.1) {
+                    lat = Math.round(lat * 10) / 10;
+                    for (var lon = minLon; lon < maxLon; lon = lon + 0.1) {
+                        lon = Math.round(lon * 10) / 10;
+                        var boxId = lat + "," + lon;
+                        if (typeof markers[boxId] == "undefined") {
+                            loading++;
+                            markers[boxId] = [];
+                            $.ajax({
+                                url: "/search.js?c=" + lat + "," + lon,
+                                dataType: "json",
+                                success: function (data) {
+                                    if (typeof data == "object") {
+                                        $.each(data, function (index) {
+                                            var center = new google.maps.LatLng(this.location.lat, this.location.lon);
+                                            var marker = new google.maps.Marker({
+                                                position: center,
+                                                map: map,
+                                                title: this.title
+                                            });
+                                            google.maps.event.addListener(marker, 'click', function() {
+                                                document.location = "/attractions/" + data[index].id + ".html";
+                                            });
+                                            markers[boxId].push(marker);
+                                        });
+                                    }
+                                },
+                                complete: function () {
+                                    loading--;
+                                    if (loading == 0) $("#loading").hide();
+                                }
+                            });
+                        }
+                    }
+                }
+                
+            } else {
+                
+                $.each(markers, function () {
+                    $.each(this, function () {
+                        this.setMap(null);
+                    });
+                });
+                markers = {};
+                
+                $("#loading").hide();
+                
+            }
+        };
         
     }
     

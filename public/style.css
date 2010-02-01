@@ -202,6 +202,19 @@ div.homepage-list {
     font-weight: bold;
 }
 
+#loading {
+    background: #d66;
+    color: #000;
+    border: 1px solid #000;
+    padding: 2px;
+    position: absolute;
+    left: 50%;
+    width: 100px;
+    margin-left: -50px;
+    font-size: 80%;
+    text-align: center;
+}
+
 /* history */
 
 ol.diff {
