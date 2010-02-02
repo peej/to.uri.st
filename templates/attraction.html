@@ -4,12 +4,35 @@
 
 {% block content %}
     
-    {% if attraction.next %}
-    <p>This is an old version of this tourist attraction</p>
-    {% endif %}
+    <div id="attraction-nav">
+        <span>Attraction</span>
+        <a href="/attractions/{{ attraction.id }}/discussion.html">Discussion</a>
+        <a href="/attractions/{{ attraction.id }}/edit.html">Edit</a>
+        <a href="/attractions/{{ attraction.id }}/history.html">History</a>
+    </div>
     
     <h2>{{ attraction.name|escape }}</h2>
     <h3>{{ attraction.region|escape }}</h3>
+    
+    {% if attraction.next %}
+    <div class="info">
+        <p>This is an old version of this tourist attraction.</p>
+    </div>
+    {% endif %}
+    {% for tag in attraction.tags %}
+        {% ifequal tag "dupe" %}
+    <div class="info">
+        <p>This attraction has been marked as a duplicate of another attraction.</p>
+        <p>It may be automatically deleted 30 days after {{ attraction.datetime|date:"jS F Y \a\t H:i" }} unless
+        this tag is removed.</p>
+    </div>
+        {% endifequal %}
+        {% ifequal tag "delete" %}
+    <div class="info">
+        <p>This attraction has been marked to be deleted.</p>
+    </div>
+        {% endifequal %}
+    {% endfor %}
     
     {{ attraction.description|escape|linebreaks }}
     
@@ -23,7 +46,7 @@
     {% endif %}
     
     {% if attraction.tags %}
-    <ul>
+    <ul id="tags">
         {% for tag in attraction.tags %}
         <li>{{ tag }}</li>
         {% endfor %}
@@ -33,8 +56,6 @@
     
     <div class="nav">
         <a href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}">More attractions</a>
-        <a href="/attractions/{{ attraction.id }}/edit.html">Edit</a>
-        <a href="/attractions/{{ attraction.id }}/history.html">History</a>
     </div>
     
 {% endblock %}

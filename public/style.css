@@ -33,6 +33,10 @@ h2, h3, h4, h5, h6 {
     margin: 0.5em 0;
 }
 
+h2 {
+    border-bottom: 1px solid #000;
+}
+
 p {
     margin: 0.5em 0;
 }
@@ -225,6 +229,43 @@ div.homepage-list {
     margin: 100px 0 0 50px;
     font-size: 70%;
     text-align: center;
+}
+
+/* attraction */
+
+#attraction-nav {
+    float: right;
+    text-align: right;
+    margin-top: -1em;
+}
+
+#attraction-nav a,
+#attraction-nav span {
+    float: left;
+    background: #dde;
+    padding: 2px 5px;
+    margin-left: 4px;
+    font-size: 90%;
+}
+
+div.info {
+    background: #333;
+    color: #fff;
+    border: 1px solid #000;
+    margin: 1em 0;
+    padding: 2px 10px;
+}
+
+ul#tags {
+    list-style: none;
+    margin: 1em 0;
+}
+
+ul#tags li {
+    display: inline;
+    background: #f80;
+    padding: 2px 5px;
+    font-size: 90%;
 }
 
 /* history */

@@ -4,6 +4,13 @@
 
 {% block content %}
     
+    <div id="attraction-nav">
+        <a href="/attractions/{{ attraction.id }}.html">Attraction</a>
+        <a href="/attractions/{{ attraction.id }}/discussion.html">Discussion</a>
+        <span>Edit</span>
+        <a href="/attractions/{{ attraction.id }}/history.html">History</a>
+    </div>
+    
     <h2>Edit "{{ attraction.name|escape }}"</h2>
     
     {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}

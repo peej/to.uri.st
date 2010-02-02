@@ -1,8 +1,15 @@
 {% extends "shell.html" %}
 
-{% block title %}History of "{{attraction.name|escape }}" : to.uri.st{% endblock %}
+{% block title %}History of "{{name|escape }}" : to.uri.st{% endblock %}
 
 {% block content %}
+    
+    <div id="attraction-nav">
+        <a href="/attractions/{{ attractions.0.id }}.html">Attraction</a>
+        <a href="/attractions/{{ attractions.0.id }}/discussion.html">Discussion</a>
+        <a href="/attractions/{{ attractions.0.id }}/edit.html">Edit</a>
+        <span>History</span>
+    </div>
     
     <h2>History of "{{ name|escape }}"</h2>
     
