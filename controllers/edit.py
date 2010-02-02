@@ -16,7 +16,7 @@ class EditPage(Controller):
             'attraction': attraction
         }
         
-        self.output('edit.html', template_values)
+        self.output('edit', 'html', template_values)
     
     
     def post(self, attractionId):
