@@ -215,6 +215,18 @@ div.homepage-list {
     text-align: center;
 }
 
+#instruction {
+    background: #fff;
+    color: #66d;
+    border: 1px solid #ccc;
+    padding: 2px;
+    position: absolute;
+    width: 80px;
+    margin: 100px 0 0 50px;
+    font-size: 70%;
+    text-align: center;
+}
+
 /* history */
 
 ol.diff {

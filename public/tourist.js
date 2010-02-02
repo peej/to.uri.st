@@ -1,4 +1,3 @@
-
 $(function () {
     
     switch ($("body").attr("id")) {
@@ -68,29 +67,36 @@ $(function () {
                 height: "400px"
             }, "fast", "swing", function () {
                 google.maps.event.trigger(map, "resize");
-                mapChanged();
             });
+            
+            $("h2").text("Attractions");
             
             google.maps.event.addListener(map, "dragend", mapChanged);
             google.maps.event.addListener(map, "zoom_changed", mapChanged);
             
-            $("#map").after('<div id="loading">Loading data</div>');
+            $("#map").after('<div id="loading">Loading data</div><div id="instruction">Zoom in to see more attractions</div>');
+            
+            loadData();
             
         });
         
-        var timeout = null;
+        var timeout = null,
+            loading = 0;
         
         var mapChanged = function () {
-            window.clearTimeout(timeout);
-            timeout = window.setTimeout(loadData, 1000);
+            if (!loading) {
+                window.clearTimeout(timeout);
+                timeout = window.setTimeout(loadData, 1000);
+            }
         }
         
         var loadData = function () {
             
-            $("#loading").show();
-            var loading = 0;
-            
             if (map.getZoom() > 10) {
+                
+                $("#loading").show();
+                
+                $("#instruction").fadeOut();
                 
                 var bounds = map.getBounds();
                 
@@ -131,7 +137,7 @@ $(function () {
                                 },
                                 complete: function () {
                                     loading--;
-                                    if (loading == 0) $("#loading").hide();
+                                    if (loading == 0) $("#loading").fadeOut();
                                 }
                             });
                         }
@@ -140,6 +146,8 @@ $(function () {
                 
             } else {
                 
+                $("#instruction").show();
+                
                 $.each(markers, function () {
                     $.each(this, function () {
                         this.setMap(null);
@@ -147,7 +155,7 @@ $(function () {
                 });
                 markers = {};
                 
-                $("#loading").hide();
+                $("#loading").fadeOut();
                 
             }
         };
