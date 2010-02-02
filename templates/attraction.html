@@ -22,6 +22,13 @@
     <a href="{{ attraction.href|escape }}" class="ext">More info...</a>
     {% endif %}
     
+    {% if attraction.tags %}
+    <ul>
+        {% for tag in attraction.tags %}
+        <li>{{ tag }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}</p>
     
     <div class="nav">

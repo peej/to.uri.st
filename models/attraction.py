@@ -12,6 +12,7 @@ class Attraction(db.Model):
     region = db.StringProperty()
     free = db.BooleanProperty(default = True)
     rating = db.RatingProperty()
+    tags = db.StringListProperty()
     user = db.UserProperty()
     datetime = db.DateTimeProperty(auto_now_add = True)
     
