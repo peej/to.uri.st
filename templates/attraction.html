@@ -15,21 +15,46 @@
     <h3>{{ attraction.region|escape }}</h3>
     
     {% if attraction.next %}
-    <div class="info">
+    <div class="info old">
         <p>This is an old version of this tourist attraction.</p>
     </div>
     {% endif %}
     {% for tag in attraction.tags %}
         {% ifequal tag "dupe" %}
-    <div class="info">
+    <div class="info dupe">
         <p>This attraction has been marked as a duplicate of another attraction.</p>
         <p>It may be automatically deleted 30 days after {{ attraction.datetime|date:"jS F Y \a\t H:i" }} unless
         this tag is removed.</p>
     </div>
         {% endifequal %}
         {% ifequal tag "delete" %}
-    <div class="info">
+    <div class="info delete">
         <p>This attraction has been marked to be deleted.</p>
+    </div>
+        {% endifequal %}
+        {% ifequal tag "badlocation" %}
+    <div class="info badlocation">
+        <p>The location of this attraction is incorrect or inaccurate, this is both a
+        warning to people attempting to visit the attraction and a prompt to people who
+        do know the attractions correct location to update it.</p>
+    </div>
+        {% endifequal %}
+        {% ifequal tag "todo" %}
+    <div class="info todo">
+        <p>This attraction needs a better description, if you know this attraction please
+        help by editing it.</p>
+    </div>
+        {% endifequal %}
+        {% ifequal tag "trap" %}
+    <div class="info trap">
+        <p>This attraction has been marked as a potential tourist trap and should
+        possibly be avoided.</p>
+    </div>
+        {% endifequal %}
+        {% ifequal tag "translated" %}
+    <div class="info translated">
+        <p>The description of this attraction was automatically translated by machine
+        into English and should be fixed by a human.</p>
     </div>
         {% endifequal %}
     {% endfor %}
