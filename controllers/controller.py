@@ -34,12 +34,10 @@ class Controller(webapp.RequestHandler):
         
     def get(self):
         
-        path = self.request.path
-        if os.path.exists(path):
-            self.output(path)
+        path = self.request.path[0:self.request.path.find('.')]
+        if os.path.exists('templates' + path + '.html'):
+            self.output(path, 'html')
+        elif os.path.exists('templates' + self.request.path + '.html'):
+            self.output(self.request.path, 'html')
         else:
-            path = self.request.path[1:self.request.path.find('.')] + '.html'
-            if os.path.exists(path):
-                self.output(path)
-            else:
-                self.output('404', 'html')
+            self.output('404', 'html')
