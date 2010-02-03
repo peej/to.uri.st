@@ -1,6 +1,6 @@
 {% extends "shell.atom" %}
 
-{% block title %}{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{{ coords|escape }}{% endif %} : to.uri.st{% endblock %}
+{% block title %}{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %} : {% else %}{% if coords %}{{ coords|escape }} : {% endif %}{% endif %}to.uri.st{% endblock %}
 
 {% block entries %}
 	{% if attractions %}
@@ -12,7 +12,9 @@
 		<id>tag:to.uri.st,2010:attraction:{{ attraction.id|escape }}</id>
 		<georss:point>{{ attraction.location.lat|escape }} {{ attraction.location.lon|escape }}</georss:point>
 		<published>{{ attraction.datetime|date:"Y-m-d\TH:i:s\Z" }}</published>
-		<category scheme="http://to.uri.st/type" term="sport"/>
+		{% for tag in attraction.tags %}
+		<category scheme="http://to.uri.st/tag" term="{{ tag|escape }}"/>
+		{% endfor %}
 		{% if attraction.user %}
 		<author>
 			<name>{{ attraction.user|escape }}</name>

@@ -1,9 +1,9 @@
 {% extends "shell.html" %}
 
-{% block title %}{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{{ coords|escape }}{% endif %} : to.uri.st{% endblock %}
+{% block title %}{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %} : {% else %}{% if coords %}{{ coords|escape }} : {% endif %}{% endif %}to.uri.st{% endblock %}
 
 {% block content %}
-    <h2>Attractions in: {% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{{ coords|escape }}{% endif %}</h2>
+    <h2>{% if search %}Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{% if coords %}Attractions in {{ coords|escape }}{% else %}Attractions{% endif %}{% endif %}</h2>
     
     {% if results %}
     

@@ -8,8 +8,9 @@
         "lat": {{ attraction.location.lat }},
         "lon": {{ attraction.location.lon }}
     },
+    "tags": [{% for tag in attraction.tags %}"{{ tag|escape }}"{% if not forloop.last %},{% endif %}{% endfor %}],
     "datetime": {{ attraction.datetime|date:"U" }}
-}{% if not forloop.last	%},{% endif %}
+}{% if not forloop.last %},{% endif %}
     {% endfor %}
 ]{% endif %}
 {% if get.callback %});{% endif %}

@@ -55,6 +55,7 @@ class SearchPage(Controller):
         
         search = self.request.get("q")
         coords = self.request.get("c")
+        tag = self.request.get("t")
         
         template_values = {}
         
@@ -92,7 +93,7 @@ class SearchPage(Controller):
                 lon = parts[1]
                 (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
             
-        else:
+        elif search:
             
             url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % urllib.quote(search)
             
@@ -119,7 +120,19 @@ class SearchPage(Controller):
                 finally:
                     pass
             
-        template_values['q'] = search
+            template_values['q'] = search
+            
+        elif tag:
+            
+            attractionQuery = Attraction.all()
+            attractionQuery.filter("tags =", tag)
+            attractionQuery.filter("next =", None)
+            template_values['attractions'] = attractionQuery.fetch(26)
+            
+            template_values['updated'] = None
+            for attraction in template_values['attractions']:
+                if template_values['updated'] == None or attraction.datetime > template_values['updated']:
+                    template_values['updated'] = attraction.datetime
         
         template_values['url'] = self.request.url
         template_values['tag'] = self.request.path
