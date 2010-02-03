@@ -52,6 +52,12 @@
             <input type="text" name="picture" value="{{ attraction.picture|escape }}">
         </label>
         
+        <label{% if errors.tags %} class="error"{% endif %}>
+            Tags:
+            {% if errors.tags %}Enter a space separated list of tags{% endif %}
+            <input type="text" name="tags" value="{% for tag in attraction.tags %}{{ tag|escape }}{% if not forloop.last %} {% endif %}{% endfor %}">
+        </label>
+        
         <div class="nav">
             <input type="submit" value="Save">
             <a href="/attractions/{{ attraction.id }}.html">Cancel</a>

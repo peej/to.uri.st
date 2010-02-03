@@ -31,6 +31,7 @@ class EditPage(Controller):
         attraction['location']['lon'] = self.request.get('lon')
         attraction['href'] = self.request.get('href')
         attraction['picture'] = self.request.get('picture')
+        attraction['tags'] = self.request.get('tags').split(' ')
         
         if self.request.get('location.x') and self.request.get('location.y'):
             attraction['location']['lat'] = float(attraction['location']['lat']) - ((float(self.request.get('location.y')) - 75) / 18000) + 0.001
@@ -57,8 +58,12 @@ class EditPage(Controller):
         if not len(attraction['href']) == 0 and not re.match(r"^https?://.+$", attraction['href']):
             errors['href'] = True
         
-        if not len(attraction['picture']) == 0 and not re.match(r"^https?://.+$", attraction['href']):
+        if not len(attraction['picture']) == 0 and not re.match(r"^https?://.+$", attraction['picture']):
             errors['picture'] = True
+        
+        for tag in attraction['tags']:
+            if not re.match(r"^[a-z0-9]+$", tag):
+                errors['tags'] = True
         
         if errors or (self.request.get('location.x') and self.request.get('location.y')):
             
@@ -180,6 +185,7 @@ class EditPage(Controller):
             ),
             href = attractionData['href'],
             picture = attractionData['picture'],
+            tags = attractionData['tags'],
             free = oldAttraction.free,
             rating = oldAttraction.rating,
             user = None
