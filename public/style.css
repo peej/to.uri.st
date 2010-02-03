@@ -249,12 +249,19 @@ div.homepage-list {
 }
 
 div.info {
-    background: #333;
+    background: #333 no-repeat 5px 50%;
     color: #fff;
     border: 1px solid #000;
     margin: 1em 0;
-    padding: 2px 10px;
+    padding: 2px 10px 2px 110px;
 }
+
+div.info.dupe { background-image: url(/_/info/dupe.png); }
+div.info.delete { background-image: url(/_/info/delete.png); }
+div.info.badlocation { background-image: url(/_/info/badloc.png); }
+div.info.todo { background-image: url(/_/info/todo.png); }
+div.info.trap { background-image: url(/_/info/trap.png); }
+div.info.translated { background-image: url(/_/info/translated.png); }
 
 ul#tags {
     list-style: none;

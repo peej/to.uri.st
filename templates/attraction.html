@@ -30,6 +30,8 @@
         {% ifequal tag "delete" %}
     <div class="info delete">
         <p>This attraction has been marked to be deleted.</p>
+        <p>It may be automatically deleted 30 days after {{ attraction.datetime|date:"jS F Y \a\t H:i" }} unless
+        this tag is removed.</p>
     </div>
         {% endifequal %}
         {% ifequal tag "badlocation" %}
@@ -41,8 +43,8 @@
         {% endifequal %}
         {% ifequal tag "todo" %}
     <div class="info todo">
-        <p>This attraction needs a better description, if you know this attraction please
-        help by editing it.</p>
+        <p>This attraction needs a better description, if you know this attraction <a href="/attractions/{{ attraction.id }}/edit.html">please
+        help by editing it</a>.</p>
     </div>
         {% endifequal %}
         {% ifequal tag "trap" %}
@@ -67,13 +69,13 @@
     <img src="http://maps.google.com/maps/api/staticmap?size=300x180&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map">
     
     {% if attraction.href %}
-    <a href="{{ attraction.href|escape }}" class="ext">More info...</a>
+    <a href="{{ attraction.href|escape }}" class="ext">Go to this attractions web site</a>
     {% endif %}
     
     {% if attraction.tags %}
     <ul id="tags">
         {% for tag in attraction.tags %}
-        <li>{{ tag }}</li>
+        <li><a href="/search.html?t={{ tag|escape }}">{{ tag|escape }}</a></li>
         {% endfor %}
     </ul>
     {% endif %}
