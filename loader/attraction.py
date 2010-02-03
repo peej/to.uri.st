@@ -37,14 +37,13 @@ class AttractionLoader(bulkloader.Loader):
         )
     
     def handle_entity(self, entity):
-        #entity.tags = []
         if '{{dupe}}' in entity.description: entity.tags.append('dupe')
         if '{{delete}}' in entity.description: entity.tags.append('delete')
         if '{{badloc}}' in entity.description: entity.tags.append('badlocation')
         if '{{todo}}' in entity.description: entity.tags.append('todo')
         if '{{trap}}' in entity.description: entity.tags.append('trap')
         if '{{translated}}' in entity.description: entity.tags.append('translated')
-        entity.description = re.sub("\{\{[^}]+\}\}", "", entity.description)
+        entity.description = re.sub("\{\{[^}]+\}\}", "", entity.description).strip()
         return entity
 
 loaders = [AttractionLoader]
