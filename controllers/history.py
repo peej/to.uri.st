@@ -31,18 +31,20 @@ class HistoryPage(Controller):
             newAttr = attractions[index]
             attractions[index].diff = []
             
-            diffString = "Name: %s\nRegion: %s\nMore info: %s\n\n%s"
+            diffString = "Name: %s\nRegion: %s\nMore info: %s\nTags: %s\n\n%s"
             
             old = diffString % (
                 oldAttr.name,
                 oldAttr.region,
                 oldAttr.href,
+                " ".join(oldAttr.tags),
                 oldAttr.description
             )
             new = diffString % (
                 newAttr.name,
                 newAttr.region,
                 newAttr.href,
+                " ".join(newAttr.tags),
                 newAttr.description
             )
             
