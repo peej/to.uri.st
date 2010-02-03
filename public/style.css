@@ -256,6 +256,10 @@ div.info {
     padding: 2px 10px 2px 110px;
 }
 
+div.info a {
+    color: #fff;
+}
+
 div.info.dupe { background-image: url(/_/info/dupe.png); }
 div.info.delete { background-image: url(/_/info/delete.png); }
 div.info.badlocation { background-image: url(/_/info/badloc.png); }
