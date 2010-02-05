@@ -1,4 +1,5 @@
-import urllib, json, datetime
+import urllib, datetime
+from django.utils import simplejson
 from google.appengine.ext import db
 
 from controllers.controller import Controller
@@ -69,7 +70,7 @@ class SearchPage(Controller):
             
             jsonString = urllib.urlopen(url).read()
             if jsonString:
-                data = json.loads(jsonString)
+                data = simplejson.loads(jsonString)
                 try:
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
@@ -101,7 +102,7 @@ class SearchPage(Controller):
             
             jsonString = urllib.urlopen(url).read()
             if jsonString:
-                data = json.loads(jsonString)
+                data = simplejson.loads(jsonString)
                 try:
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
