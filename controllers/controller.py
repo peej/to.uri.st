@@ -43,6 +43,6 @@ class Controller(webapp.RequestHandler):
             self.output('404', 'html')
     
     def handle_exception(self, exception, debug_mode):
-        super(Controller, self).handle_exception(self, exception, debug_mode)
+        super(Controller, self).handle_exception(exception, debug_mode)
         if not debug_mode:
             self.output('500', 'html')
