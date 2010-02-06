@@ -124,19 +124,25 @@ class SearchPage(Controller):
             template_values['q'] = search
             
         elif tag:
-            
+            page = int(self.request.get("page", 1));
+                        
             attractionQuery = Attraction.all()
             attractionQuery.filter("tags =", tag)
             attractionQuery.filter("next =", None)
-            template_values['attractions'] = attractionQuery.fetch(26)
+            template_values['attractions'] = attractionQuery.fetch(26, (page - 1) * 26)
+            
+            if page > 1:
+                template_values['previous'] = self.request.path + '?t=' + tag + '&page=' + str(page - 1)
+            template_values['next'] = self.request.path + '?t=' + tag + '&page=' + str(page + 1)
             
             template_values['updated'] = None
             for attraction in template_values['attractions']:
                 if template_values['updated'] == None or attraction.datetime > template_values['updated']:
                     template_values['updated'] = attraction.datetime
+            
+            template_values['tag'] = tag
         
         template_values['url'] = self.request.url
-        template_values['tag'] = self.request.path
         
         template_values['atom'] = self.request.url.replace('.html', '.atom')
         template_values['json'] = self.request.url.replace('.html', '.js')

@@ -1,9 +1,21 @@
 {% extends "shell.html" %}
 
-{% block title %}{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %} : {% else %}{% if coords %}{{ coords|escape }} : {% endif %}{% endif %}to.uri.st{% endblock %}
+{% block title %}
+    {% if search %}In "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %} : 
+    {% else %}{% if coords %}In {{ coords|escape }} : 
+    {% else %}{% if tag %}Tagged as "{{ tag|escape }}" : 
+    {% endif %}{% endif %}{% endif %}to.uri.st{% endblock %}
 
 {% block content %}
-    <h2>{% if search %}Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}{% else %}{% if coords %}Attractions in {{ coords|escape }}{% else %}Attractions{% endif %}{% endif %}</h2>
+    <h2>{% if search %}
+        Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
+    {% else %}{% if coords %}
+        Attractions in {{ coords|escape }}
+    {% else %}{% if tag %}
+        Attractions tagged as "{{ tag|escape }}"
+    {% else %}
+        Attractions
+    {% endif %}{% endif %}{% endif %}</h2>
     
     {% if results %}
     
@@ -35,6 +47,8 @@
     {% endif %}{% endif %}
     
     <div class="nav">
+        {% if previous %}<a href="{{ previous|escape }}">Previous page</a>{% endif %}
+        {% if next %}<a href="{{ next|escape }}">Next page</a>{% endif %}
         {% if coords %}<a href="/recent.html?c={{ coords|escape }}">Recent changes</a>{% endif %}
         <a href="{{ atom|escape }}">Atom feed</a>
         <a href="{{ json|escape }}">JSON data</a>
