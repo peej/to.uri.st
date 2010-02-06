@@ -183,7 +183,8 @@ div.homepage-list {
 /* search */
 
 #search-results img,
-#search-results #map {
+#search-results #map,
+#attraction #map {
     float: right;
     margin: 0 0 10px 10px;
     width: 300px;
@@ -197,11 +198,13 @@ div.homepage-list {
 
 #map-big {
     float: right;
-    background: #999;
+    background: #fff;
+    border: 1px solid #999;
+    border-right: none;
     padding: 2px;
     position: relative;
     left: 10px;
-    color: #fff;
+    color: #66d;
     cursor: pointer;
     font-weight: bold;
 }
