@@ -150,7 +150,7 @@ $(function () {
             if (index < 26) {
                 var icon = "http://google-maps-icons.googlecode.com/files/blue" + String.fromCharCode(index + 65) + ".png";
             } else {
-                var icon = "http://google-maps-icons.googlecode.com/files/redblank.png";
+                var icon = "/_/marker-blue.png";
             }
             var center = new google.maps.LatLng(link.attr("data-lat"), link.attr("data-lon"));
             var marker = new google.maps.Marker({
