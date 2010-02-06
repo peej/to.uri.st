@@ -18,7 +18,10 @@ $(function () {
         
         if (map.getZoom() > 10) {
             
-            $("#loading").show();
+            //$("#loading").show();
+            $("#loading").css("border-left", 0);
+            loading = 0;
+            var loaded = 0;
             
             $("#instruction").fadeOut();
             
@@ -61,8 +64,15 @@ $(function () {
                                 }
                             },
                             complete: function () {
-                                loading--;
-                                if (loading == 0) $("#loading").fadeOut();
+                                loaded++;
+                                var progress = $("#map").width() / loading * loaded;
+                                $("#loading").css({
+                                    "border-left": progress + "px solid #f80",
+                                    width: ($("#map").width() - progress) + "px"
+                                });
+                                if (loading == loaded) {
+                                    loading = 0;
+                                }
                             }
                         });
                     }
@@ -80,7 +90,7 @@ $(function () {
             });
             markers = {};
             
-            $("#loading").fadeOut();
+            $("#loading").width(0);
             
         }
     };
@@ -217,12 +227,14 @@ $(function () {
     
     /* event handlers */
     
+    var newWidth = $("#content").width() - 2;
+    
     $("#map").bind("big", function () {
         
         var center = map.getCenter();
         
         $("#map").animate({
-            width: "100%",
+            width: newWidth,
             height: "400px"
         }, "fast", "swing", function () {
             google.maps.event.trigger(map, "resize");
@@ -231,7 +243,7 @@ $(function () {
         google.maps.event.addListener(map, "dragend", mapChanged);
         google.maps.event.addListener(map, "zoom_changed", mapChanged);
         
-        $("#map").after('<div id="loading">Loading data</div><div id="instruction">Zoom in to see more attractions</div>');
+        $("#map").before('<div id="loading"></div>').after('<div id="instruction">Zoom in to see more attractions</div>');
         
         $.each(markers, function () {
             $.each(this, function () {
