@@ -43,6 +43,8 @@ class SearchPage(Controller):
                             if updated == None or attraction.datetime > updated:
                                 updated = attraction.datetime
         
+        attractions.sort(lambda x, y: cmp(x.name, y.name))
+        
         numberOfAttractions = len(attractions)
         attractionCount = 64
         for attraction in attractions:
