@@ -220,6 +220,7 @@ div.homepage-list {
 }
 
 #instruction {
+    display: none;
     background: #fff;
     color: #66d;
     border: 1px solid #ccc;

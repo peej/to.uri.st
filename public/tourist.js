@@ -47,7 +47,8 @@ $(function () {
                 position: center,
                 map: map,
                 title: link.text(),
-                icon: "http://maps.google.com/mapfiles/marker" + letter + ".png"
+                //icon: "http://maps.google.com/mapfiles/marker" + letter + ".png"
+                icon: "http://google-maps-icons.googlecode.com/files/blue" + letter.toUpperCase() + ".png"
             });
             google.maps.event.addListener(marker, 'click', function() {
                 document.location = link.attr("href");
@@ -76,7 +77,14 @@ $(function () {
             
             $("#map").after('<div id="loading">Loading data</div><div id="instruction">Zoom in to see more attractions</div>');
             
-            loadData();
+            $.each(markers, function () {
+                $.each(this, function () {
+                    this.setMap(null);
+                });
+            });
+            markers = {};
+            
+            map.setZoom(11);
             
         });
         
@@ -126,7 +134,8 @@ $(function () {
                                             var marker = new google.maps.Marker({
                                                 position: center,
                                                 map: map,
-                                                title: this.title
+                                                title: this.title,
+                                                icon: getMarkerIcon(data[index].tags)
                                             });
                                             google.maps.event.addListener(marker, 'click', function() {
                                                 document.location = "/attractions/" + data[index].id + ".html";
@@ -161,5 +170,28 @@ $(function () {
         };
         
     }
+    
+    var markerIcons = {
+        historic: "http://google-maps-icons.googlecode.com/files/museum-historical.png",
+        museum: "http://google-maps-icons.googlecode.com/files/museum-art.png",
+        nature: "http://google-maps-icons.googlecode.com/files/park-urban.png",
+        shop: "http://google-maps-icons.googlecode.com/files/shoppingmall.png",
+        sport: "http://google-maps-icons.googlecode.com/files/stadium.png",
+        theatre: "http://google-maps-icons.googlecode.com/files/theater.png",
+        themepark: "http://google-maps-icons.googlecode.com/files/themepark.png",
+        zoo: "http://google-maps-icons.googlecode.com/files/zoo.png",
+        view: "http://google-maps-icons.googlecode.com/files/panoramic180.png"
+    };
+    
+    var getMarkerIcon = function (tags) {
+        var icon = "http://google-maps-icons.googlecode.com/files/info.png";
+        $.each(tags, function () {
+            if (typeof markerIcons[this] == "string") {
+                icon = markerIcons[this];
+                return false;
+            }
+        });
+        return icon;
+    };
     
 });
