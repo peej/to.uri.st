@@ -8,7 +8,7 @@ from models.geobox import GeoBox
 
 class SearchPage(Controller):
     
-    def getAttractions(self, lat, lon, type):
+    def getAttractions(self, lat, lon, type, tag = ''):
         
         lat = round(lat, 1)
         lon = round(lon, 1)
@@ -37,6 +37,8 @@ class SearchPage(Controller):
                         attractionQuery = Attraction.all()
                         attractionQuery.filter("id =", attractionId)
                         attractionQuery.filter("next =", None)
+                        if tag:
+                            attractionQuery.filter("tags =", tag)
                         attraction = attractionQuery.get()
                         if attraction:
                             attractions.append(attraction)
@@ -66,41 +68,59 @@ class SearchPage(Controller):
             
             coords = coords.split(',')
             
-            url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(coords[0]), float(coords[1]))
-            
-            template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
-            
-            jsonString = urllib.urlopen(url).read()
-            if jsonString:
-                data = simplejson.loads(jsonString)
-                try:
-                    lat = data['Placemark'][0]['Point']['coordinates'][1]
-                    lon = data['Placemark'][0]['Point']['coordinates'][0]
+            if type == 'js':
+                
+                url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(coords[0]), float(coords[1]))
+                
+                template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
+                
+                jsonString = urllib.urlopen(url).read()
+                if jsonString:
+                    data = simplejson.loads(jsonString)
+                    try:
+                        lat = data['Placemark'][0]['Point']['coordinates'][1]
+                        lon = data['Placemark'][0]['Point']['coordinates'][0]
+                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
+                        if (
+                            'Country' in data['Placemark'][0]['AddressDetails'] and 
+                            'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
+                            'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
+                            'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea'] and
+                            'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
+                        ):
+                            template_values['search'] = "%s, %s" % (
+                                data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                                data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                            )
+                    finally:
+                        pass
+                else:
+                    parts = coords.split(",")
+                    lat = parts[0]
+                    lon = parts[1]
                     (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
-                    if (
-                        'Country' in data['Placemark'][0]['AddressDetails'] and 
-                        'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
-                        'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
-                        'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea'] and
-                        'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
-                    ):
-                        template_values['search'] = "%s, %s" % (
-                            data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                            data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                        )
-                finally:
-                    pass
             else:
                 parts = coords.split(",")
                 lat = parts[0]
                 lon = parts[1]
                 (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
-            
+        
         elif search:
+            
+            template_values['q'] = search
+            
+            if " in " in search:
+                tag = search[0:search.find(' in ')].replace(' ', '')
+                
+                if tag in self.tags:
+                    search = search[search.find(' in ') + 4:]
+                    tag = self.tags[tag]
+                    
+                template_values['tag'] = tag
             
             url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % urllib.quote(search)
             
-            template_values['search'] = search,
+            template_values['search'] = search
             
             jsonString = urllib.urlopen(url).read()
             if jsonString:
@@ -112,7 +132,7 @@ class SearchPage(Controller):
                     if len(data['Placemark']) > 1:
                         template_values['results'] = data['Placemark']
                     else:
-                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
+                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type, tag)
                         try:
                             template_values['search'] = "%s, %s" % (
                                 data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
@@ -122,8 +142,6 @@ class SearchPage(Controller):
                             pass
                 finally:
                     pass
-            
-            template_values['q'] = search
             
         elif tag:
             page = int(self.request.get("page", 1));

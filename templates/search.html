@@ -8,7 +8,7 @@
 
 {% block content %}
     <h2>{% if search %}
-        Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
+        Attractions {% if tag %}tagged as "{{ tag|escape}}" {% endif %}in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
     {% else %}{% if coords %}
         Attractions in {{ coords|escape }}
     {% else %}{% if tag %}
