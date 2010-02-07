@@ -8,13 +8,13 @@
 
 {% block content %}
     <h2>{% if search %}
-        Attractions {% if tag %}tagged as "{{ tag|escape}}" {% endif %}in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
+        Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
     {% else %}{% if coords %}
-        Attractions in {{ coords|escape }}
+        Attractions at {{ coords|escape }}
     {% else %}{% if tag %}
         Attractions tagged as "{{ tag|escape }}"
     {% else %}
-        Attractions
+        Attraction search results
     {% endif %}{% endif %}{% endif %}</h2>
     
     {% if results %}
@@ -42,7 +42,13 @@
     
     {% else %}
     
-    <p>Nothing found{% if search %} in "{{ search|escape }}"{% endif %}.</p>
+    <p>Nothing found{% if search %}
+        {% if tag %}tagged as "{{ tag|escape}}" {% endif %}in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
+    {% else %}{% if coords %}
+        in {{ coords|escape }}
+    {% else %}{% if tag %}
+        tagged as "{{ tag|escape }}"
+    {% endif %}{% endif %}{% endif %}.</p>
     
     {% endif %}{% endif %}
     
