@@ -3,25 +3,18 @@ $(function () {
     /* functions and globals */
     
     var timeout = null,
-        loading = 0,
+        loading = loaded = 0,
         map = null,
         markers = {};
     
     var mapChanged = function () {
-        if (!loading) {
-            window.clearTimeout(timeout);
-            timeout = window.setTimeout(loadData, 1000);
-        }
+        window.clearTimeout(timeout);
+        timeout = window.setTimeout(loadData, 1000);
     }
     
     var loadData = function () {
         
         if (map.getZoom() > 10) {
-            
-            //$("#loading").show();
-            $("#loading").css("border-left", 0);
-            loading = 0;
-            var loaded = 0;
             
             $("#instruction").fadeOut();
             
@@ -71,7 +64,7 @@ $(function () {
                                     width: ($("#map").width() - progress) + "px"
                                 });
                                 if (loading == loaded) {
-                                    loading = 0;
+                                    loading = loaded = 0;
                                 }
                             }
                         });
@@ -233,12 +226,11 @@ $(function () {
         
         var center = map.getCenter();
         
-        $("#map").animate({
+        $("#map").css({
             width: newWidth,
             height: "400px"
-        }, "fast", "swing", function () {
-            google.maps.event.trigger(map, "resize");
         });
+        google.maps.event.trigger(map, "resize");
         
         google.maps.event.addListener(map, "dragend", mapChanged);
         google.maps.event.addListener(map, "zoom_changed", mapChanged);
