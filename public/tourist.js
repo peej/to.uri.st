@@ -90,22 +90,106 @@ $(function () {
     
     
     var markerIcons = {
-        historic: "http://google-maps-icons.googlecode.com/files/museum-historical.png",
-        museum: "http://google-maps-icons.googlecode.com/files/museum-art.png",
-        nature: "http://google-maps-icons.googlecode.com/files/park-urban.png",
-        shop: "http://google-maps-icons.googlecode.com/files/shoppingmall.png",
-        sport: "http://google-maps-icons.googlecode.com/files/stadium.png",
-        theatre: "http://google-maps-icons.googlecode.com/files/theater.png",
-        themepark: "http://google-maps-icons.googlecode.com/files/themepark.png",
-        zoo: "http://google-maps-icons.googlecode.com/files/zoo.png",
-        view: "http://google-maps-icons.googlecode.com/files/panoramic180.png"
+        nature: "park-urban.png",
+        wildlife: "animals.png",
+        beach: "beach.png",
+        lake: "lake.png",
+        wetland: "wetland.png",
+        forest: "forest.png",
+        waterfall: "waterfall.png",
+        castle: "castle.png",
+        palace: "palace.png",
+        citywalls: "gateswalls.png",
+        tower: "tower.png",
+        ruins: "ruins.png",
+        church: "church.png",
+        farm: "farm.png",
+        windmill: "windmill.png",
+        vineyard: "wineyard.png",
+        watermill: "watermill.png",
+        garden: "garden.png",
+        bridge: "bridge.png",
+        fountain: "fountain.png",
+        monument: "monument.png",
+        worldheritagesite: "worldheritagesite.png",
+        statue: "statue.png",
+        park: "park-urban.png",
+        picnic: "picnic.png",
+        view: "panoramic180.png",
+        cave: "cave.png",
+        
+        bookshop: "bookstore.png",
+        giftshop: "gifts.png",
+        artgallery: "artgallery.png",
+        market: "market.png",
+        bar: "bar.png",
+        cafe: "coffee.png",
+        icecream: "icecream.png",
+        shop: "shoppingmall.png",
+        
+        bowling: "bowling.png",
+        snooker: "billiard.png",
+        aquarium: "aquarium.png",
+        cinema: "cinema.png",
+        theatre: "theater.png",
+        casino: "casino.png",
+        music: "music-rock.png",
+        
+        historic: "museum-historical.png",
+        archeological: "museum-archeological.png",
+        naval: "museum-naval.png",
+        war: "museum-war.png",
+        science: "museum-science.png",
+        crafts: "museum-crafts.png",
+        museum: "museum-art.png",
+        
+        themepark: "themepark.png",
+        zoo: "zoo.png",
+        art: "publicart.png",
+        circus: "circus.png",
+        festival: "festival.png",
+        waterpark: "waterpark.png",
+        ferriswheel: "ferriswheel.png",
+        
+        playground: "playground.png",
+        
+        stadium: "stadium.png",
+        americanfootball: "usfootball.png",
+        baseball: "baseball.png",
+        basketball: "basketball.png",
+        cricket: "cricket.png",
+        football: "soccer.png",
+        golf: "golf.png",
+        rugby: "rugby.png",
+        tennis: "tennis.png",
+        cycling: "cyclingsport.png",
+        racetrack: "racing.png",
+        archery: "archery.png",
+        climbing: "climbing.png",
+        fishing: "fishing.png",
+        hiking: "hiking.png",
+        horse: "horseriding.png",
+        skateboarding: "skateboarding.png",
+        pool: "pool.png",
+        kayaking: "kayak.png",
+        boating: "sailboat-sport.png",
+        surfing: "surfing.png",
+        swimming: "swim-outdoor.png",
+        waterskiing: "waterskiing.png",
+        windsurfing: "windsurfing.png",
+        icehockey: "icehockey.png",
+        iceskating: "iceskating.png",
+        snowboarding: "snowboarding.png",
+        skiing: "skiing.png",
+        sport: "stadium.png"
+        
     };
     
     var getMarkerIcon = function (tags) {
-        var icon = "http://google-maps-icons.googlecode.com/files/info.png";
+        var icon = "info.png";
         $.each(tags, function () {
             if (typeof markerIcons[this] == "string") {
-                icon = markerIcons[this];
+                icon = "http://google-maps-icons.googlecode.com/files/" + markerIcons[this];
                 return false;
             }
         });
@@ -212,6 +296,10 @@ $(function () {
             $("h3, .info, p, img, #tags, a.more, #map-big").hide();
             $("#map").trigger("big")
         });
+        
+        break;
+        
+    case "edit":
         
         break;
         
