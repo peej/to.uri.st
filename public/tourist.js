@@ -328,16 +328,34 @@ $(function () {
                     e.preventDefault();
                 }
             })
-            .keyup(function () {
-                $("#predict").hide().empty();
-                var val = this.value;
-                if (val) {
-                    $.each(markerIcons, function (index) {
-                        if (index.substr(0, val.length) == val) {
-                            $("#predict").append("<li>" + index + "</li>");
+            .keyup(function (e) {
+                if (e.keyCode == '40') { // down
+                    if ($("#predict li.active").length) {
+                        if ($("#predict li.active").next().length) {
+                            $("#predict li.active").removeClass("active").next().addClass("active");
                         }
-                    });
-                    $("#predict").show();
+                    } else {
+                        $("#predict li:first").addClass("active");
+                    }
+                    $(".tags input").val($("#predict li.active").text());
+                } else if (e.keyCode == '38') { // up
+                    if ($("#predict li.active").prev().length) {
+                        $("#predict li.active").removeClass("active").prev().addClass("active");
+                    }
+                    $(".tags input").val($("#predict li.active").text());
+                } else {
+                    $("#predict").hide().empty();
+                    var val = this.value;
+                    if (val) {
+                        $.each(markerIcons, function (index) {
+                            if (index.substr(0, val.length) == val) {
+                                $("#predict").append("<li>" + index + "</li>");
+                            }
+                        });
+                        if ($("#predict li").length) {
+                            $("#predict").show();
+                        }
+                    }
                 }
             });
         

@@ -184,6 +184,7 @@ label.tags ul#predict {
     list-style: none;
     border: 1px solid #999;
     border-top: none;
+    background: #eee;
     margin: 0 20px;
 }
 
@@ -191,6 +192,10 @@ label.tags ul#predict li {
     margin: 0;
     padding: 2px 5px;
     cursor: pointer;
+}
+
+label.tags ul#predict li.active {
+    background: #666;
 }
 
 /* homepage */
