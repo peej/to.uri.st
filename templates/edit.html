@@ -6,7 +6,6 @@
     
     <div id="attraction-nav">
         <a href="/attractions/{{ attraction.id }}.html">Attraction</a>
-        <a href="/attractions/{{ attraction.id }}/discussion.html">Discussion</a>
         <span>Edit</span>
         <a href="/attractions/{{ attraction.id }}/history.html">History</a>
     </div>
@@ -36,7 +35,7 @@
         
         <label class="location{% if errors.location %} error{% endif %}">
             Location:
-            <input type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
+            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
             <input type="hidden" name="lat" value="{{ attraction.location.lat }}">
             <input type="hidden" name="lon" value="{{ attraction.location.lon }}">
         </label>
