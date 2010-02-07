@@ -117,7 +117,7 @@ form label {
 
 form label input,
 form label textarea {
-    width: 100%;
+    width: 98%;
     border: 1px solid #999;
     padding: 4px 2px 2px;
     font-family: monospace;
@@ -127,7 +127,7 @@ form label textarea {
     height: 200px;
 }
 
-form label.location input {
+form label.location input.map {
     display: block;
     width: 300px;
     height: 150px;
@@ -143,6 +143,54 @@ p.error,
 form label.error {
     color: #f00;
     font-weight: bold;
+}
+
+/* tag editor */
+
+label.tags div {
+    border: 1px solid #999;
+    width: 98%;
+    padding: 4px 2px 6px;
+}
+
+label.tags div.active {
+    border-color: #f80;
+}
+
+label.tags ul#tags {
+    list-style: none;
+    margin: 0;
+}
+
+label.tags ul#tags li {
+    float: left;
+    background: #f80;
+    padding: 2px 5px;
+    font-size: 90%;
+    margin: 0 4px;
+}
+
+label.tags ul#tags li span {
+    cursor: pointer;
+}
+
+label.tags input {
+    border: none;
+    width: 100px;
+}
+
+label.tags ul#predict {
+    display: none;
+    list-style: none;
+    border: 1px solid #999;
+    border-top: none;
+    margin: 0 20px;
+}
+
+label.tags ul#predict li {
+    margin: 0;
+    padding: 2px 5px;
+    cursor: pointer;
 }
 
 /* homepage */
@@ -243,6 +291,11 @@ div.homepage-list {
     padding: 2px 5px;
     margin-left: 4px;
     font-size: 90%;
+}
+
+#attraction img {
+    display: block;
+    margin: 1em 0;
 }
 
 div.info {

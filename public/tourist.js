@@ -59,10 +59,10 @@ $(function () {
                             complete: function () {
                                 loaded++;
                                 var progress = $("#map").width() / loading * loaded;
-                                $("#loading").css({
+                                $("#loading").animate({
                                     "border-left": progress + "px solid #f80",
                                     width: ($("#map").width() - progress) + "px"
-                                });
+                                }, "slow");
                                 if (loading == loaded) {
                                     loading = loaded = 0;
                                 }
@@ -300,6 +300,65 @@ $(function () {
         break;
         
     case "edit":
+        
+        $("input[name=tags]")
+            //.css("display", "none")
+            .after('<div><ul id="tags"></ul><input type="text" value=""></div><ul id="predict"></ul>')
+            .parent().addClass("tags").end()
+            .appendTo("form");
+        
+        var addTag = function () {
+            if ($(".tags input").val()) {
+                $("input[name=tags]").val($("input[name=tags]").val() + " " + $(".tags input").val());
+                $("label.tags ul#tags").append("<li>" + $(".tags input").val() + " <span>x</span></li>");
+                $(".tags input").val("");
+            }
+        }
+        
+        $(".tags input")
+            .focusin(function () {
+                $(".tags div").addClass("active");
+            })
+            .focusout(function (e) {
+                $(".tags div").removeClass("active");
+            })
+            .keypress(function (e) {
+                if (e.which == '13' || e.which == '32') {
+                    addTag();
+                    e.preventDefault();
+                }
+            })
+            .keyup(function () {
+                $("#predict").hide().empty();
+                var val = this.value;
+                if (val) {
+                    $.each(markerIcons, function (index) {
+                        if (index.substr(0, val.length) == val) {
+                            $("#predict").append("<li>" + index + "</li>");
+                        }
+                    });
+                    $("#predict").show();
+                }
+            });
+        
+        $.each($("input[name=tags]").val().split(" "), function () {
+            $("label.tags ul#tags").append("<li>" + this + " <span>x</span></li>");
+        });
+        
+        $("ul#tags li span").live("click", function () {
+            $(this).parent().remove();
+            var newtags = "";
+            $("ul#tags li").each(function () {
+                newtags += $(this).text().substr(0, $(this).text().length - 1);
+            });
+            $("input[name=tags]").val($.trim(newtags));
+        });
+        
+        $("ul#predict li").live("click", function () {
+            $(".tags input").val($(this).text());
+            $("#predict").hide().empty();
+            addTag();
+        });
         
         break;
         
