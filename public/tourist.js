@@ -302,9 +302,8 @@ $(function () {
     case "edit":
         
         $("input[name=tags]")
-            //.css("display", "none")
+            .css("display", "none")
             .after('<div><ul id="tags"></ul><input type="text" value=""></div><ul id="predict"></ul>')
-            .parent().addClass("tags").end()
             .appendTo("form");
         
         var addTag = function () {
@@ -376,6 +375,40 @@ $(function () {
             $(".tags input").val($(this).text());
             $("#predict").hide().empty();
             addTag();
+        });
+        
+        $("label.picture input")
+            .css("display", "none")
+            .appendTo("form");
+        $("label.picture").append("<span>Change</span>");
+        var picturePage = 1;
+        $("label.picture span").click(function () {
+            if ($("label.picture ul").length == 0) {
+                $("label.picture").append("<div><ul></ul></div>");
+            }
+            $.getJSON(
+                "http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&api_key=abfb0fa992b89d701afa5342e183639f&license=4,5,6&per_page=10&page=" + picturePage + "&text=leeds%20castle&jsoncallback=?",
+                function (data) {
+                    if (data.stat == "ok") {
+                        $.each(data.photos.photo, function () {
+                            $("label.picture ul")
+                                .append('<li><img src="http://farm' + this.farm + '.static.flickr.com/' + this.server + '/' + this.id + '_' + this.secret + '_s.jpg" alt=""></li>')
+                                .css("width", $("label.picture li").length * 80);
+                        });
+                        $("label.picture ul img").click(function () {
+                            var newUrl = this.src.replace("_s.jpg", "_m.jpg");
+                            if ($("label.picture img.picture").length) {
+                                $("label.picture img.picture").attr("src", newUrl);
+                            } else {
+                                $("label.picture span").before('<img src="' + newUrl + '" class="picture" alt="">');
+                            }
+                            $("input[name=picture]").val(newUrl);
+                        });
+                        $("label.picture span").text("More pictures");
+                        picturePage++;
+                    }
+                }
+            );
         });
         
         break;

@@ -46,12 +46,15 @@
             <input type="text" name="href" value="{{ attraction.href|escape }}">
         </label>
         
-        <label{% if errors.picture %} class="error"{% endif %}>
-            Picture URL:
+        <label class="picture{% if errors.picture %} error{% endif %}">
+            Picture:
+            {% if attraction.picture %}
+            <img src="{{ attraction.picture|escape }}" class="picture" alt="">
+            {% endif %}
             <input type="text" name="picture" value="{{ attraction.picture|escape }}">
         </label>
         
-        <label{% if errors.tags %} class="error"{% endif %}>
+        <label class="tags{% if errors.tags %} error{% endif %}">
             Tags:
             {% if errors.tags %}Enter a space separated list of tags{% endif %}
             <input type="text" name="tags" value="{% for tag in attraction.tags %}{{ tag|escape }}{% if not forloop.last %} {% endif %}{% endfor %}">

@@ -12,6 +12,8 @@ class EditPage(Controller):
         query.filter("id =", attractionId)
         attraction = query.get()
         
+        attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
+        
         template_values = {
             'attraction': attraction
         }
@@ -66,6 +68,8 @@ class EditPage(Controller):
                 errors['tags'] = True
         
         if errors or (self.request.get('location.x') and self.request.get('location.y')):
+            
+            attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
             
             template_values = {
                 'attraction': attraction,

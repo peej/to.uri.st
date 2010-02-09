@@ -131,7 +131,7 @@ form label.location input.map {
     display: block;
     width: 300px;
     height: 150px;
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
 }
 
@@ -150,7 +150,7 @@ form label.error {
 label.tags div {
     border: 1px solid #999;
     width: 98%;
-    padding: 4px 2px 6px;
+    padding: 4px 2px;
 }
 
 label.tags div.active {
@@ -192,10 +192,47 @@ label.tags ul#predict li {
     margin: 0;
     padding: 2px 5px;
     cursor: pointer;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 label.tags ul#predict li.active {
     background: #666;
+}
+
+/* picture editor */
+
+label.picture img {
+    display: block;
+    margin: 0 0 4px;
+}
+
+label.picture span {
+    cursor: pointer;
+    color: #00e;
+    text-decoration: underline;
+}
+
+label.picture div {
+    width: 100%;
+    height: 100px;
+    overflow: auto;
+    margin-top: 4px;
+}
+
+label.picture ul {
+    list-style: none;
+    margin: 0;
+}
+
+label.picture li {
+    display: inline;
+    margin-right: 3px;
+}
+
+label.picture li img {
+    display: inline;
+    cursor: pointer;
 }
 
 /* homepage */
@@ -332,6 +369,8 @@ ul#tags li {
     background: #f80;
     padding: 2px 5px;
     font-size: 90%;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 /* history */
