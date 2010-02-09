@@ -113,6 +113,7 @@ p.date {
 form label {
     display: block;
     margin: 10px 0;
+    font-weight: bold;
 }
 
 form label input,
@@ -121,6 +122,7 @@ form label textarea {
     border: 1px solid #999;
     padding: 4px 2px 2px;
     font-family: monospace;
+    font-weight: normal;
 }
 
 form label textarea {
@@ -168,6 +170,7 @@ label.tags ul#tags li {
     padding: 2px 5px;
     font-size: 90%;
     margin: 0 4px;
+    font-weight: normal;
 }
 
 label.tags ul#tags li span {
@@ -192,8 +195,7 @@ label.tags ul#predict li {
     margin: 0;
     padding: 2px 5px;
     cursor: pointer;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
+    font-weight: normal;
 }
 
 label.tags ul#predict li.active {
@@ -211,6 +213,7 @@ label.picture span {
     cursor: pointer;
     color: #00e;
     text-decoration: underline;
+    font-weight: normal;
 }
 
 label.picture div {
