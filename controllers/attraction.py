@@ -13,6 +13,10 @@ class AttractionPage(Controller):
         if attraction:
             attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
             
+            if attraction.user:
+                attraction.userid = attraction.user.email().replace('@', '-').replace('.', '-')
+                attraction.nickname = attraction.user.nickname()
+            
             template_values = {
                 'attraction': attraction
             }

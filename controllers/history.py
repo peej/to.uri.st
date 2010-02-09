@@ -66,6 +66,10 @@ class HistoryPage(Controller):
             if oldAttr.location.lat != newAttr.location.lat and oldAttr.location.lon != newAttr.location.lon:
                 attractions[index].diff.append(('loc', oldAttr.location, newAttr.location))
             
+            if attractions[index].user:
+                attractions[index].userid = attractions[index].user.email().replace('@', '-').replace('.', '-')
+                attractions[index].nickname = attractions[index].user.nickname()
+            
             
         template_values = {
             'name': attraction.name,

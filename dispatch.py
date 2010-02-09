@@ -8,6 +8,7 @@ from controllers.attraction import AttractionPage
 from controllers.history import HistoryPage
 from controllers.edit import EditPage
 from controllers.recent import RecentPage
+from controllers.user import UserPage
 
 application = webapp.WSGIApplication(
     [
@@ -18,6 +19,7 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),
         ('/add(?:\.html)?', EditPage),
         ('/recent(?:\.(html|atom))?', RecentPage),
+        ('/users/([a-z0-9-]+)(?:\.html)?', UserPage),
         ('/.*', Controller)
     ],
     debug=True

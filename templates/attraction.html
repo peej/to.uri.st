@@ -79,7 +79,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}</p>
+    <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
     
     <div class="nav">
         <a href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}">More attractions in this area</a>

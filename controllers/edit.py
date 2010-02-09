@@ -175,6 +175,8 @@ class EditPage(Controller):
     
     def saveAttraction(self, key, attractionData):
         
+        from google.appengine.api import users
+        
         oldAttraction = db.get(key)
         
         newAttraction = Attraction(
@@ -192,7 +194,7 @@ class EditPage(Controller):
             tags = attractionData['tags'],
             free = oldAttraction.free,
             rating = oldAttraction.rating,
-            user = None
+            user = users.get_current_user()
         )
         
         import md5
