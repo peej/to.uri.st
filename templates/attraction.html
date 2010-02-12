@@ -15,7 +15,8 @@
     
     {% if attraction.next %}
     <div class="info old">
-        <p>This is an old version of this tourist attraction.</p>
+        <p>This is an old version of this tourist attraction. View <a href="/attractions/{{ attraction.id }}/history.html">the
+        attractions history</a> to view it's latest version.</p>
     </div>
     {% endif %}
     {% for tag in attraction.tags %}
