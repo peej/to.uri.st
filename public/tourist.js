@@ -22,16 +22,14 @@ $(function () {
             
             var sw = bounds.getSouthWest(),
                 ne = bounds.getNorthEast();
-                
+            
             var minLat = Math.floor(sw.lat() * 10) / 10,
                 maxLat = Math.ceil(ne.lat() * 10) / 10,
                 minLon = Math.floor(sw.lng() * 10) / 10,
                 maxLon = Math.ceil(ne.lng() * 10) / 10;
             
-            for (var lat = minLat; lat < maxLat; lat = lat + 0.1) {
-                lat = Math.round(lat * 10) / 10;
-                for (var lon = minLon; lon < maxLon; lon = lon + 0.1) {
-                    lon = Math.round(lon * 10) / 10;
+            for (var lat = minLat; lat <= maxLat; lat = Math.round((lat + 0.1) * 10) / 10) {
+                for (var lon = minLon; lon <= maxLon; lon = Math.round((lon + 0.1) * 10) / 10) {
                     var boxId = lat + "," + lon;
                     if (typeof markers[boxId] == "undefined") {
                         loading++;
@@ -58,10 +56,10 @@ $(function () {
                             },
                             complete: function () {
                                 loaded++;
-                                var progress = $("#map").width() / loading * loaded;
+                                var progress = $("#big-map").width() / loading * loaded;
                                 $("#loading").animate({
                                     "border-left": progress + "px solid #f80",
-                                    width: ($("#map").width() - progress) + "px"
+                                    width: ($("#big-map").width() - progress) + "px"
                                 }, "slow");
                                 if (loading == loaded) {
                                     loading = loaded = 0;
@@ -214,88 +212,52 @@ $(function () {
         
         break;
         
-    case "search":
+    case "attraction":
         
-        var bounds = new google.maps.LatLngBounds();
-        $("#search-results li a").each(function () {
-            bounds.extend(
-                new google.maps.LatLng($(this).attr("data-lat"), $(this).attr("data-lon"))
-            );
+        var tags = [];
+        $("ul#tags a").each(function () {
+            tags.push($(this).text());
         });
-        
-        $("#search-results img").replaceWith('<div id="map"></div><div id="map-big" title="Bigger map">&laquo;</div>');
-        var mapOptions = {
-          center: bounds.getCenter(),
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          mapTypeControl: false
-        };
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
-        map.fitBounds(bounds);
-        
-        $("#search-results li a").each(function (index) {
-            var link = $(this);
-            if (index < 26) {
-                var icon = "http://google-maps-icons.googlecode.com/files/blue" + String.fromCharCode(index + 65) + ".png";
-            } else {
-                var icon = "/_/marker-blue.png";
-            }
-            var center = new google.maps.LatLng(link.attr("data-lat"), link.attr("data-lon"));
-            var marker = new google.maps.Marker({
-                position: center,
-                map: map,
-                title: link.text(),
-                icon: icon
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-                document.location = link.attr("href");
-            });
-            var boxId = (Math.round(center.lat() * 10) / 10) + "," + (Math.round(center.lng() * 10) / 10);
-            if (typeof markers[boxId] == "undefined") {
-                markers[boxId] = [];
-            }
-            markers[boxId].push(marker);
-        });
-        
-        $("#map-big").click(function () {
-            $("h2").text("Attractions");
-            $("#search-results ol, #map-big").hide();
-            $("#map").trigger("big")
+        $("h2").css({
+            "backgroundImage": "url(" + getMarkerIcon(tags) + ")"
         });
         
         break;
         
-    case "attraction":
+    case "map":
         
-        var location = $("#map").attr("src").match(/\|([0-9.-]+),([0-9.-]+)/);
+        $("#big-map").height(
+            $(document).height() -
+            $("#header").outerHeight() -
+            $("#footer").outerHeight() - 
+            60
+        );
         
-        $("#map").replaceWith('<div id="map"></div><div id="map-big" title="Bigger map">&laquo;</div>');
+        var location = window.location.search.match(/c=([0-9.-]+),([0-9.-]+)/);
+        if (!location) {
+            location = [null, 0, 0];
+        }
+        
         var center = new google.maps.LatLng(parseFloat(location[1]), parseFloat(location[2]));
         var mapOptions = {
             center: center,
-            zoom: 14,
+            zoom: 12,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false
         };
-        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        map = new google.maps.Map(document.getElementById("big-map"), mapOptions);
         
         var tags = [];
         $("#tags li").each(function () {
             tags.push($(this).text());
         });
         
-        var marker = new google.maps.Marker({
-            position: center,
-            map: map,
-            icon: getMarkerIcon(tags)
-        });
-        markers["attraction"] = [];
-        markers["attraction"].push(marker);
+        google.maps.event.addListener(map, "dragend", mapChanged);
+        google.maps.event.addListener(map, "zoom_changed", mapChanged);
         
-        $("#map-big").click(function () {
-            $("h2").text("Attractions");
-            $("h3, .info, p, img, #tags, a.more, #map-big").hide();
-            $("#map").trigger("big")
-        });
+        $("#big-map").before('<div id="loading"></div>').after('<div id="instruction">Zoom in to see more attractions</div>');
+        
+        mapChanged();
         
         break;
         
@@ -414,36 +376,5 @@ $(function () {
         break;
         
     }
-    
-    
-    /* event handlers */
-    
-    var newWidth = $("#content").width() - 2;
-    
-    $("#map").bind("big", function () {
-        
-        var center = map.getCenter();
-        
-        $("#map").css({
-            width: newWidth,
-            height: "400px"
-        });
-        google.maps.event.trigger(map, "resize");
-        
-        google.maps.event.addListener(map, "dragend", mapChanged);
-        google.maps.event.addListener(map, "zoom_changed", mapChanged);
-        
-        $("#map").before('<div id="loading"></div>').after('<div id="instruction">Zoom in to see more attractions</div>');
-        
-        $.each(markers, function () {
-            $.each(this, function () {
-                this.setMap(null);
-            });
-        });
-        markers = {};
-        
-        map.setZoom(11);
-        
-    });
     
 });

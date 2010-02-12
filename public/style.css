@@ -300,28 +300,20 @@ div.homepage-list {
     color: #66d;
     cursor: pointer;
     font-weight: bold;
-}
-
-#loading {
-    width: 100%;
-    height: 4px;
-    z-index: 1000;
-}
-
-#instruction {
-    display: none;
-    background: #fff;
-    color: #66d;
-    border: 1px solid #ccc;
-    padding: 2px;
-    position: absolute;
-    width: 80px;
-    margin: 100px 0 0 50px;
-    font-size: 70%;
-    text-align: center;
+    text-decoration: none;
 }
 
 /* attraction */
+
+#attraction h2 {
+    margin-bottom: 0;
+    background: url(http://google-maps-icons.googlecode.com/files/info.png) no-repeat center left;
+    padding-left: 38px;
+}
+
+#attraction h3 {
+    margin-top: 4px;
+}
 
 #attraction-nav {
     float: right;
@@ -409,4 +401,31 @@ ol.diff li.pic img.new {
 
 ol.diff li.pic img.old {
     border: 5px solid #f33;
+}
+
+/* big map */
+
+#big-map {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #999;
+}
+
+#loading {
+    width: 100%;
+    height: 4px;
+    z-index: 1000;
+}
+
+#instruction {
+    display: none;
+    background: #fff;
+    color: #66d;
+    border: 1px solid #ccc;
+    padding: 2px;
+    position: absolute;
+    width: 80px;
+    margin: 100px 0 0 50px;
+    font-size: 70%;
+    text-align: center;
 }

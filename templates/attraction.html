@@ -61,7 +61,7 @@
         {% endifequal %}
     {% endfor %}
     
-    <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map" id="map">
+    <a href="/map.html?c={{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}" title="View on a bigger map"><img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Map" id="map"></a>
     
     {% if attraction.description %}{{ attraction.description|escape|linebreaks }}{% endif %}
     
@@ -84,6 +84,7 @@
     
     <div class="nav">
         <a href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}">More attractions in this area</a>
+        <a href="/map.html?c={{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}">View on the big map</a>
     </div>
     
 {% endblock %}
