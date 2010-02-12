@@ -18,13 +18,13 @@ body {
 
 #header,
 #footer {
-    background: #eef;
-    border-bottom: 1px solid #dde;
+    background: #e6f0ff;
+    border-bottom: 1px solid #d6e0ef;
 }
 
 #footer {
     clear: both;
-    border-top: 1px solid #dde;
+    border-top: 1px solid #d6e0ef;
     font-size: 80%;
 }
 
@@ -332,7 +332,7 @@ div.homepage-list {
 #attraction-nav a,
 #attraction-nav span {
     float: left;
-    background: #dde;
+    background: #d6e0ef;
     padding: 2px 5px;
     margin-left: 4px;
     font-size: 90%;
@@ -361,6 +361,7 @@ div.info.badlocation { background-image: url(/_/info/badloc.png); }
 div.info.todo { background-image: url(/_/info/todo.png); }
 div.info.trap { background-image: url(/_/info/trap.png); }
 div.info.translated { background-image: url(/_/info/translated.png); }
+div.info.old { background-image: url(/_/info/old.png); }
 
 ul#tags {
     list-style: none;
