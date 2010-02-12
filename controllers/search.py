@@ -68,11 +68,11 @@ class SearchPage(Controller):
             
             coords = coords.split(',')
             
+            template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
+            
             if type == 'js':
                 
                 url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(coords[0]), float(coords[1]))
-                
-                template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
                 
                 jsonString = urllib.urlopen(url).read()
                 if jsonString:
@@ -95,14 +95,12 @@ class SearchPage(Controller):
                     finally:
                         pass
                 else:
-                    parts = coords.split(",")
-                    lat = parts[0]
-                    lon = parts[1]
+                    lat = float(coords[0])
+                    lon = float(coords[1])
                     (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
             else:
-                parts = coords.split(",")
-                lat = parts[0]
-                lon = parts[1]
+                lat = float(coords[0])
+                lon = float(coords[1])
                 (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
         
         elif search:
