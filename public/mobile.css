@@ -1,0 +1,34 @@
+#header,
+#content,
+#footer {
+    padding: 1em 10px;
+}
+
+#header ul,
+#header form {
+    display: none;
+}
+
+#search-results img,
+#search-results #map,
+#attraction #map {
+    float: none;
+    margin: 10px 0;
+}
+
+/* map */
+
+#map #header,
+#map #footer {
+    display: none;
+}
+
+#map #content {
+    padding: 0;
+}
+
+#map #big-map {
+    width: 100%;
+    margin: 0;
+    border: none;
+}

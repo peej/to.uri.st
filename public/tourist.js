@@ -5,7 +5,8 @@ $(function () {
     var timeout = null,
         loading = loaded = 0,
         map = null,
-        markers = {};
+        markers = {},
+        infowindow = new google.maps.InfoWindow();
     
     var mapChanged = function () {
         window.clearTimeout(timeout);
@@ -15,8 +16,6 @@ $(function () {
     var loadData = function () {
         
         if (map.getZoom() > 10) {
-            
-            $("#instruction").fadeOut();
             
             var bounds = map.getBounds();
             
@@ -48,7 +47,22 @@ $(function () {
                                             icon: getMarkerIcon(data[index].tags)
                                         });
                                         google.maps.event.addListener(marker, 'click', function() {
-                                            document.location = "/attractions/" + data[index].id + ".html";
+                                            //document.location = "/attractions/" + data[index].id + ".html";
+                                            var content = '<div id="infowindow">'
+                                            if (data[index].thumbnail) {
+                                                content += '<img src="' + data[index].thumbnail + '">';
+                                            }
+                                            content += '<a href="/attractions/' + data[index].id + '.html">' + data[index].title + "</a>";
+                                            if (data[index].tags) {
+                                                content += '<ul id="tags">';
+                                                $.each(data[index].tags, function () {
+                                                    content += '<li><a href="/search.html?t=' + this + '">' + this + "</a></li>";
+                                                });
+                                                content += "</ul>";
+                                            }
+                                            content += '</div>';
+                                            infowindow.setContent(content);
+                                            infowindow.open(map, marker);
                                         });
                                         markers[boxId].push(marker);
                                     });
@@ -71,8 +85,6 @@ $(function () {
             }
             
         } else {
-            
-            $("#instruction").show();
             
             $.each(markers, function () {
                 $.each(this, function () {
@@ -226,22 +238,31 @@ $(function () {
         
     case "map":
         
-        $("#big-map").height(
-            $(document).height() -
-            $("#header").outerHeight() -
-            $("#footer").outerHeight() - 
-            60
-        );
+        //if (navigator.userAgent.indexOf('iPhone') != -1 || navigator.userAgent.indexOf('Android') != -1 ) {
+        if ($("#header:visible").length == 0) {
+            $("#big-map").height(
+                $(document).height() - 4
+            );
+        } else {
+            $("#big-map").height(
+                $(document).height() -
+                $("#header").outerHeight() -
+                $("#footer").outerHeight() - 
+                60
+            );
+        }
         
         var location = window.location.search.match(/c=([0-9.-]+),([0-9.-]+)/);
+        var zoom = 12;
         if (!location) {
             location = [null, 0, 0];
+            zoom = 2;
         }
         
         var center = new google.maps.LatLng(parseFloat(location[1]), parseFloat(location[2]));
         var mapOptions = {
             center: center,
-            zoom: 12,
+            zoom: zoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false
         };
@@ -255,7 +276,7 @@ $(function () {
         google.maps.event.addListener(map, "dragend", mapChanged);
         google.maps.event.addListener(map, "zoom_changed", mapChanged);
         
-        $("#big-map").before('<div id="loading"></div>').after('<div id="instruction">Zoom in to see more attractions</div>');
+        $("#big-map").before('<div id="loading"></div>');
         
         mapChanged();
         

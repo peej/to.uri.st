@@ -22,6 +22,15 @@ body {
     border-bottom: 1px solid #d6e0ef;
 }
 
+#header:after {
+    content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
 #footer {
     clear: both;
     border-top: 1px solid #d6e0ef;
@@ -64,14 +73,11 @@ p.date {
 }
 
 .nav {
+    clear: both;
     margin: 20px 0;
 }
 
 /* header */
-
-#header {
-    height: 60px;
-}
 
 #header h1 {
     float: left;
@@ -244,6 +250,7 @@ form#lookat {
     background-color: #fc6;
     border: 1px solid #fc6;
     margin: 20px 0;
+    padding: 10px 0;
     text-align: center;
 }
 
@@ -270,6 +277,7 @@ form#lookat p {
 div.homepage-list {
     float: left;
     width: 45%;
+    min-width: 280px;
     margin: 0 5% 20px 0;
 }
 
@@ -417,15 +425,18 @@ ol.diff li.pic img.old {
     z-index: 1000;
 }
 
-#instruction {
-    display: none;
-    background: #fff;
-    color: #66d;
-    border: 1px solid #ccc;
-    padding: 2px;
-    position: absolute;
-    width: 80px;
-    margin: 100px 0 0 50px;
-    font-size: 70%;
-    text-align: center;
+#infowindow {
+    padding-right: 20px;
 }
+
+#infowindow img {
+    float: left;
+    width: 75px;
+    height: 75px;
+    margin: 0 10px 10px 0;
+}
+
+#infowindow li {
+    margin-right: 4px;
+}
+
