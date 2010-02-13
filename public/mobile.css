@@ -9,6 +9,18 @@
     display: none;
 }
 
+#header {
+    padding: 0;
+}
+
+#header h1 {
+    font-size: 24px;
+}
+
+#header h1 a {
+    padding: 4px 0 4px 60px;
+}
+
 #search-results img,
 #search-results #map,
 #attraction #map {
