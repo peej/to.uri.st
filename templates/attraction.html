@@ -82,11 +82,32 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
+    
+    <form id="comment" method="post" action="/attractions/{{ attraction.id }}/edit.html">
+        <textarea name="comment"></textarea>
+        <input type="submit" value="Add a comment">
+    </form>
+    
+    <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
     
     <div class="nav">
-        <a rel="index" href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}">More attractions in this area</a>
+        <a href="">Favourite this attraction</a>
+        <a href="">Add to your itinerary</a>
+        <form id="rating">
+            <label><input type="radio" name="rating" value="1"> 1</label>
+            <label><input type="radio" name="rating" value="2"> 2</label>
+            <label><input type="radio" name="rating" value="3"> 3</label>
+            <label><input type="radio" name="rating" value="4"> 4</label>
+            <label><input type="radio" name="rating" value="5"> 5</label>
+            <input type="submit" value="Rate">
+        </form>
+    </div>
+    
+    <div class="nav">
+        <a href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}" rel="index">More attractions in this area</a>
         <a href="/map.html?c={{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}">View on the big map</a>
+        <a href="http://flickr.com/search/?q=%22{{ attraction.name|escape }}%22" rel="ext" class="ext">Find pictures of this attraction on Flickr</a>
+        <a href="/attractions/{{ attraction.id }}.gpx">Download GPS data for this attraction (GPX)</a>
     </div>
     
 {% endblock %}
