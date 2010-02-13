@@ -77,6 +77,14 @@ p.date {
     margin: 20px 0;
 }
 
+a:active {
+    color: #900;
+}
+
+a.ext {
+    color: #090;
+}
+
 /* header */
 
 #header h1 {
@@ -112,6 +120,12 @@ p.date {
 
 #header form label input {
     width: auto;
+}
+
+#footer a.license {
+    margin: 1em 0 0;
+    font-size: 95%;
+    display: block;
 }
 
 /* forms */
@@ -317,6 +331,7 @@ div.homepage-list {
     margin-bottom: 0;
     background: url(http://google-maps-icons.googlecode.com/files/info.png) no-repeat center left;
     padding-left: 38px;
+    min-height: 33px;
 }
 
 #attraction h3 {
