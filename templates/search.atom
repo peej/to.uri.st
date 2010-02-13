@@ -26,6 +26,7 @@
 		</author>
 		{% endif %}
 		<content type="html">{{ attraction.description|escape }}</content>
+		{% if attraction.thumbnail %}<media:content url="{{ attraction.thumbnail|escape }}" medium="image" />{% endif %}
 	</entry>
         {% endfor %}
     {% endif %}

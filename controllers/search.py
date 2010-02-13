@@ -53,6 +53,8 @@ class SearchPage(Controller):
             attractionCount = attractionCount + 1
             if attractionCount < 91:
                 attraction.label = chr(attractionCount)
+            if attraction.picture:
+                attraction.thumbnail = self.convertFlickrUrl(attraction.picture, "s")
             
         return (attractions, updated)
     
