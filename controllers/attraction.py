@@ -4,7 +4,7 @@ from controllers.controller import Controller
 from models.attraction import Attraction
 
 class AttractionPage(Controller):
-    def get(self, attractionId):
+    def get(self, attractionId, type):
         
         attractions = Attraction.all()
         attractions.filter("id =", attractionId)
@@ -21,6 +21,6 @@ class AttractionPage(Controller):
                 'attraction': attraction
             }
             
-            self.output('attraction', 'html', template_values)
+            self.output('attraction', type, template_values)
         else:
             self.output('404', 'html')

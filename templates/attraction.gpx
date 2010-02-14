@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx
+	version="1.1"
+	creator="to.uri.st"
+	xmlns="http://www.topografix.com/GPX/1/1"
+>
+	<metadata>
+		<name>{{ attraction.name|escape }}</name>
+		{% if attraction.free %}<copyright>
+			<license>http://creativecommons.org/licenses/by-sa/3.0/</license>
+		</copyright>{% endif %}
+	</metadata>
+	<wpt lat="{{ attraction.location.lat }}" lon="{{ attraction.location.lon }}">
+		<name>{{ attraction.name|escape }}</name>
+		<link href="http://to.uri.st/attractions/{{ attraction.id|escape }}.html"/>
+		<time>{{ attraction.datetime|date:"Y-m-d\TH:m:s\Z" }}</time>
+		{% if attraction.tags %}<type>{% for tag in attraction.tags %}{{ tag|escape }}{% if not forloop.last %} {% endif %}{% endfor %}</type>{% endif %}
+		<cmt>{{ attraction.description|escape }}</cmt>
+	</wpt>
+</gpx>

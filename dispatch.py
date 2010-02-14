@@ -14,7 +14,7 @@ application = webapp.WSGIApplication(
     [
         ('/', HomePage),
         ('/search(?:\.(html|atom|js))?', SearchPage),
-        ('/attractions/([a-f0-9]{32})(?:\.html)?', AttractionPage),
+        ('/attractions/([a-f0-9]{32})(?:\.(html|gpx))?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.html)?', HistoryPage),
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),
         ('/add(?:\.html)?', EditPage),

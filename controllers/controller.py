@@ -7,7 +7,8 @@ class Controller(webapp.RequestHandler):
     mimetypes = {
         'html': 'text/html',
         'atom': 'application/atom+xml',
-        'js': 'application/javascript'
+        'js': 'application/javascript',
+        'gpx': 'application/gpx+xml'
     }
     
     tags = {
@@ -235,12 +236,26 @@ class Controller(webapp.RequestHandler):
         
         path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName + '.' + type)
         
-        self.response.headers.add_header('Content-type', self.mimetypes[type])
+        if self.request.get('pretty'):
+            self.response.headers.add_header('Content-type', 'text/plain')
+        else:
+            self.response.headers.add_header('Content-type', self.mimetypes[type])
         
         values['page'] = templateName
         values['get'] = {}
         for query in self.request.arguments():
             values['get'][query] = self.request.get(query)
+        
+        #self.response.headers.add_header('Cache-control', 'no-cache')
+        
+        from google.appengine.api import users
+        user = users.get_current_user()
+        if user:
+            values['user'] = {
+                'userid': user.email().replace('@', '-').replace('.', '-'),
+                'nickname': user.nickname(),
+                'signout': users.create_logout_url("/")
+            }
         
         self.response.out.write(template.render(path, values))
         
