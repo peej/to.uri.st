@@ -51,10 +51,10 @@ class EditPage(Controller):
         if len(attraction['region']) > 100:
             errors['region'] = True
         
-        if float(attraction['location']['lat']) < -90 or float(attraction['location']['lat']) > 90:
+        if not attraction['location']['lat'] or float(attraction['location']['lat']) < -90 or float(attraction['location']['lat']) > 90:
             errors['location'] = True
         
-        if float(attraction['location']['lon']) < -180 or float(attraction['location']['lon']) > 180:
+        if not attraction['location']['lon'] or float(attraction['location']['lon']) < -180 or float(attraction['location']['lon']) > 180:
             errors['location'] = True
         
         if not len(attraction['href']) == 0 and not re.match(r"^https?://.+$", attraction['href']):
@@ -69,7 +69,7 @@ class EditPage(Controller):
         
         if errors or (self.request.get('location.x') and self.request.get('location.y')):
             
-            attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
+            attraction['picture'] = self.convertFlickrUrl(attraction['picture'], 'm')
             
             template_values = {
                 'attraction': attraction,
