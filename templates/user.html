@@ -1,11 +1,17 @@
 {% extends "shell.html" %}
 
-{% block title %}User "{{nickname|escape }}" : to.uri.st{% endblock %}
+{% block title %}User "{{user.name|escape }}" : to.uri.st{% endblock %}
 
 {% block content %}
     
-    <h2>User "{{ nickname|escape }}"</h2>
+    <h2>{{ user.name|escape }}</h2>
     
-    <p>Nothing to see here as yet.</p>
+    {% if user.description %}
+        {{ user.description|escape|linebreaks }}
+    {% else %}
+        <p><em>Nothing to see here as yet.</em></p>
+    {% endif %}
+    
+    {% if owner %}<a href="/users/{{ user.id|escape }}/edit.html">Edit your profile</a>{% endif %}
     
 {% endblock %}

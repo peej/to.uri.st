@@ -129,6 +129,8 @@ class EditPage(Controller):
                         
                         db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newId)
                         
+                        self.getUserObject(users.get_current_user())
+                        
                         self.redirect('/attractions/' + newId + '.html')
                         return
                         
@@ -138,6 +140,8 @@ class EditPage(Controller):
                 else:
                     
                     newId = db.run_in_transaction(self.saveAttraction, latestAttraction.key(), attraction)
+                    
+                    self.getUserObject(users.get_current_user())
                     
                     self.redirect('/attractions/' + newId + '.html')
                     return

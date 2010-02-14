@@ -6,15 +6,25 @@ class UserPage(Controller):
     
     def get(self, userid):
         
+        userObject = self.getUserObject(userid)
+        
         from google.appengine.api import users
         user = users.get_current_user()
-        print user.nickname()
-        print user.user_id()
-        print user.email()
+        if self.getUserId(user) == userid:
+            owner = True
+        else:
+            owner = False
         
-        template_values = {
-            'nickname': userid
-        }
+        if not userObject and owner:
+            userObject = self.getUserObject(user)
         
-        #self.output('user', 'html', template_values)
-        
+        if userObject:
+            
+            template_values = {
+                'user': userObject,
+                'owner': owner
+            }
+            
+            self.output('user', 'html', template_values)
+        else:
+            self.output('404', 'html')

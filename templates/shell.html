@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="/_/mobile.css" media="screen and (max-width:480px)" type="text/css">
         {% if atom %}<link rel="alternate" type="application/atom+xml" href="{{ atom|escape }}">{% endif %}
         {% if json %}<link rel="alternate" type="application/json" href="{{ json|escape }}">{% endif %}
+        {% if gpx %}<link rel="alternate" type="application/gpx+xml" href="{{ gpx|escape }}">{% endif %}
         {% if attraction.free %}<link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/">{% endif %}
         <meta name="viewport" content="width=device-width">
     </head>
@@ -14,8 +15,8 @@
         <div id="header">
             <h1><a href="/" rel="home">to.uri.st</a></h1>
             {% if user %}<ul>
-                <li><a href="/users/{{ user.userid|escape }}.html">{{ user.nickname|escape }}</a></li>
-                <li><a href="{{ user.signout|escape }}">Sign out</a></li>
+                <li><a href="/users/{{ signedin.userid|escape }}.html">{{ signedin.nickname|escape }}</a></li>
+                <li><a href="{{ signedin.signout|escape }}">Sign out</a></li>
             </ul>{% endif %}
             <form method="get" action="/search.html">
                 <label>Search <input type="text" name="q" value="{{ q|escape }}"></label>

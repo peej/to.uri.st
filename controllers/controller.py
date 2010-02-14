@@ -251,7 +251,7 @@ class Controller(webapp.RequestHandler):
         from google.appengine.api import users
         user = users.get_current_user()
         if user:
-            values['user'] = {
+            values['signedin'] = {
                 'userid': user.email().replace('@', '-').replace('.', '-'),
                 'nickname': user.nickname(),
                 'signout': users.create_logout_url("/")
@@ -268,6 +268,33 @@ class Controller(webapp.RequestHandler):
         
         return url
         
+    def getUserId(self, user):
+        if user:
+            return user.email().replace('@', '-').replace('.', '-')
+    
+    def getUserObject(self, user):
+        
+        from google.appengine.api import users
+        from models.user import User
+        
+        if type(user) == users.User:
+            userId = self.getUserId(user)
+        else:
+            userId = user
+        
+        query = User.all()
+        query.filter("id =", userId)
+        userObject = query.get()
+        
+        if userObject == None and type(user) == users.User:
+            userObject = User(
+                id = userId,
+                name = user.nickname()
+            )
+            userObject.put()
+        
+        return userObject
+    
     def get(self):
         
         path = self.request.path[1:self.request.path.find('.')]
