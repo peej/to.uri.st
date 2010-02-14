@@ -83,13 +83,16 @@
     </ul>
     {% endif %}
     
-    <form id="comment" method="post" action="/attractions/{{ attraction.id }}/edit.html">
+    {% if false %}
+    <form id="comment" method="post" action="/attractions/{{ attraction.id }}/comment.html">
         <textarea name="comment"></textarea>
         <input type="submit" value="Add a comment">
     </form>
+    {% endif %}
     
     <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
     
+    {% if false %}
     <div class="nav">
         <a href="">Favourite this attraction</a>
         <a href="">Add to your itinerary</a>
@@ -102,6 +105,7 @@
             <input type="submit" value="Rate">
         </form>
     </div>
+    {% endif %}
     
     <div class="nav">
         <a href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}" rel="index">More attractions in this area</a>
