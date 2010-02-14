@@ -19,7 +19,7 @@
             {% for attraction in recent %}
                 <li>
                     <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}
+                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.user %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.user|escape }}</a>{% else %}Anonymous{% endif %}
                 </li>
             {% endfor %}
             </ul>
@@ -36,7 +36,7 @@
             {% for attraction in popular %}
                 <li>
                     <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.user %}{{ attraction.user|escape }}{% else %}Anonymous{% endif %}
+                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.user %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.user|escape }}</a>{% else %}Anonymous{% endif %}
                 </li>
             {% endfor %}
             </ul>
