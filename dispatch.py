@@ -13,7 +13,7 @@ from controllers.user import UserPage
 application = webapp.WSGIApplication(
     [
         ('/', HomePage),
-        ('/search(?:\.(html|atom|js))?', SearchPage),
+        ('/search(?:\.(html|atom|js|gpx))?', SearchPage),
         ('/attractions/([a-f0-9]{32})(?:\.(html|gpx))?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.html)?', HistoryPage),
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),

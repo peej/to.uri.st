@@ -57,7 +57,7 @@
         {% if next %}<a href="{{ next|escape }}" rel="next">Next page</a>{% endif %}
         {% if coords %}<a href="/recent.html?c={{ coords|escape }}">Recent changes</a>{% endif %}
         <a href="{{ atom|escape }}">Atom feed</a>
-        <a href="{{ json|escape }}">JSON data</a>
+        <a href="{{ gpx|escape }}">GPS data for this search (GPX)</a>
     </div>
     
 {% endblock %}
