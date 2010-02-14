@@ -113,20 +113,24 @@ a.ext {
 
 #header form {
     float: right;
+    clear: right;
     text-align: right;
 }
 
 #header ul {
+    float: right;
     list-style: none;
     margin-bottom: 10px;
 }
 
 #header ul li {
     display: inline;
+    padding-left: 0.5em;
 }
 
 #header form label {
     display: inline;
+    padding-left: 0.5em;
 }
 
 #header form label input {
