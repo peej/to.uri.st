@@ -254,7 +254,12 @@ class Controller(webapp.RequestHandler):
             values['signedin'] = {
                 'userid': user.email().replace('@', '-').replace('.', '-'),
                 'nickname': user.nickname(),
-                'signout': users.create_logout_url("/")
+                'signout': users.create_logout_url(self.request.path)
+            }
+        else:
+            values['signedout'] = {
+                'ip': self.request.remote_addr,
+                'signin': users.create_login_url(self.request.path)
             }
         
         self.response.out.write(template.render(path, values))

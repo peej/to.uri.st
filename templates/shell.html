@@ -14,10 +14,15 @@
         
         <div id="header">
             <h1><a href="/" rel="home">to.uri.st</a></h1>
-            {% if user %}<ul>
+            <ul>
+            {% if signedin %}
                 <li><a href="/users/{{ signedin.userid|escape }}.html">{{ signedin.nickname|escape }}</a></li>
                 <li><a href="{{ signedin.signout|escape }}">Sign out</a></li>
-            </ul>{% endif %}
+            {% else %}
+                <li>{{ signedout.ip|escape }}</li>
+                <li><a href="{{ signedout.signin|escape }}">Sign in</a></li>
+            {% endif %}
+            </ul>
             <form method="get" action="/search.html">
                 <label>Search <input type="text" name="q" value="{{ q|escape }}"></label>
                 <input type="submit" value="Go">

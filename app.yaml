@@ -15,10 +15,6 @@ handlers:
   static_files: public/favicon.ico
   upload: public/favicon.ico
 
-- url: /.*/edit.html
-  script: dispatch.py
-  login: required
-
 - url: /.*
   script: dispatch.py
   
