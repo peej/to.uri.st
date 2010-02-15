@@ -1,5 +1,7 @@
 from google.appengine.ext import db
 
+import re
+
 from controllers.controller import Controller
 from models.attraction import Attraction
 
@@ -16,6 +18,18 @@ class AttractionPage(Controller):
             if attraction.user:
                 attraction.userid = self.getUserId(attraction.user)
                 attraction.nickname = attraction.user.nickname()
+            
+            result = re.split('\n\n--', attraction.description)
+            if result:
+                attraction.description = result[0]
+                comments = result[1:]
+                attraction.comments = []
+                for comment in comments:
+                    exploded = re.split('\n\n', comment)
+                    attraction.comments.append({
+                        "user": exploded[0],
+                        "comment": "\n\n".join(exploded[1:])
+                    })
             
             template_values = {
                 'attraction': attraction,

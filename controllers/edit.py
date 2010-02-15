@@ -88,75 +88,67 @@ class EditPage(Controller):
                 next = latestAttraction.next
             
             try:
+                newId = self.saveAttraction(latestAttraction, attraction)
                 
-                oldGeoBoxId = self.calcGeoBoxId(latestAttraction.location.lat, latestAttraction.location.lon)
-                newGeoBoxId = self.calcGeoBoxId(attraction['location']['lat'], attraction['location']['lon'])
-                if True or oldGeoBoxId[0] != newGeoBoxId[0] or oldGeoBoxId[1] != newGeoBoxId[1]: # attraction has moved, update geoboxes
-                    
-                    #self.response.out.write(str(oldGeoBoxId[0]) + "," + str(oldGeoBoxId[1]) + "\n")
-                    #self.response.out.write(str(newGeoBoxId[0]) + "," + str(newGeoBoxId[1]) + "\n")
-                    
-                    from models.geobox import GeoBox
-                    
-                    geobox = GeoBox.all()
-                    geobox.filter("lat =", oldGeoBoxId[0])
-                    geobox.filter("lon =", oldGeoBoxId[1])
-                    oldGeoBox = geobox.get()
-                    
-                    if oldGeoBox == None:
-                        oldGeoBox = GeoBox(
-                            lat = oldGeoBoxId[0],
-                            lon = oldGeoBoxId[1]
-                        )
-                        oldGeoBox.put()
-                    
-                    db.run_in_transaction(self.removeFromGeoBox, oldGeoBox.key(), latestAttraction.id)
-                    
-                    try:
-                        newId = db.run_in_transaction(self.saveAttraction, latestAttraction.key(), attraction)
-                        
-                        geobox = GeoBox.all()
-                        geobox.filter("lat =", newGeoBoxId[0])
-                        geobox.filter("lon =", newGeoBoxId[1])
-                        newGeoBox = geobox.get()
-                        
-                        if newGeoBox == None:
-                            newGeoBox = GeoBox(
-                                lat = newGeoBoxId[0],
-                                lon = newGeoBoxId[1]
-                            )
-                            newGeoBox.put()
-                        
-                        db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newId)
-                        
-                        self.getUserObject(users.get_current_user())
-                        
-                        self.redirect('/attractions/' + newId + '.html')
-                        return
-                        
-                    except db.TransactionFailedError: # undo geobox update
-                        pass
-                    
-                else:
-                    
-                    newId = db.run_in_transaction(self.saveAttraction, latestAttraction.key(), attraction)
-                    
-                    self.getUserObject(users.get_current_user())
-                    
-                    self.redirect('/attractions/' + newId + '.html')
-                    return
-                    
+                from google.appengine.api import users
+                self.getUserObject(users.get_current_user()) # create user object if it doesn't exist
+                
+                self.redirect('/attractions/' + newId + '.html')
+                
+                return
+                
             except:
-                pass
-            
-            template_values = {
-                'attraction': attraction,
-                'errors': {
-                    'save': True
+                
+                template_values = {
+                    'attraction': attraction,
+                    'errors': {
+                        'save': True
+                    }
                 }
-            }
-            self.output('edit', 'html', template_values)
+                self.output('edit', 'html', template_values)
     
+    def saveAttraction(self, latestAttraction, attraction):
+        
+        oldGeoBoxId = self.calcGeoBoxId(latestAttraction.location.lat, latestAttraction.location.lon)
+        newGeoBoxId = self.calcGeoBoxId(attraction['location']['lat'], attraction['location']['lon'])
+        
+        from models.geobox import GeoBox
+        
+        geobox = GeoBox.all()
+        geobox.filter("lat =", oldGeoBoxId[0])
+        geobox.filter("lon =", oldGeoBoxId[1])
+        oldGeoBox = geobox.get()
+        
+        if oldGeoBox == None:
+            oldGeoBox = GeoBox(
+                lat = oldGeoBoxId[0],
+                lon = oldGeoBoxId[1]
+            )
+            oldGeoBox.put()
+        
+        db.run_in_transaction(self.removeFromGeoBox, oldGeoBox.key(), latestAttraction.id)
+        
+        try:
+            newId = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
+            
+            geobox = GeoBox.all()
+            geobox.filter("lat =", newGeoBoxId[0])
+            geobox.filter("lon =", newGeoBoxId[1])
+            newGeoBox = geobox.get()
+            
+            if newGeoBox == None:
+                newGeoBox = GeoBox(
+                    lat = newGeoBoxId[0],
+                    lon = newGeoBoxId[1]
+                )
+                newGeoBox.put()
+            
+            db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newId)
+            
+            return newId
+            
+        except db.TransactionFailedError: # undo geobox update
+            db.run_in_transaction(self.addToGeoBox, oldGeoBox.key(), latestAttraction.id)
     
     def calcGeoBoxId(self, lat, lon):
         return (round(float(lat), 1), round(float(lon), 1))
@@ -177,7 +169,7 @@ class EditPage(Controller):
         except:
             pass
     
-    def saveAttraction(self, key, attractionData):
+    def createAttraction(self, key, attractionData):
         
         from google.appengine.api import users
         

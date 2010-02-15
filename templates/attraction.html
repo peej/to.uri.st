@@ -72,7 +72,7 @@
     {% endif %}
     
     {% if attraction.href %}
-    <a href="{{ attraction.href|escape }}" rel="nofollow ext" class="more ext">Go to this attractions web site</a>
+    <a href="{{ attraction.href|escape }}" rel="nofollow ext" class="more ext">Go to this attraction's web site</a>
     {% endif %}
     
     {% if attraction.tags %}
@@ -83,14 +83,18 @@
     </ul>
     {% endif %}
     
-    {% if false %}
-    <form id="comment" method="post" action="/attractions/{{ attraction.id }}/comment.html">
-        <textarea name="comment"></textarea>
-        <input type="submit" value="Add a comment">
-    </form>
+    {% if attraction.comments %}
+    <ol id="comments">
+        {% for comment in attraction.comments %}
+        <li>
+            {{ comment.comment|escape|linebreaks }}
+            <p class="author">Written by <a href="/users/{{ comment.user|escape }}.html">{{ comment.user|escape }}</a> {{ comment.datetime|date:"jS F Y \a\t H:i" }}</p>
+        </li>
+        {% endfor %}
+    </ol>
     {% endif %}
     
-    <p class="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
+    <p id="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
     
     {% if false %}
     <div class="nav">

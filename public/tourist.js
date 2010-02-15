@@ -234,6 +234,13 @@ $(function () {
             "backgroundImage": "url(" + getMarkerIcon(tags) + ")"
         });
         
+        $("p#date").before('<span id="add-comment">Add a comment to this attraction</span>');
+        $("#add-comment").click(function () {
+            $(this).after('<form id="comment" method="post" action="' + document.location.pathname.replace('.html', '/comment.html') + '"><textarea name="comment"></textarea><input type="submit" value="Add a comment"></form>');
+            $(this).slideUp();
+            $("#comment").slideDown();
+        });
+        
         break;
         
     case "map":
