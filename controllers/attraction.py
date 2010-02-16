@@ -28,6 +28,7 @@ class AttractionPage(Controller):
                     exploded = re.split('\n\n', comment)
                     attraction.comments.append({
                         "user": exploded[0],
+                        "userid": self.getUserId(exploded[0]),
                         "comment": "\n\n".join(exploded[1:])
                     })
             

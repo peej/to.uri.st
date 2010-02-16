@@ -190,7 +190,7 @@ class EditPage(Controller):
             tags = attractionData['tags'],
             free = oldAttraction.free,
             rating = oldAttraction.rating,
-            user = users.get_current_user()
+            user = attractionData['user']
         )
         
         import md5

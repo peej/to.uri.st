@@ -19,7 +19,7 @@ class CommentAdd(EditPage):
             from google.appengine.api import users
             user = users.get_current_user()
             if user:
-                username = user.nickname();
+                username = user.email();
             else:
                 username = self.request.remote_addr
             
@@ -35,11 +35,14 @@ class CommentAdd(EditPage):
             data['tags'] = latestAttraction.tags
             data['free'] = latestAttraction.free
             data['rating'] = latestAttraction.rating
-            data['user'] = user
+            if user:
+                data['user'] = user
+            else:
+                data['user'] = users.User(username)
             
             newId = self.saveAttraction(latestAttraction, data)
             
-            self.getUserObject(user) # create user object if it doesn't exist
+            self.getUserObject(data['user']) # create user object if it doesn't exist
             
             self.redirect('/attractions/' + newId + '.html')
             return

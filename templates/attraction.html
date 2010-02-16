@@ -88,7 +88,7 @@
         {% for comment in attraction.comments %}
         <li>
             {{ comment.comment|escape|linebreaks }}
-            <p class="author">Written by <a href="/users/{{ comment.user|escape }}.html">{{ comment.user|escape }}</a> {{ comment.datetime|date:"jS F Y \a\t H:i" }}</p>
+            <p class="author">Written by <a href="/users/{{ comment.userid|escape }}.html">{{ comment.user|escape }}</a> {{ comment.datetime|date:"jS F Y \a\t H:i" }}</p>
         </li>
         {% endfor %}
     </ol>

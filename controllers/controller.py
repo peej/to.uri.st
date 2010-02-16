@@ -274,28 +274,37 @@ class Controller(webapp.RequestHandler):
         return url
         
     def getUserId(self, user):
-        if user:
-            return user.email().replace('@', '-').replace('.', '-')
+        from google.appengine.api import users
+        if type(user) == users.User:
+            email = user.email()
+        elif type(user) == unicode or type(user) == str:
+            email = user
+        else:
+            email = ''
+        return email.replace('@', '-').replace('.', '-')
     
     def getUserObject(self, user):
         
         from google.appengine.api import users
         from models.user import User
         
-        if type(user) == users.User:
-            userId = self.getUserId(user)
-        else:
-            userId = user
+        userId = self.getUserId(user)
         
         query = User.all()
         query.filter("id =", userId)
         userObject = query.get()
         
-        if userObject == None and type(user) == users.User:
-            userObject = User(
-                id = userId,
-                name = user.nickname()
-            )
+        if userObject == None:
+            if type(user) == users.User:
+                userObject = User(
+                    id = userId,
+                    name = user.nickname()
+                )
+            else:
+                userObject = User(
+                    id = userId,
+                    name = user
+                )
             userObject.put()
         
         return userObject
