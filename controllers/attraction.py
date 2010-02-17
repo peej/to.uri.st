@@ -15,21 +15,17 @@ class AttractionPage(Controller):
         if attraction:
             attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
             
-            if attraction.user:
-                attraction.userid = self.getUserId(attraction.user)
-                attraction.nickname = attraction.user.nickname()
-            
-            result = re.split('\n\n--', attraction.description)
+            result = re.split('\r\n\r\n--', attraction.description)
             if result:
                 attraction.description = result[0]
                 comments = result[1:]
                 attraction.comments = []
                 for comment in comments:
-                    exploded = re.split('\n\n', comment)
+                    exploded = re.split('\r\n\r\n', comment)
                     attraction.comments.append({
                         "user": exploded[0],
                         "userid": self.getUserId(exploded[0]),
-                        "comment": "\n\n".join(exploded[1:])
+                        "comment": "\r\n\r\n".join(exploded[1:])
                     })
             
             template_values = {

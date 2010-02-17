@@ -62,7 +62,7 @@
     {% endfor %}
     
     <a href="/map.html?c={{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}" title="View on a bigger map">
-        <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false" alt="Map" id="map">
+        <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:0xff8800|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false" alt="Map" id="map">
     </a>
     
     {% if attraction.description %}{{ attraction.description|escape|linebreaks }}{% endif %}
@@ -94,7 +94,7 @@
     </ol>
     {% endif %}
     
-    <p id="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.user %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.nickname|escape }}</a>{% else %}Anonymous{% endif %}</p>
+    <p id="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.userid %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}</p>
     
     {% if false %}
     <div class="nav">

@@ -13,7 +13,8 @@ class Attraction(db.Model):
     free = db.BooleanProperty(default = True)
     rating = db.RatingProperty()
     tags = db.StringListProperty()
-    user = db.UserProperty()
+    userid = db.StringProperty()
+    username = db.StringProperty()
     datetime = db.DateTimeProperty(auto_now_add = True)
     
     def __cmp__(self, other):

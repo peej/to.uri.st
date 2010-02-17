@@ -26,7 +26,7 @@ class CommentAdd(EditPage):
             data = {}
             data['name'] = latestAttraction.name
             data['region'] = latestAttraction.region
-            data['description'] = latestAttraction.description + "\n\n--" + username + "\n\n" + self.request.get('comment')
+            data['description'] = latestAttraction.description + "\r\n\r\n--" + username + "\r\n\r\n" + self.request.get('comment')
             data['location'] = {}
             data['location']['lat'] = latestAttraction.location.lat
             data['location']['lon'] = latestAttraction.location.lon
@@ -35,14 +35,8 @@ class CommentAdd(EditPage):
             data['tags'] = latestAttraction.tags
             data['free'] = latestAttraction.free
             data['rating'] = latestAttraction.rating
-            if user:
-                data['user'] = user
-            else:
-                data['user'] = users.User(username)
             
             newId = self.saveAttraction(latestAttraction, data)
-            
-            self.getUserObject(data['user']) # create user object if it doesn't exist
             
             self.redirect('/attractions/' + newId + '.html')
             return

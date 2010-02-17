@@ -87,25 +87,22 @@ class EditPage(Controller):
                 latestAttraction = query.get()
                 next = latestAttraction.next
             
-            try:
-                newId = self.saveAttraction(latestAttraction, attraction)
-                
-                from google.appengine.api import users
-                self.getUserObject(users.get_current_user()) # create user object if it doesn't exist
-                
-                self.redirect('/attractions/' + newId + '.html')
-                
-                return
-                
-            except:
-                
-                template_values = {
-                    'attraction': attraction,
-                    'errors': {
-                        'save': True
-                    }
+            #try:
+            newId = self.saveAttraction(latestAttraction, attraction)
+            
+            self.redirect('/attractions/' + newId + '.html')
+            
+            return
+            
+            #except:
+            
+            template_values = {
+                'attraction': attraction,
+                'errors': {
+                    'save': True
                 }
-                self.output('edit', 'html', template_values)
+            }
+            self.output('edit', 'html', template_values)
     
     def saveAttraction(self, latestAttraction, attraction):
         
@@ -145,6 +142,8 @@ class EditPage(Controller):
             
             db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newId)
             
+            self.getUserObject(attraction['username']) # create user object if it doesn't exist
+            
             return newId
             
         except db.TransactionFailedError: # undo geobox update
@@ -175,6 +174,14 @@ class EditPage(Controller):
         
         oldAttraction = db.get(key)
         
+        user = users.get_current_user()
+        if type(user) == users.User:
+            attractionData['userid'] = self.getUserId(user.email())
+            attractionData['username'] = user.nickname()
+        else:
+            attractionData['userid'] = self.getUserId(self.request.remote_addr)
+            attractionData['username'] = self.request.remote_addr
+        
         newAttraction = Attraction(
             parent = oldAttraction,
             previous = oldAttraction.id,
@@ -190,7 +197,8 @@ class EditPage(Controller):
             tags = attractionData['tags'],
             free = oldAttraction.free,
             rating = oldAttraction.rating,
-            user = attractionData['user']
+            userid = attractionData['userid'],
+            username = attractionData['username']
         )
         
         import md5

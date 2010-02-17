@@ -12,6 +12,18 @@
         <p><em>Nothing to see here as yet.</em></p>
     {% endif %}
     
+    {% if attractions %}
+    <h3>Edited attractions</h3>
+    <ol>
+        {% for attraction in attractions %}
+        <li>
+            <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+            {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+    
     {% if owner %}<a href="/users/{{ user.id|escape }}/edit.html">Edit your profile</a>{% endif %}
     
 {% endblock %}

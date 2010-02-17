@@ -31,7 +31,7 @@ class HistoryPage(Controller):
             newAttr = attractions[index]
             attractions[index].diff = []
             
-            diffString = "Name: %s\nRegion: %s\nMore info: %s\nTags: %s\n\n%s"
+            diffString = "Name: %s\nRegion: %s\nMore info: %s\nTags: %s\n\n%s\n"
             
             old = diffString % (
                 oldAttr.name,
@@ -66,11 +66,7 @@ class HistoryPage(Controller):
             if oldAttr.location.lat != newAttr.location.lat and oldAttr.location.lon != newAttr.location.lon:
                 attractions[index].diff.append(('loc', oldAttr.location, newAttr.location))
             
-            if attractions[index].user:
-                attractions[index].userid = attractions[index].user.email().replace('@', '-').replace('.', '-')
-                attractions[index].nickname = attractions[index].user.nickname()
-            
-            
+        
         template_values = {
             'name': attraction.name,
             'attractions': attractions

@@ -19,11 +19,5 @@ class HomePage(Controller):
             'popular': popular.fetch(5)
         }
         
-        for attraction in template_values['recent']:
-            attraction.userid = self.getUserId(attraction.user)
-        
-        for attraction in template_values['popular']:
-            attraction.userid = self.getUserId(attraction.user)
-        
         self.output('home', 'html', template_values)
         
