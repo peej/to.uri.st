@@ -6,6 +6,7 @@ import sys, os, re
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from models.attraction import Attraction
+from models.geobox import GeoBox
 
 class AttractionLoader(bulkloader.Loader):
     
@@ -44,6 +45,26 @@ class AttractionLoader(bulkloader.Loader):
         if '{{trap}}' in entity.description: entity.tags.append('trap')
         if '{{translated}}' in entity.description: entity.tags.append('translated')
         entity.description = re.sub("\{\{[^}]+\}\}", "", entity.description).strip()
+        
+        latLon = self.calcGeoBoxId(entity.location.lat, entity.location.lon)
+        
+        geobox = GeoBox.all()
+        geobox.filter("lat =", latLon[0])
+        geobox.filter("lon =", latLon[1])
+        theGeoBox = geobox.get()
+        
+        if theGeoBox == None:
+            theGeoBox = GeoBox(
+                lat = latLon[0],
+                lon = latLon[1]
+            )
+        
+        theGeoBox.attractions.append(entity.id)
+        theGeoBox.put()
+        
         return entity
+    
+    def calcGeoBoxId(self, lat, lon):
+        return (round(float(lat), 1), round(float(lon), 1))
 
 loaders = [AttractionLoader]
