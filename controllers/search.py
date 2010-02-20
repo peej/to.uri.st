@@ -27,8 +27,8 @@ class SearchPage(Controller):
             for longitude in lons:
                 
                 geobox = GeoBox.all()
-                geobox.filter("lat =", latitude)
-                geobox.filter("lon =", longitude)
+                geobox.filter("lat =", round(latitude, 1))
+                geobox.filter("lon =", round(longitude, 1))
                 
                 geoboxes = geobox.get()
                 
