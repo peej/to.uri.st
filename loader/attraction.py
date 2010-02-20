@@ -46,6 +46,8 @@ class AttractionLoader(bulkloader.Loader):
         if '{{translated}}' in entity.description: entity.tags.append('translated')
         entity.description = re.sub("\{\{[^}]+\}\}", "", entity.description).strip()
         
+        entity.root = entity.id
+        
         latLon = self.calcGeoBoxId(entity.location.lat, entity.location.lon)
         
         geobox = GeoBox.all()

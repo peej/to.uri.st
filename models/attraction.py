@@ -2,6 +2,7 @@ from google.appengine.ext import db
 
 class Attraction(db.Model):
     id = db.StringProperty()
+    root = db.StringProperty()
     previous = db.StringProperty(default = None)
     next = db.StringProperty(default = None)
     location = db.GeoPtProperty(required = True)

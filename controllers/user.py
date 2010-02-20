@@ -26,10 +26,16 @@ class UserPage(Controller):
             attractions.filter("userid =", userid)
             attractions.order("-datetime")
             
+            favourites = Attraction.all()
+            favourites.filter("root IN", userObject.favourites)
+            favourites.filter("next =", None)
+            favourites.order("name")
+            
             template_values = {
                 'user': userObject,
                 'owner': owner,
-                'attractions': attractions.fetch(5)
+                'attractions': attractions.fetch(5),
+                'favourites': favourites.fetch(5)
             }
             
             self.output('user', 'html', template_values)

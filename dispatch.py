@@ -8,6 +8,7 @@ from controllers.attraction import AttractionPage
 from controllers.history import HistoryPage
 from controllers.edit import EditPage
 from controllers.comment import CommentAdd
+from controllers.favourite import Favourite
 from controllers.recent import RecentPage
 from controllers.user import UserPage
 
@@ -19,6 +20,7 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/history(?:\.html)?', HistoryPage),
         ('/attractions/([a-f0-9]{32})/edit(?:\.html)?', EditPage),
         ('/attractions/([a-f0-9]{32})/comment(?:\.html)?', CommentAdd),
+        ('/attractions/([a-f0-9]{32})/(?:un)?favourite(?:\.html)?', Favourite),
         ('/add(?:\.html)?', EditPage),
         ('/recent(?:\.(html|atom))?', RecentPage),
         ('/users/([a-z0-9-]+)(?:\.html)?', UserPage),

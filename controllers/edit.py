@@ -184,6 +184,7 @@ class EditPage(Controller):
         
         newAttraction = Attraction(
             parent = oldAttraction,
+            root = oldAttraction.root,
             previous = oldAttraction.id,
             name = attractionData['name'],
             region = attractionData['region'],

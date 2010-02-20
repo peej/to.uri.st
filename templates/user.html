@@ -13,9 +13,21 @@
     {% endif %}
     
     {% if attractions %}
-    <h3>Edited attractions</h3>
+    <h3>Recently edited</h3>
     <ol>
         {% for attraction in attractions %}
+        <li>
+            <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+            {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+    
+    {% if favourites %}
+    <h3>Favourites</h3>
+    <ol>
+        {% for attraction in favourites %}
         <li>
             <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
             {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
