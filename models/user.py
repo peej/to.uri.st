@@ -7,6 +7,7 @@ class User(db.Model):
     description = db.TextProperty()
     href = db.StringProperty()
     favourites = db.StringListProperty()
+    recommended = db.StringListProperty()
     itinerary = db.StringListProperty()
     datetime = db.DateTimeProperty(auto_now = True)
     
