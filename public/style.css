@@ -342,9 +342,7 @@ div.homepage-list {
 
 /* search */
 
-#search-results img,
-#search-results #map,
-#attraction #map {
+#search-results img {
     float: right;
     margin: 0 0 10px 10px;
     width: 300px;
@@ -381,6 +379,14 @@ div.homepage-list {
 
 #attraction h3 {
     margin-top: 4px;
+}
+
+#attraction #map {
+    float: right;
+    margin: 0 0 10px 10px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #999;
 }
 
 #attraction-nav {
