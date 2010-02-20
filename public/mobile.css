@@ -22,10 +22,10 @@
 }
 
 #search-results img,
-#search-results #map,
+#user img,
 #attraction #map {
     float: none;
-    margin: 10px 0;
+    margin: 10px auto;
 }
 
 /* map */

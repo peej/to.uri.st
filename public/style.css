@@ -46,6 +46,10 @@ h2 {
     border-bottom: 1px solid #000;
 }
 
+h3 {
+    margin-top: 1em;
+}
+
 p {
     margin: 0.5em 0;
 }
@@ -92,6 +96,18 @@ a:active {
 
 a.ext {
     color: #090;
+}
+
+/* inline map */
+
+#search-results img,
+#attraction #map,
+#user img {
+    float: right;
+    margin: 0 0 10px 10px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #999;
 }
 
 /* header */
@@ -342,14 +358,6 @@ div.homepage-list {
 
 /* search */
 
-#search-results img {
-    float: right;
-    margin: 0 0 10px 10px;
-    width: 300px;
-    height: 300px;
-    border: 1px solid #999;
-}
-
 #search-results ol {
     list-style-type: upper-alpha;
 }
@@ -379,14 +387,6 @@ div.homepage-list {
 
 #attraction h3 {
     margin-top: 4px;
-}
-
-#attraction #map {
-    float: right;
-    margin: 0 0 10px 10px;
-    width: 300px;
-    height: 300px;
-    border: 1px solid #999;
 }
 
 #attraction-nav {
@@ -559,3 +559,12 @@ ol.diff li.pic img.old {
     margin-right: 4px;
 }
 
+/* user */
+
+#user h3 {
+    clear: right;
+}
+
+#user img {
+    height: 200px;
+}

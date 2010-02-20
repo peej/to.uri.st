@@ -4,6 +4,13 @@
 
 {% block content %}
     
+    {% if owner %}
+    <div id="attraction-nav">
+        <span>User</span>
+        <a rel="edit" href="/users/{{ user.id|escape }}/edit.html">Edit</a>
+    </div>
+    {% endif %}
+    
     <h2>{{ user.name|escape }}</h2>
     
     {% if user.description %}
@@ -14,6 +21,7 @@
     
     {% if attractions %}
     <h3>Recently edited</h3>
+    <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
     <ol>
         {% for attraction in attractions %}
         <li>
@@ -26,6 +34,7 @@
     
     {% if favourites %}
     <h3>Favourites</h3>
+    <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in favourites %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
     <ol>
         {% for attraction in favourites %}
         <li>
@@ -36,6 +45,30 @@
     </ol>
     {% endif %}
     
-    {% if owner %}<a href="/users/{{ user.id|escape }}/edit.html">Edit your profile</a>{% endif %}
+    {% if recommended %}
+    <h3>Recommended</h3>
+    <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in recommended %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
+    <ol>
+        {% for attraction in recommended %}
+        <li>
+            <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+            {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+    
+    {% if itinerary %}
+    <h3>Itinerary</h3>
+    <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in itinerary %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
+    <ol>
+        {% for attraction in itinerary %}
+        <li>
+            <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+            {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
+        </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
     
 {% endblock %}
