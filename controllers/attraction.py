@@ -28,32 +28,24 @@ class AttractionPage(Controller):
                         "comment": "\r\n\r\n".join(exploded[1:])
                     })
             
-            from google.appengine.api import users
-            user = users.get_current_user()
-            userObject = self.getUserObject(user)
-            
-            if attraction.root in userObject.favourites:
-                favourite = True
-            else:
-                favourite = False
-            
-            if attraction.root in userObject.recommended:
-                recommended = True
-            else:
-                recommended = False
-            
-            if attraction.root in userObject.itinerary:
-                itinerary = True
-            else:
-                itinerary = False
-            
             template_values = {
                 'attraction': attraction,
-                'gpx': self.request.url.replace('.html', '.gpx'),
-                'favourite': favourite,
-                'recommended': recommended,
-                'itinerary': itinerary
+                'gpx': self.request.url.replace('.html', '.gpx')
             }
+            
+            from google.appengine.api import users
+            user = users.get_current_user()
+            if user:
+                userObject = self.getUserObject(user)
+                
+                if attraction.root in userObject.favourites:
+                    template_values['favourite'] = True
+                
+                if attraction.root in userObject.recommended:
+                    template_values['recommended'] = True
+                
+                if attraction.root in userObject.itinerary:
+                    template_values['itinerary'] = True
             
             self.output('attraction', type, template_values)
         else:
