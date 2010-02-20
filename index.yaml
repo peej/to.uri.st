@@ -31,6 +31,12 @@ indexes:
 - kind: Attraction
   properties:
   - name: next
+  - name: root
+  - name: name
+
+- kind: Attraction
+  properties:
+  - name: next
   - name: user
   - name: datetime
     direction: desc
@@ -41,6 +47,11 @@ indexes:
   - name: userid
   - name: datetime
     direction: desc
+
+- kind: Attraction
+  properties:
+  - name: root
+  - name: name
 
 - kind: Attraction
   properties:
