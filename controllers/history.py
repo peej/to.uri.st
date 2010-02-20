@@ -69,7 +69,8 @@ class HistoryPage(Controller):
         
         template_values = {
             'name': attraction.name,
-            'attractions': attractions
+            'attractions': attractions,
+            'atom': self.request.url.replace('.html', '.atom')
         }
         
         self.output('history', 'html', template_values)

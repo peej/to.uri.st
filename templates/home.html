@@ -23,7 +23,6 @@
                 </li>
             {% endfor %}
             </ul>
-            <a href="/recent.html">View more changes</a>
         {% else %}
             <p>Nothing</p>
         {% endifnotequal %}
@@ -46,7 +45,8 @@
     </div>
     
     <div class="nav">
-        <a href="/add.html" id="add">Add a new attraction</a>
+        <a class="recent" href="/recent.html">View the recent changes</a>
+        <a class="add" href="/add.html">Add a new attraction</a>
     </div>
     
 {% endblock %}

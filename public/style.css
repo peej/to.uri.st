@@ -185,6 +185,9 @@ form label.error {
 .nav {
     clear: both;
     margin: 1em 0;
+    padding: 2px 5px;
+    background: #eee;
+    border: 1px solid #ddd;
 }
 
 .nav a,
@@ -204,6 +207,9 @@ a.more {
 .nav a.gps { background-position: 0 -224px; }
 a.more { background-position: 0 -263px; }
 .nav a.search { background-position: 0 -300px; }
+.nav a.feed { background-position: 0 -338px; }
+.nav a.recent { background-position: 0 -376px; }
+.nav a.add { background-position: 0 -412px; }
 
 
 /* tag editor */
