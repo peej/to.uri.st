@@ -317,11 +317,31 @@ class Controller(webapp.RequestHandler):
         elif os.path.exists('templates' + self.request.path + '.html'):
             self.output(self.request.path[1:], 'html')
         else:
-            self.error(404)
-            self.output('404', 'html')
+            self.send404()
+    
+    def send404(self):
+        self.error(404)
+        self.output('404', 'html')
+        self.sendAdminMail('404')
     
     def handle_exception(self, exception, debug_mode):
         super(Controller, self).handle_exception(exception, debug_mode)
         if not debug_mode:
             self.error(500)
             self.output('500', 'html')
+        self.sendAdminMail('500')
+    
+    def sendAdminMail(self, errType):
+        from google.appengine.api import users
+        from google.appengine.api import mail
+        
+        user = users.get_current_user()
+        if user:
+            sender = user.email()
+        else:
+            sender = "peejeh@gmail.com"
+        
+        to = "support@to.uri.st"
+        subject = errType + " error"
+        body = self.request.path
+        mail.send_mail(sender, to, subject, body)
