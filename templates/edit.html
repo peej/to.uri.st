@@ -60,7 +60,7 @@
             <input type="text" name="tags" value="{% for tag in attraction.tags %}{{ tag|escape }}{% if not forloop.last %} {% endif %}{% endfor %}">
         </label>
         
-        <div class="nav">
+        <div class="buttons">
             <input type="submit" value="Save">
             <a href="/attractions/{{ attraction.id }}.html">Cancel</a>
         </div>

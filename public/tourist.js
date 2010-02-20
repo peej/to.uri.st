@@ -100,7 +100,6 @@ $(function () {
     
     
     var markerIcons = {
-        nature: "park-urban.png",
         wildlife: "animals.png",
         beach: "beach.png",
         lake: "lake.png",
@@ -135,7 +134,6 @@ $(function () {
         bar: "bar.png",
         cafe: "coffee.png",
         icecream: "icecream.png",
-        shop: "shoppingmall.png",
         
         bowling: "bowling.png",
         snooker: "billiard.png",
@@ -145,13 +143,11 @@ $(function () {
         casino: "casino.png",
         music: "music-rock.png",
         
-        historic: "museum-historical.png",
         archeological: "museum-archeological.png",
         naval: "museum-naval.png",
         war: "museum-war.png",
         science: "museum-science.png",
         crafts: "museum-crafts.png",
-        museum: "museum-art.png",
         
         themepark: "themepark.png",
         zoo: "zoo.png",
@@ -163,7 +159,6 @@ $(function () {
         
         playground: "playground.png",
         
-        stadium: "stadium.png",
         americanfootball: "usfootball.png",
         baseball: "baseball.png",
         basketball: "basketball.png",
@@ -191,15 +186,29 @@ $(function () {
         iceskating: "iceskating.png",
         snowboarding: "snowboarding.png",
         skiing: "skiing.png",
-        sport: "stadium.png"
+        stadium: "stadium.png",
+        
+        sport: "stadium.png",
+        nature: "park-urban.png",
+        shop: "shoppingmall.png",
+        historic: "museum-historical.png",
+        museum: "museum-art.png"
         
     };
     
     var getMarkerIcon = function (tags) {
         var icon = "info.png";
+        /*
         $.each(tags, function () {
             if (typeof markerIcons[this] == "string") {
                 icon = "http://google-maps-icons.googlecode.com/files/" + markerIcons[this];
+                return false;
+            }
+        });
+        */
+        $.each(markerIcons, function (item) {
+            if ($.inArray(item, tags) > -1) {
+                icon = "http://google-maps-icons.googlecode.com/files/" + markerIcons[item];
                 return false;
             }
         });

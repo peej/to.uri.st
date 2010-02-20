@@ -78,16 +78,6 @@ p#date {
     margin: 3em 0 10px;
 }
 
-.nav {
-    clear: both;
-    margin: 1em 0;
-}
-
-.nav a {
-    display: block;
-    margin: 2px 0;
-}
-
 a {
     color: #00e;
 }
@@ -189,6 +179,32 @@ form label.error {
     color: #f00;
     font-weight: bold;
 }
+
+/* nav */
+
+.nav {
+    clear: both;
+    margin: 1em 0;
+}
+
+.nav a,
+#add-comment,
+a.more {
+    display: block;
+    margin: 2px 0;
+    padding-left: 22px;
+    background: url(/_/icons.png) no-repeat 0 0;
+}
+
+.nav a.favourite { background-position: 0 -38px; }
+.nav a.recommend { background-position: 0 -76px; }
+.nav a.itinerary { background-position: 0 -114px; }
+.nav a.map { background-position: 0 -150px; }
+.nav a.picture { background-position: 0 -188px; }
+.nav a.gps { background-position: 0 -224px; }
+a.more { background-position: 0 -263px; }
+.nav a.search { background-position: 0 -300px; }
+
 
 /* tag editor */
 
