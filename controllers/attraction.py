@@ -38,9 +38,6 @@ class AttractionPage(Controller):
             if user:
                 userObject = self.getUserObject(user)
                 
-                if attraction.root in userObject.favourites:
-                    template_values['favourite'] = True
-                
                 if attraction.root in userObject.recommended:
                     template_values['recommended'] = True
                 

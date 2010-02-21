@@ -22,23 +22,35 @@ class UserPage(Controller):
         
         if userObject:
             
-            attractions = Attraction.all()
-            attractions.filter("userid =", userid)
-            attractions.filter("next =", None)
-            attractions.order("-datetime")
-            
-            favourites = Attraction.all()
-            favourites.filter("root IN", userObject.favourites)
-            favourites.filter("next =", None)
-            favourites.order("name")
-            
             template_values = {
                 'user': userObject,
-                'owner': owner,
-                'attractions': attractions.fetch(10),
-                'favourites': favourites
+                'owner': owner
             }
             
+            edited = Attraction.all()
+            edited.filter("userid =", userid)
+            edited.filter("next =", None)
+            edited.order("-datetime")
+            
+            if edited.count() > 0:
+                template_values['edited'] = edited.fetch(10)
+            
+            recommended = Attraction.all()
+            recommended.filter("root IN", userObject.recommended)
+            recommended.filter("next =", None)
+            recommended.order("name")
+            
+            if recommended.count() > 0:
+                template_values['recommended'] = recommended
+            
+            itinerary = Attraction.all()
+            itinerary.filter("root IN", userObject.itinerary)
+            itinerary.filter("next =", None)
+            itinerary.order("name")
+            
+            if itinerary.count() > 0:
+                template_values['itinerary'] = itinerary
+                
             self.output('user', 'html', template_values)
         else:
             self.output('404', 'html')

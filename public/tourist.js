@@ -274,6 +274,34 @@ $(function () {
             
         }).css("cursor", "pointer").attr("title", "Load an interactive map");
         
+        $(".nav .recommend").click(function () {
+            var that = $(this);
+            $.post(that.attr("href"), null, function () {
+                if (that.hasClass("recommended")) {
+                    that.text("Recommend this attraction");
+                    that.removeClass("recommended");
+                } else {
+                    that.text("Stop recommending this attraction");
+                    that.addClass("recommended");
+                }
+            });
+            return false;
+        });
+        
+        $(".nav .itinerary").click(function () {
+            var that = $(this);
+            $.post(that.attr("href"), null, function () {
+                if (that.hasClass("added")) {
+                    that.text("Add to your itinerary");
+                    that.removeClass("added");
+                } else {
+                    that.text("Remove from your itinerary");
+                    that.addClass("added");
+                }
+            });
+            return false;
+        });
+        
         break;
         
     case "map":

@@ -1,0 +1,14 @@
+{% extends "shell.html" %}
+
+{% block title %}Are you sure? : to.uri.st{% endblock %}
+
+{% block content %}
+    
+    <h2>Are you sure?</h2>
+    
+    <form action="{{ yes }}" method="post">
+        <input type="submit" value="Yes">
+        <a href="{{ no }}">No</a>
+    </form>
+    
+{% endblock %}

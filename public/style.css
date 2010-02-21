@@ -215,8 +215,9 @@ a.more {
     background: url(/_/icons.png) no-repeat 0 0;
 }
 
-.nav a.favourite { background-position: 0 -38px; }
+.nav a.recommend.recommended { background-position: 0 -38px; }
 .nav a.recommend { background-position: 0 -76px; }
+.nav a.itinerary.added { background-position: 0 -449px; }
 .nav a.itinerary { background-position: 0 -114px; }
 .nav a.map { background-position: 0 -150px; }
 .nav a.picture { background-position: 0 -188px; }

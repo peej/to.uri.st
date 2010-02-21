@@ -95,13 +95,16 @@
     <p id="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.userid %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}</p>
     
     <div class="nav">
-    {% if favourite %}
-        <a class="favourite" href="/attractions/{{ attraction.id|escape }}/unfavourite.html">Remove as a favourite</a>
+    {% if recommended %}
+        <a class="recommend recommended" href="/attractions/{{ attraction.id|escape }}/unrecommend.html">Stop recommending this attraction</a>
     {% else %}
-        <a class="favourite" href="/attractions/{{ attraction.id|escape }}/favourite.html">Add as a favourite</a>
-    {% endif %}
         <a class="recommend" href="/attractions/{{ attraction.id|escape }}/recommend.html">Recommend this attraction</a>
+    {% endif %}
+    {% if itinerary %}
+        <a class="itinerary added" href="/attractions/{{ attraction.id|escape }}/unitinerary.html">Remove from your itinerary</a>
+    {% else %}
         <a class="itinerary" href="/attractions/{{ attraction.id|escape }}/itinerary.html">Add to your itinerary</a>
+    {% endif %}
     </div>
     
     <div class="nav">
