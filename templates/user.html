@@ -13,30 +13,30 @@
     
     <h2>{{ user.name|escape }}</h2>
     
+    {% if user.badges %}
+    <ul id="badges">
+        {% if user.badges.1 %}
+        <li><img src="/_/badges/1.png" alt="Newbie" title="Newbie: You've edited your first attraction ({{ user.badges.1|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.2 %}
+        <li><img src="/_/badges/2.png" alt="Tripple wammy" title="Tripple wammy: You're 3rd edit is in the bag ({{ user.badges.2|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.3 %}
+        <li><img src="/_/badges/3.png" alt="Day tripper" title="Day tripper: 10 attractions updated ({{ user.badges.3|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.4 %}
+        <li><img src="/_/badges/4.png" alt="Know it all" title="Know it all: 25 attractions updated ({{ user.badges.4|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.5 %}
+        <li><img src="/_/badges/5.png" alt="Superstar" title="Superstar: Wow! You've hit the ton, 100 attractions updated ({{ user.badges.5|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+    </ul>
+    {% endif %}
+    
     {% if user.description %}
         {{ user.description|escape|linebreaks }}
     {% else %}
         <p><em>Nothing to see here as yet.</em></p>
-    {% endif %}
-    
-    {% if user.badges %}
-    <ul id="badges">
-        {% if user.badges.1 %}
-        <li class="badge1">Newbie: You've edited your first attraction ({{ user.badges.1|date:"jS F Y \a\t H:i" }})</li>
-        {% endif %}
-        {% if user.badges.2 %}
-        <li class="badge2">Tripple wammy: 3 edits ({{ user.badges.2|date:"jS F Y \a\t H:i" }})</li>
-        {% endif %}
-        {% if user.badges.3 %}
-        <li class="badge3">Day tripper: 10 edits ({{ user.badges.3|date:"jS F Y \a\t H:i" }})</li>
-        {% endif %}
-        {% if user.badges.4 %}
-        <li class="badge4">Know it all: 25 edits ({{ user.badges.4|date:"jS F Y \a\t H:i" }})</li>
-        {% endif %}
-        {% if user.badges.5 %}
-        <li class="badge5">Superstar: 100 edits ({{ user.badges.5|date:"jS F Y \a\t H:i" }})</li>
-        {% endif %}
-    </ul>
     {% endif %}
     
     {% if edited %}
