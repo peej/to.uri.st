@@ -200,11 +200,11 @@ $(function () {
         var icon = "info.png";
         $.each(markerIcons, function (item) {
             if ($.inArray(item, tags) > -1) {
-                icon = "http://google-maps-icons.googlecode.com/files/" + markerIcons[item];
+                icon = markerIcons[item];
                 return false;
             }
         });
-        return icon;
+        return "http://google-maps-icons.googlecode.com/files/" + icon;
     };
     
     
@@ -434,16 +434,16 @@ $(function () {
         $("label.picture").append("<span>Change</span>");
         var picturePage = 1;
         $("label.picture span").click(function () {
-            if ($("label.picture ul").length == 0) {
-                $("label.picture").append("<div><ul></ul></div>");
-            }
             $.getJSON(
-                "http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&api_key=abfb0fa992b89d701afa5342e183639f&license=4,5,6&per_page=10&page=" + picturePage + "&text=leeds%20castle&jsoncallback=?",
+                "http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&api_key=abfb0fa992b89d701afa5342e183639f&license=4,5,6&per_page=10&page=" + picturePage + "&text=" + encodeURI($("input[name=name]").val()) + "&jsoncallback=?",
                 function (data) {
-                    if (data.stat == "ok") {
+                    if (data.stat == "ok" && data.photos.photo.length > 0) {
+                        if ($("label.picture ul").length == 0) {
+                            $("label.picture").append("<div><ul></ul></div>");
+                        }
                         $.each(data.photos.photo, function () {
                             $("label.picture ul")
-                                .append('<li><img src="http://farm' + this.farm + '.static.flickr.com/' + this.server + '/' + this.id + '_' + this.secret + '_s.jpg" alt=""></li>')
+                                .append('<li><img src="http://farm' + this.farm + '.static.flickr.com/' + this.server + '/' + this.id + '_' + this.secret + '_s.jpg" alt="" title="' + this.title + '"></li>')
                                 .css("width", $("label.picture li").length * 80);
                         });
                         $("label.picture ul img").click(function () {
@@ -457,6 +457,8 @@ $(function () {
                         });
                         $("label.picture span").text("More pictures");
                         picturePage++;
+                    } else {
+                        $("label.picture span").text("No pictures found on Flickr for this attraction");
                     }
                 }
             );

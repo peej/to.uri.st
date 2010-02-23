@@ -28,9 +28,16 @@ class Recommend(Controller):
                 
                 if attraction.root in userObject.recommended:
                     userObject.recommended.remove(attraction.root)
+                    if attraction.rating > 0:
+                        attraction.rating = attraction.rating - 1
                 else:
                     userObject.recommended.append(attraction.root)
+                    if type(attraction.rating) == long:
+                        attraction.rating = attraction.rating + 1
+                    else:
+                        attraction.rating = 1
                 
+                attraction.put()
                 userObject.put()
                 
         self.redirect('/attractions/' + attractionId + '.html')

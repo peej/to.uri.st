@@ -569,3 +569,8 @@ ol.diff li.pic img.old {
 #user img {
     height: 200px;
 }
+
+ul#badges {
+    width: 300px;
+    float: right;
+}

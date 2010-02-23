@@ -23,11 +23,6 @@
             <input type="text" name="name" value="{{ attraction.name|escape }}" maxlength="100">
         </label>
         
-        <label{% if errors.region %} class="error"{% endif %}>
-            Region:
-            <input type="text" name="region" value="{{ attraction.region|escape }}" maxlength="100">
-        </label>
-        
         <label>
             Description:
             <textarea name="description">{{ attraction.description|escape }}</textarea>

@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+import dictproperty
 
 class User(db.Model):
     id = db.StringProperty()
@@ -8,5 +9,7 @@ class User(db.Model):
     href = db.StringProperty()
     recommended = db.StringListProperty()
     itinerary = db.StringListProperty()
+    stats = dictproperty.DictProperty()
+    badges = dictproperty.DictProperty()
     datetime = db.DateTimeProperty(auto_now = True)
     

@@ -45,6 +45,7 @@ class RecentPage(Controller):
             attractions.sort()
             
             template_values['coords'] = '%.1f,%.1f' % (lat, lon)
+            template_values['atomtag'] = 'recent:' + template_values['coords']
             
         else:
             page = int(self.request.get("page", 1));
@@ -58,6 +59,8 @@ class RecentPage(Controller):
             if page > 1:
                 template_values['previous'] = self.request.path + '?page=' + str(page - 1)
             template_values['next'] = self.request.path + '?page=' + str(page + 1)
+            
+            template_values['atomtag'] = 'recent'
         
         updated = None
         numberOfAttractions = len(attractions)
@@ -73,7 +76,6 @@ class RecentPage(Controller):
         template_values['updated'] = updated
         
         template_values['url'] = self.request.url
-        template_values['tag'] = self.request.path
         template_values['atom'] = self.request.url.replace('.html', '.atom')
         
         self.output('recent', type, template_values)

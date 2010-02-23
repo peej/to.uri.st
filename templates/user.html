@@ -19,6 +19,26 @@
         <p><em>Nothing to see here as yet.</em></p>
     {% endif %}
     
+    {% if user.badges %}
+    <ul id="badges">
+        {% if user.badges.1 %}
+        <li class="badge1">Newbie: You've edited your first attraction ({{ user.badges.1|date:"jS F Y \a\t H:i" }})</li>
+        {% endif %}
+        {% if user.badges.2 %}
+        <li class="badge2">Tripple wammy: 3 edits ({{ user.badges.2|date:"jS F Y \a\t H:i" }})</li>
+        {% endif %}
+        {% if user.badges.3 %}
+        <li class="badge3">Day tripper: 10 edits ({{ user.badges.3|date:"jS F Y \a\t H:i" }})</li>
+        {% endif %}
+        {% if user.badges.4 %}
+        <li class="badge4">Know it all: 25 edits ({{ user.badges.4|date:"jS F Y \a\t H:i" }})</li>
+        {% endif %}
+        {% if user.badges.5 %}
+        <li class="badge5">Superstar: 100 edits ({{ user.badges.5|date:"jS F Y \a\t H:i" }})</li>
+        {% endif %}
+    </ul>
+    {% endif %}
+    
     {% if edited %}
     <h3>Recently edited</h3>
     <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in edited %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
@@ -26,7 +46,7 @@
         {% for attraction in edited %}
         <li>
             <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
-            {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
+            on {{ attraction.datetime|date:"jS F Y \a\t H:i" }}
         </li>
         {% endfor %}
     </ol>

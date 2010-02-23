@@ -92,7 +92,10 @@
     </ol>
     {% endif %}
     
-    <p id="date">{% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.userid %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}</p>
+    <p id="date">
+        {% if attraction.parent %}Last modified{% else %}Created{% endif %} {{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago) by {% if attraction.userid %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
+        {% if attraction.rating %}<br>{{ attraction.rating }} pe{{ attraction.rating|pluralize:"rson has,ople have" }} recommended this attaction{% endif %}
+    </p>
     
     <div class="nav">
     {% if recommended %}

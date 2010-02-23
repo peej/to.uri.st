@@ -5,7 +5,7 @@ from controllers.controller import Controller
 from models.attraction import Attraction
 
 class HistoryPage(Controller):
-    def get(self, attractionId):
+    def get(self, attractionId, type):
         
         attractions = []
         
@@ -70,8 +70,10 @@ class HistoryPage(Controller):
         template_values = {
             'name': attraction.name,
             'attractions': attractions,
-            'atom': self.request.url.replace('.html', '.atom')
+            'atom': self.request.url.replace('.html', '.atom'),
+            'atomtag': 'history:' + attraction.root,
+            'url': self.request.url
         }
         
-        self.output('history', 'html', template_values)
+        self.output('history', type, template_values)
         

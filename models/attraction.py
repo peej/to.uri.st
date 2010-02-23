@@ -12,7 +12,7 @@ class Attraction(db.Model):
     picture = db.StringProperty()
     region = db.StringProperty()
     free = db.BooleanProperty(default = True)
-    rating = db.RatingProperty()
+    rating = db.IntegerProperty(default = 0)
     tags = db.StringListProperty()
     userid = db.StringProperty()
     username = db.StringProperty()

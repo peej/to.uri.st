@@ -275,18 +275,23 @@ class Controller(webapp.RequestHandler):
         
     def getUserId(self, user):
         from google.appengine.api import users
+        
         if type(user) == users.User:
             email = user.email()
         elif type(user) == unicode or type(user) == str:
             email = user
         else:
             email = ''
+        
         return email.replace('@', '-').replace('.', '-')
     
-    def getUserObject(self, user):
+    def getUserObject(self, user = None):
         
         from google.appengine.api import users
         from models.user import User
+        
+        if user == None:
+            user = users.get_current_user()
         
         userId = self.getUserId(user)
         
@@ -345,3 +350,42 @@ class Controller(webapp.RequestHandler):
         subject = errType + " error"
         body = self.request.path
         mail.send_mail(sender, to, subject, body)
+    
+    def addStat(self, user, id, subId = None):
+        if subId == None:
+            try:
+                user.stats[id] = user.stats[id] + 1
+            except:
+                user.stats[id] = 1
+        else:
+            try:
+                user.stats[id][subId] = user.stats[id][subId] + 1
+            except:
+                try:
+                    user.stats[id][subId] = 1
+                except:
+                    user.stats[id] = {}
+                    user.stats[id][subId] = 1
+    
+    def updateBadges(self, user):
+        from datetime import datetime
+        
+        # edits
+        if user.stats[1] >= 100 and not 5 in user.badges:
+            user.badges[5] = datetime.today()
+        elif user.stats[1] >= 25 and not 4 in user.badges:
+            user.badges[4] = datetime.today()
+        elif user.stats[1] >= 10 and not 3 in user.badges:
+            user.badges[3] = datetime.today()
+        elif user.stats[1] >= 3 and not 2 in user.badges:
+            user.badges[2] = datetime.today()
+        elif user.stats[1] >= 1 and not 1 in user.badges:
+            user.badges[1] = datetime.today()
+        
+        # local edits
+        for loc in user.stats[2]:
+            if loc >= 20 and not 7 in user.badges:
+                user.badges[7] = datetime.today()
+            elif loc >= 5 and not 6 in user.badges:
+                user.badges[6] = datetime.today()
+            

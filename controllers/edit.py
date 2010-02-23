@@ -26,7 +26,6 @@ class EditPage(Controller):
         attraction = {}
         attraction['id'] = attractionId
         attraction['name'] = self.request.get('name')
-        attraction['region'] = self.request.get('region')
         attraction['description'] = self.request.get('description')
         attraction['location'] = {}
         attraction['location']['lat'] = self.request.get('lat')
@@ -47,9 +46,6 @@ class EditPage(Controller):
         if len(attraction['name']) > 100:
             errors['name'] = True
             errors['name_long'] = True
-        
-        if len(attraction['region']) > 100:
-            errors['region'] = True
         
         if not attraction['location']['lat'] or float(attraction['location']['lat']) < -90 or float(attraction['location']['lat']) > 90:
             errors['location'] = True
@@ -126,7 +122,7 @@ class EditPage(Controller):
         db.run_in_transaction(self.removeFromGeoBox, oldGeoBox.key(), latestAttraction.id)
         
         try:
-            newId = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
+            newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
             
             geobox = GeoBox.all()
             geobox.filter("lat =", newGeoBoxId[0])
@@ -140,11 +136,28 @@ class EditPage(Controller):
                 )
                 newGeoBox.put()
             
-            db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newId)
+            db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newAttraction.id)
             
-            self.getUserObject(attraction['username']) # create user object if it doesn't exist
+            user = self.getUserObject() # create user object if it doesn't exist
             
-            return newId
+            # update stats
+            self.addStat(user, 1) # new edit
+            self.addStat(user, 2, newAttraction.region) # edit location
+            if newAttraction.picture != '' and latestAttraction.picture == '':
+                self.addStat(user, 4) # new picture
+            if 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
+                self.addStat(user, 5) # new dupe tag added
+            if newAttraction.name == latestAttraction.name \
+                and newAttraction.description == latestAttraction.description \
+                and newAttraction.href == latestAttraction.href \
+                and newAttraction.picture == latestAttraction.picture \
+                and newAttraction.tags == latestAttraction.tags:
+                self.addStat(user, 8) # no change idiot
+            
+            self.updateBadges(user)
+            user.put()
+            
+            return newAttraction.id
             
         except db.TransactionFailedError: # undo geobox update
             db.run_in_transaction(self.addToGeoBox, oldGeoBox.key(), latestAttraction.id)
@@ -171,6 +184,8 @@ class EditPage(Controller):
     def createAttraction(self, key, attractionData):
         
         from google.appengine.api import users
+        import urllib
+        from django.utils import simplejson
         
         oldAttraction = db.get(key)
         
@@ -182,12 +197,35 @@ class EditPage(Controller):
             attractionData['userid'] = self.getUserId(self.request.remote_addr)
             attractionData['username'] = self.request.remote_addr
         
+        url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(attractionData['location']['lat']), float(attractionData['location']['lon']))
+        jsonString = urllib.urlopen(url).read()
+        if jsonString:
+            data = simplejson.loads(jsonString)
+            try:
+                if (
+                    'Country' in data['Placemark'][0]['AddressDetails'] and 
+                    'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
+                    'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
+                    'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea'] and
+                    'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
+                ):
+                    region = "%s, %s" % (
+                        data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                        data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                    )
+                else:
+                    region = 'Unknown location'
+            except:
+                region = 'Unknown location'
+        else:
+            region = 'Unknown location'
+        
         newAttraction = Attraction(
             parent = oldAttraction,
             root = oldAttraction.root,
             previous = oldAttraction.id,
             name = attractionData['name'],
-            region = attractionData['region'],
+            region = region,
             description = attractionData['description'],
             location = db.GeoPt(
                 lat = attractionData['location']['lat'],
@@ -209,4 +247,4 @@ class EditPage(Controller):
         oldAttraction.put()
         newAttraction.put()
         
-        return newAttraction.id
+        return newAttraction

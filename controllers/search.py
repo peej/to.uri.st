@@ -164,6 +164,7 @@ class SearchPage(Controller):
         
         template_values['url'] = self.request.url
         
+        template_values['atomtag'] = self.request.path
         template_values['atom'] = self.request.url.replace('.html', '.atom')
         template_values['json'] = self.request.url.replace('.html', '.js')
         template_values['gpx'] = self.request.url.replace('.html', '.gpx')

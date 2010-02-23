@@ -15,6 +15,6 @@
 		<name>to.uri.st</name>
 		<uri>http://to.uri.st/</uri>
 	</author>
-	<id>tag:to.uri.st,2010:{{ tag|escape }}</id>
+	<id>tag:to.uri.st,2010:{{ atomtag|escape }}</id>
 	{% block entries %}{% endblock %}
 </feed>
