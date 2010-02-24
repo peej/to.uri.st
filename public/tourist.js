@@ -430,10 +430,11 @@ $(function () {
         
         $("label.picture input")
             .css("display", "none")
-            .appendTo("form");
-        $("label.picture").append("<span>Change</span>");
+            .appendTo("#content form");
+        $("label.picture").append('<span class="change">Change</span> <span class="paste">Paste in Flickr URL</span>');
         var picturePage = 1;
-        $("label.picture span").click(function () {
+        $("label.picture span.change").click(function () {
+            $("label.picture span.change").text("Loading...");
             $.getJSON(
                 "http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&api_key=abfb0fa992b89d701afa5342e183639f&license=4,5,6&per_page=10&page=" + picturePage + "&text=" + encodeURI($("input[name=name]").val()) + "&jsoncallback=?",
                 function (data) {
@@ -454,14 +455,23 @@ $(function () {
                                 $("label.picture span").before('<img src="' + newUrl + '" class="picture" alt="">');
                             }
                             $("input[name=picture]").val(newUrl);
+                            $("label.picture div").remove();
+                            $("label.picture span.change").text("Change");
                         });
-                        $("label.picture span").text("More pictures");
+                        $("label.picture span.change").text("More pictures");
                         picturePage++;
                     } else {
-                        $("label.picture span").text("No pictures found on Flickr for this attraction");
+                        $("label.picture span.change").text("No pictures found on Flickr for this attraction");
                     }
                 }
             );
+        });
+        $("label.picture span.paste").click(function () {
+            $("label.picture div, label.picture span").remove();
+            $("input[name=picture]")
+                .appendTo("label.picture")
+                .css("display", "block")
+                .focus();
         });
         
         break;
