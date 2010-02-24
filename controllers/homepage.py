@@ -12,7 +12,7 @@ class HomePage(Controller):
         
         popular = Attraction.all()
         popular.filter("next =", None)
-        popular.order("rating")
+        popular.order("-rating")
         
         template_values = {
             'recent': recent.fetch(5),

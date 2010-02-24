@@ -31,6 +31,12 @@ indexes:
 - kind: Attraction
   properties:
   - name: next
+  - name: rating
+    direction: desc
+
+- kind: Attraction
+  properties:
+  - name: next
   - name: root
   - name: name
 
