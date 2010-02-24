@@ -572,6 +572,7 @@ ol.diff li.pic img.old {
 
 ul#badges {
     width: 300px;
+    margin: 0;
     float: right;
     list-style: none;
 }

@@ -384,8 +384,16 @@ class Controller(webapp.RequestHandler):
         
         # local edits
         for loc in user.stats[2]:
-            if loc >= 20 and not 7 in user.badges:
+            if user.stats[2][loc] >= 20 and not 7 in user.badges:
                 user.badges[7] = datetime.today()
-            elif loc >= 5 and not 6 in user.badges:
+            elif user.stats[2][loc] >= 5 and not 6 in user.badges:
                 user.badges[6] = datetime.today()
-            
+        
+        # comments
+        if user.stats[6] >= 25 and not 16 in user.badges:
+            user.badges[16] = datetime.today()
+        elif user.stats[6] >= 5 and not 15 in user.badges:
+            user.badges[15] = datetime.today()
+        elif user.stats[6] >= 1 and not 14 in user.badges:
+            user.badges[14] = datetime.today()
+

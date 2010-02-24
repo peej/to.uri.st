@@ -38,6 +38,14 @@ class CommentAdd(EditPage):
             
             newId = self.saveAttraction(latestAttraction, data)
             
+            user = self.getUserObject() # create user object if it doesn't exist
+            
+            # update stats
+            self.addStat(user, 6)
+            
+            self.updateBadges(user)
+            user.put()
+            
             self.redirect('/attractions/' + newId + '.html')
             return
 

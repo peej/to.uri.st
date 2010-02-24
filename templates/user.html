@@ -30,13 +30,28 @@
         {% if user.badges.5 %}
         <li><img src="/_/badges/5.png" alt="Superstar" title="Superstar: Wow! You've hit the ton, 100 attractions updated ({{ user.badges.5|date:"jS F Y \a\t H:i" }})"></li>
         {% endif %}
+        {% if user.badges.6 %}
+        <li><img src="/_/badges/6.png" alt="Local" title="Local: Keeping it local, you've edited 5 attractions in the same neighbourhood ({{ user.badges.6|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.7 %}
+        <li><img src="/_/badges/7.png" alt="Native" title="Native: You're putting down roots, 20 edits in one neighbourhood ({{ user.badges.7|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.11 %}
+        <li><img src="/_/badges/11.png" alt="A thousand words" title="A thousand words: A picture tells a thousand words, or so they say ({{ user.badges.11|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.12 %}
+        <li><img src="/_/badges/12.png" alt="Shutterbug" title="Shutterbug: You're a photo finding hero ({{ user.badges.12|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.14 %}
+        <li><img src="/_/badges/14.png" alt="Commentator" title="Commentator: Congratulations on your first comment ({{ user.badges.14|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
     </ul>
     {% endif %}
     
     {% if user.description %}
         {{ user.description|escape|linebreaks }}
     {% else %}
-        <p><em>Nothing to see here as yet.</em></p>
+        <p><em>This user hasn't added a profile yet.</em></p>
     {% endif %}
     
     {% if edited %}
