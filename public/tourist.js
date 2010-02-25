@@ -358,7 +358,7 @@ $(function () {
             .appendTo("form");
         
         var addTag = function () {
-            if ($(".tags input").val()) {
+            if ($(".tags input").val() != "") {
                 $("input[name=tags]").val($("input[name=tags]").val() + " " + $(".tags input").val());
                 $("label.tags ul#tags").append("<li>" + $(".tags input").val() + " <span>x</span></li>");
                 $(".tags input").val("");
@@ -410,7 +410,9 @@ $(function () {
             });
         
         $.each($("input[name=tags]").val().split(" "), function () {
-            $("label.tags ul#tags").append("<li>" + this + " <span>x</span></li>");
+            if (this != "") {
+                $("label.tags ul#tags").append("<li>" + this + " <span>x</span></li>");
+            }
         });
         
         $("ul#tags li span").live("click", function () {
