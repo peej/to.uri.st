@@ -1,9 +1,10 @@
 {% extends "shell.html" %}
 
-{% block title %}Editing "{{attraction.name|escape }}" : to.uri.st{% endblock %}
+{% block title %}{% if attraction.id %}Editing "{{attraction.name|escape }}"{% else %}Add a new attraction{% endif %} : to.uri.st{% endblock %}
 
 {% block content %}
     
+    {% if attraction.id %}
     <div id="attraction-nav">
         <a href="/attractions/{{ attraction.id }}.html">Attraction</a>
         <span>Edit</span>
@@ -11,6 +12,9 @@
     </div>
     
     <h2>Edit "{{ attraction.name|escape }}"</h2>
+    {% else %}
+    <h2>Add a new attraction</h2>
+    {% endif %}
     
     {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}
     
@@ -57,7 +61,11 @@
         
         <div class="buttons">
             <input type="submit" value="Save">
+            {% if attraction.id %}
             <a href="/attractions/{{ attraction.id }}.html">Cancel</a>
+            {% else %}
+            <a href="/">Cancel</a>
+            {% endif %}
         </div>
         
     </form>
