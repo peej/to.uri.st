@@ -1,0 +1,18 @@
+{% extends "shell.html" %}
+
+{% block title %}{{ name }} : to.uri.st{% endblock %}
+
+{% block content %}
+    
+    <h2>You've earnt a new badge</h2>
+    
+    <div class="badge">
+        <img src="{{ src }}" alt="{{ name }}">
+        <h3>{{ name }}</h3>
+        <p>{{ description }}</p>
+    </div>
+    
+    <p>It's been added to your <a href="/users/{{ username }}.html">user profile</a> where it will be proudly
+    displayed forever.</p>
+    
+{% endblock %}

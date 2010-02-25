@@ -12,6 +12,7 @@ from controllers.recommend import Recommend
 from controllers.itinerary import Itinerary
 from controllers.recent import RecentPage
 from controllers.user import UserPage
+from controllers.badge import Badge
 
 application = webapp.WSGIApplication(
     [
@@ -26,6 +27,7 @@ application = webapp.WSGIApplication(
         ('/add(?:\.html)?', EditPage),
         ('/recent(?:\.(html|atom))?', RecentPage),
         ('/users/([a-z0-9-]+)(?:\.html)?', UserPage),
+        ('/badges/([0-9]+)(?:\.html)?', Badge),
         ('/.*', Controller)
     ],
     debug=True

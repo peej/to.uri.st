@@ -24,7 +24,8 @@ class UserPage(Controller):
             
             template_values = {
                 'user': userObject,
-                'owner': owner
+                'owner': owner,
+                'badges': self.badges
             }
             
             edited = Attraction.all()

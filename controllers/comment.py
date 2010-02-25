@@ -43,9 +43,12 @@ class CommentAdd(EditPage):
             # update stats
             self.addStat(user, 6)
             
-            self.updateBadges(user)
+            newBadges = self.updateBadges(user)
             user.put()
             
-            self.redirect('/attractions/' + newId + '.html')
+            if newBadges:
+                self.redirect('/badges/%s.html' % newBadges.pop(0))
+            else:
+                self.redirect('/attractions/' + newId + '.html')
             return
 

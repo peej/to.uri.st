@@ -232,6 +232,74 @@ class Controller(webapp.RequestHandler):
         'snowboarding': 'snowboarding'
     }
     
+    badges = {
+        '1': {
+            'src': '/_/badges/1.png',
+            'name': 'Newbie',
+            'description': 'You\'ve edited your first attraction'
+        },
+        '2': {
+            'src': '/_/badges/2.png',
+            'name': 'Tripple wammy',
+            'description': 'You\'re 3rd edit is in the bag'
+        },
+        '3': {
+            'src': '/_/badges/3.png',
+            'name': 'Day tripper',
+            'description': '10 attractions updated'
+        },
+        '4': {
+            'src': '/_/badges/4.png',
+            'name': 'Know it all',
+            'description': '25 attractions updated'
+        },
+        '5': {
+            'src': '/_/badges/5.png',
+            'name': 'Superstar',
+            'description': 'Wow! You\'ve hit the ton, 100 attractions updated'
+        },
+        '6': {
+            'src': '/_/badges/6.png',
+            'name': 'Local',
+            'description': 'Keeping it local, you\'ve edited 5 attractions in the same neighbourhood'
+        },
+        '7': {
+            'src': '/_/badges/7.png',
+            'name': 'Native',
+            'description': 'You\'re putting down roots, 20 edits in one neighbourhood'
+        },
+        '11': {
+            'src': '/_/badges/11.png',
+            'name': 'A thousand words',
+            'description': 'A picture tells a thousand words, or so they say'
+        },
+        '12': {
+            'src': '/_/badges/12.png',
+            'name': 'Shutterbug',
+            'description': 'You\'re a photo finding hero'
+        },
+        '13': {
+            'src': '/_/badges/13.png',
+            'name': 'Dead ringer',
+            'description': 'Thanks for identifying 3 duplicate attractions'
+        },
+        '14': {
+            'src': '/_/badges/14.png',
+            'name': 'Commentator',
+            'description': 'Congratulations on your first comment'
+        },
+        '15': {
+            'src': '/_/badges/15.png',
+            'name': 'Gossip',
+            'description': 'Keep spreading the love with your words of wisdom'
+        },
+        '16': {
+            'src': '/_/badges/16.png',
+            'name': 'Motormouth',
+            'description': 'Give your mouth a rest, that\'s 25 comments'
+        }
+    }
+    
     def output(self, templateName, type = 'html', values = {}):
         
         path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName + '.' + type)
@@ -370,30 +438,42 @@ class Controller(webapp.RequestHandler):
     def updateBadges(self, user):
         from datetime import datetime
         
+        oldBadges = user.badges.copy()
+        
         # edits
-        if user.stats[1] >= 100 and not 5 in user.badges:
-            user.badges[5] = datetime.today()
-        elif user.stats[1] >= 25 and not 4 in user.badges:
-            user.badges[4] = datetime.today()
-        elif user.stats[1] >= 10 and not 3 in user.badges:
-            user.badges[3] = datetime.today()
-        elif user.stats[1] >= 3 and not 2 in user.badges:
-            user.badges[2] = datetime.today()
-        elif user.stats[1] >= 1 and not 1 in user.badges:
-            user.badges[1] = datetime.today()
+        try:
+            if user.stats[1] >= 100 and not 5 in user.badges:
+                user.badges[5] = datetime.today()
+            elif user.stats[1] >= 25 and not 4 in user.badges:
+                user.badges[4] = datetime.today()
+            elif user.stats[1] >= 10 and not 3 in user.badges:
+                user.badges[3] = datetime.today()
+            elif user.stats[1] >= 3 and not 2 in user.badges:
+                user.badges[2] = datetime.today()
+            elif user.stats[1] >= 1 and not 1 in user.badges:
+                user.badges[1] = datetime.today()
+        except:
+            pass
         
         # local edits
-        for loc in user.stats[2]:
-            if user.stats[2][loc] >= 20 and not 7 in user.badges:
-                user.badges[7] = datetime.today()
-            elif user.stats[2][loc] >= 5 and not 6 in user.badges:
-                user.badges[6] = datetime.today()
+        try:
+            for loc in user.stats[2]:
+                if user.stats[2][loc] >= 20 and not 7 in user.badges:
+                    user.badges[7] = datetime.today()
+                elif user.stats[2][loc] >= 5 and not 6 in user.badges:
+                    user.badges[6] = datetime.today()
+        except:
+            pass
         
         # comments
-        if user.stats[6] >= 25 and not 16 in user.badges:
-            user.badges[16] = datetime.today()
-        elif user.stats[6] >= 5 and not 15 in user.badges:
-            user.badges[15] = datetime.today()
-        elif user.stats[6] >= 1 and not 14 in user.badges:
-            user.badges[14] = datetime.today()
-
+        try:
+            if user.stats[6] >= 25 and not 16 in user.badges:
+                user.badges[16] = datetime.today()
+            elif user.stats[6] >= 5 and not 15 in user.badges:
+                user.badges[15] = datetime.today()
+            elif user.stats[6] >= 1 and not 14 in user.badges:
+                user.badges[14] = datetime.today()
+        except:
+            pass
+        
+        return [val for val in user.badges if val not in oldBadges]

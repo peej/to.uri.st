@@ -6,17 +6,18 @@ from models.attraction import Attraction
 
 class EditPage(Controller):
     
-    def get(self, attractionId):
+    def get(self, attractionId = None):
         
-        query = Attraction.all()
-        query.filter("id =", attractionId)
-        attraction = query.get()
+        template_values = {}
         
-        attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
-        
-        template_values = {
-            'attraction': attraction
-        }
+        if attractionId:
+            query = Attraction.all()
+            query.filter("id =", attractionId)
+            attraction = query.get()
+            
+            attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
+            
+            template_values['attraction'] = attraction
         
         self.output('edit', 'html', template_values)
     
@@ -83,22 +84,46 @@ class EditPage(Controller):
                 latestAttraction = query.get()
                 next = latestAttraction.next
             
-            #try:
-            newId = self.saveAttraction(latestAttraction, attraction)
-            
-            self.redirect('/attractions/' + newId + '.html')
-            
-            return
-            
-            #except:
-            
-            template_values = {
-                'attraction': attraction,
-                'errors': {
-                    'save': True
+            try:
+                newId = self.saveAttraction(latestAttraction, attraction)
+                
+                
+                user = self.getUserObject() # create user object if it doesn't exist
+                
+                # update stats
+                self.addStat(user, 1) # new edit
+                self.addStat(user, 2, attraction.region) # edit location
+                if attraction.picture != '' and latestAttraction.picture == '':
+                    self.addStat(user, 4) # new picture
+                if 'dupe' in attraction.tags and 'dupe' not in latestAttraction.tags:
+                    self.addStat(user, 5) # new dupe tag added
+                if attraction.name == latestAttraction.name \
+                    and attraction.description == latestAttraction.description \
+                    and attraction.href == latestAttraction.href \
+                    and attraction.picture == latestAttraction.picture \
+                    and attraction.tags == latestAttraction.tags:
+                    self.addStat(user, 8) # no change idiot
+                
+                newBadges = self.updateBadges(user)
+                user.put()
+                
+                
+                if newBadges:
+                    self.redirect('/badges/' + newBadges.pop(0) + '.html')
+                else:
+                    self.redirect('/attractions/' + newId + '.html')
+                return
+                
+            except:
+                
+                template_values = {
+                    'attraction': attraction,
+                    'errors': {
+                        'save': True
+                    }
                 }
-            }
-            self.output('edit', 'html', template_values)
+                
+                self.output('edit', 'html', template_values)
     
     def saveAttraction(self, latestAttraction, attraction):
         
@@ -137,25 +162,6 @@ class EditPage(Controller):
                 newGeoBox.put()
             
             db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newAttraction.id)
-            
-            user = self.getUserObject() # create user object if it doesn't exist
-            
-            # update stats
-            self.addStat(user, 1) # new edit
-            self.addStat(user, 2, newAttraction.region) # edit location
-            if newAttraction.picture != '' and latestAttraction.picture == '':
-                self.addStat(user, 4) # new picture
-            if 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
-                self.addStat(user, 5) # new dupe tag added
-            if newAttraction.name == latestAttraction.name \
-                and newAttraction.description == latestAttraction.description \
-                and newAttraction.href == latestAttraction.href \
-                and newAttraction.picture == latestAttraction.picture \
-                and newAttraction.tags == latestAttraction.tags:
-                self.addStat(user, 8) # no change idiot
-            
-            self.updateBadges(user)
-            user.put()
             
             return newAttraction.id
             
