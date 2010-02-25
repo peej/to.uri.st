@@ -149,11 +149,15 @@ class SearchPage(Controller):
             attractionQuery = Attraction.all()
             attractionQuery.filter("tags =", tag)
             attractionQuery.filter("next =", None)
-            template_values['attractions'] = attractionQuery.fetch(26, (page - 1) * 26)
+            try:
+                template_values['attractions'] = attractionQuery.fetch(26, (page - 1) * 26)
+            except:
+                template_values['attractions'] = []
             
             if page > 1:
                 template_values['previous'] = self.request.path + '?t=' + tag + '&page=' + str(page - 1)
-            template_values['next'] = self.request.path + '?t=' + tag + '&page=' + str(page + 1)
+            if len(template_values['attractions']) == 26:
+                template_values['next'] = self.request.path + '?t=' + tag + '&page=' + str(page + 1)
             
             template_values['updated'] = None
             for attraction in template_values['attractions']:
