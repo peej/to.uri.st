@@ -498,6 +498,12 @@ form#rating label input {
     width: auto;
 }
 
+label.location #map {
+    width: 300px;
+    height: 150px;
+    border: 1px solid #999;
+}
+
 /* history */
 
 ol.diff {

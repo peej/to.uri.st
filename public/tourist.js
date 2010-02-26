@@ -352,6 +352,29 @@ $(function () {
         
     case "edit":
         
+        var center = new google.maps.LatLng(parseFloat($("input[name=lat]").val()), parseFloat($("input[name=lon]").val()));
+        var mapOptions = {
+            center: center,
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false
+        };
+        $("input.map").wrap('<div id="map"></div>');
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        
+        var marker = new google.maps.Marker({
+            position: center,
+            map: map,
+            icon: "http://www.google.com/intl/en_ALL/mapfiles/marker_orange.png"
+        });
+        
+        google.maps.event.addListener(map, "click", function (e) {
+            marker.setPosition(e.latLng);
+            $("input[name=lat]").val(e.latLng.lat().toFixed(4));
+            $("input[name=lon]").val(e.latLng.lng().toFixed(4));
+        });
+        
+        
         $("input[name=tags]")
             .css("display", "none")
             .after('<div><ul id="tags"></ul><input type="text" value=""></div><ul id="predict"></ul>')
@@ -434,6 +457,9 @@ $(function () {
             .css("display", "none")
             .appendTo("#content form");
         $("label.picture").append('<span class="change">Change</span> <span class="paste">Paste in Flickr URL</span>');
+        if ($("label.picture img").length == 0) {
+            $("label.picture span.change").text("Add");
+        }
         var picturePage = 1;
         $("label.picture span.change").click(function () {
             $("label.picture span.change").text("Loading...");
