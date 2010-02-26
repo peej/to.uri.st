@@ -40,6 +40,17 @@ class Recommend(Controller):
                 attraction.put()
                 userObject.put()
                 
+                if attraction.userid != userObject.id:
+                    query = User.all()
+                    query.filter("id =", attraction.userid)
+                    user = query.get()
+                    
+                    # update stats
+                    self.addStat(user, 3) # recommended
+                    
+                    newBadges = self.updateBadges(user)
+                    user.put()
+                    
         self.redirect('/attractions/' + attractionId + '.html')
         return
         

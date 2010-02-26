@@ -268,6 +268,21 @@ class Controller(webapp.RequestHandler):
             'name': 'Native',
             'description': 'You\'re putting down roots, 20 edits in one neighbourhood'
         },
+        '8': {
+            'src': '/_/badges/8.png',
+            'name': 'Advocate',
+            'description': 'Someone has recommended an attraction you\'ve edited'
+        },
+        '9': {
+            'src': '/_/badges/9.png',
+            'name': 'Trendsetter',
+            'description': 'You\'re attractions have gained a following, 5 people have recommended them'
+        },
+        '10': {
+            'src': '/_/badges/10.png',
+            'name': 'Tour guide',
+            'description': 'Wow, everyone loves the attractions you\'ve edited, 25 recommendations'
+        },
         '11': {
             'src': '/_/badges/11.png',
             'name': 'A thousand words',
@@ -462,6 +477,17 @@ class Controller(webapp.RequestHandler):
                     user.badges[7] = datetime.today()
                 elif user.stats[2][loc] >= 5 and not 6 in user.badges:
                     user.badges[6] = datetime.today()
+        except:
+            pass
+        
+        # recommended
+        try:
+            if user.stats[3] >= 25 and not 10 in user.badges:
+                user.badges[10] = datetime.today()
+            elif user.stats[3] >= 5 and not 9 in user.badges:
+                user.badges[9] = datetime.today()
+            elif user.stats[3] >= 1 and not 8 in user.badges:
+                user.badges[8] = datetime.today()
         except:
             pass
         
