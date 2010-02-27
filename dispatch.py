@@ -26,6 +26,7 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/(?:un)?itinerary(?:\.html)?', Itinerary),
         ('/add(?:\.html)?', EditPage),
         ('/recent(?:\.(html|atom))?', RecentPage),
+        ('/sitemap(?:\.(xml))?', RecentPage),
         ('/users/([a-z0-9-]+)(?:\.html)?', UserPage),
         ('/badges/([0-9]+)(?:\.html)?', Badge),
         ('/.*', Controller)

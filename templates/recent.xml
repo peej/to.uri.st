@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9"
+    url="http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+>
+    <url>
+        <loc>http://to.uri.st/</loc>
+        <lastmod>2008-12-22</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/about.html</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=amsterdam netherlands</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=barcelona spain</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=berlin germany</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=budapest hungary</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=copenhagen denmark</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=dublin ireland</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=edinburgh uk</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=florence italy</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=helsinki finland</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=krakow poland</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=london uk</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=istanbul turkey</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=lisbon portugal</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=manchester uk</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=madrid spain</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=milan italy</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=moscow russia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=munich germany</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=paris france</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=prague czech republic</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=rome italy</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=stockholm sweden</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=vienna italy</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=zurich switzerland</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=chicago usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=honolulu usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=las vegas usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=los angeles usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=miami usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=new york city usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=orlando usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=rio de janeiro brazil</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=san francisco usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=toronto canada</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=washington dc usa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=abu dhabi uae</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=bahrain</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=bangkok thailand</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=beijing china</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=cairo egypt</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=dubai uae</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=hong kong</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=kuala lumpur malaysia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=singapore</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=seoul korea</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=shanghai china</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=tokyo japan</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=adelaide australia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=auckland new zealand</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=darwin australia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=melbourne australia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=perth australia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=sydney australia</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=cape town south africa</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/search.html?q=marrakesh morocco</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://to.uri.st/recent.html</loc>
+        <lastmod>{{ updated|date:"Y-m-d" }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1</priority>
+    </url>
+{% for attraction in attractions %}
+    <url>
+        <loc>http://to.uri.st/attractions/{{ attraction.id }}.html</loc>
+        <lastmod>{{ attraction.datetime|date:"Y-m-d" }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+{% endfor %}
+</urlset>

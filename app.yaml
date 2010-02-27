@@ -15,6 +15,10 @@ handlers:
   static_files: public/favicon.ico
   upload: public/favicon.ico
 
+- url: /robots.txt
+  static_files: public/robots.txt
+  upload: public/robots.txt
+
 - url: /.*
   script: dispatch.py
   

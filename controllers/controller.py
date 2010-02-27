@@ -9,7 +9,8 @@ class Controller(webapp.RequestHandler):
         'atom': 'application/atom+xml',
         'js': 'application/javascript',
         'gpx': 'application/gpx+xml',
-        'kml': 'application/vnd.google-earth.kml+xml'
+        'kml': 'application/vnd.google-earth.kml+xml',
+        'xml': 'text/xml'
     }
     
     tags = {
