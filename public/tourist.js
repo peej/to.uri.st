@@ -487,7 +487,7 @@ $(function () {
                             if ($("label.picture img.picture").length) {
                                 $("label.picture img.picture").attr("src", newUrl);
                             } else {
-                                $("label.picture span").before('<img src="' + newUrl + '" class="picture" alt="">');
+                                $("label.picture").prepend('<img src="' + newUrl + '" class="picture" alt="">');
                             }
                             $("input[name=picture]").val(newUrl);
                             $("label.picture div").remove();
