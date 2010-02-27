@@ -36,7 +36,7 @@ class CommentAdd(EditPage):
             data['free'] = latestAttraction.free
             data['rating'] = latestAttraction.rating
             
-            newId = self.saveAttraction(latestAttraction, data)
+            newAttraction = self.saveAttraction(latestAttraction, data)
             
             user = self.getUserObject() # create user object if it doesn't exist
             
@@ -49,6 +49,6 @@ class CommentAdd(EditPage):
             if newBadges:
                 self.redirect('/badges/%s.html' % newBadges.pop(0))
             else:
-                self.redirect('/attractions/' + newId + '.html')
+                self.redirect('/attractions/' + newAttraction.id + '.html')
             return
 

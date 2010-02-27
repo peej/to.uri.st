@@ -84,47 +84,59 @@ class EditPage(Controller):
                 latestAttraction = query.get()
                 next = latestAttraction.next
             
-            try:
-                newId = self.saveAttraction(latestAttraction, attraction)
-                
-                
-                user = self.getUserObject() # create user object if it doesn't exist
-                
-                # update stats
-                self.addStat(user, 1) # new edit
-                self.addStat(user, 2, attraction.region) # edit location
-                if attraction.picture != '' and latestAttraction.picture == '':
-                    self.addStat(user, 4) # new picture
-                if 'dupe' in attraction.tags and 'dupe' not in latestAttraction.tags:
-                    self.addStat(user, 5) # new dupe tag added
-                if attraction.name == latestAttraction.name \
-                    and attraction.description == latestAttraction.description \
-                    and attraction.href == latestAttraction.href \
-                    and attraction.picture == latestAttraction.picture \
-                    and attraction.tags == latestAttraction.tags:
-                    self.addStat(user, 8) # no change idiot
-                
-                newBadges = self.updateBadges(user)
-                user.put()
-                
-                
-                if newBadges:
-                    self.redirect('/badges/' + newBadges.pop(0) + '.html')
-                else:
-                    self.redirect('/attractions/' + newId + '.html')
-                return
-                
-            except:
-                
-                template_values = {
-                    'attraction': attraction,
-                    'errors': {
-                        'save': True
-                    }
+            #try:
+            newAttraction = self.saveAttraction(latestAttraction, attraction)
+            
+            
+            user = self.getUserObject() # create user object if it doesn't exist
+            
+            # update stats
+            self.addStat(user, 1) # new edit
+            self.addStat(user, 2, newAttraction.region) # edit location
+            if newAttraction.picture != '' and latestAttraction.picture == '':
+                self.addStat(user, 4) # new picture
+            if 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
+                self.addStat(user, 5) # new dupe tag added
+            if 'delete' in newAttraction.tags and 'delete' not in latestAttraction.tags:
+                self.addStat(user, 12) # new delete tag added
+            if newAttraction.name == latestAttraction.name \
+                and newAttraction.description == latestAttraction.description \
+                and newAttraction.href == latestAttraction.href \
+                and newAttraction.picture == latestAttraction.picture \
+                and newAttraction.tags == latestAttraction.tags:
+                self.addStat(user, 8) # no change idiot
+            
+            # type edit
+            #for badge in {50: 'beach', 51: 'forest', 52: 'castle', 53: 'church', 54: 'garden', 55: 'park', 56: 'zoo', 57: 'sport', 58: 'shop', 59: 'historic', 60: 'museum'}.items():
+                #if badge[1] in newAttraction.tags:
+            for badge in self.badges.items():
+                try:
+                    if badge[1]['tag'] and badge[1]['tag'] in newAttraction.tags:
+                        self.addStat(user, 11, badge[0])
+                except KeyError:
+                    pass
+            
+            newBadges = self.updateBadges(user)
+            user.put()
+            
+            
+            if newBadges:
+                self.redirect('/badges/%s.html' % newBadges.pop(0))
+            else:
+                self.redirect('/attractions/' + newAttraction.id + '.html')
+            return
+            
+            #except:
+            
+            template_values = {
+                'attraction': attraction,
+                'errors': {
+                    'save': True
                 }
-                
-                self.output('edit', 'html', template_values)
-    
+            }
+            
+            self.output('edit', 'html', template_values)
+
     def saveAttraction(self, latestAttraction, attraction):
         
         oldGeoBoxId = self.calcGeoBoxId(latestAttraction.location.lat, latestAttraction.location.lon)
@@ -163,7 +175,7 @@ class EditPage(Controller):
             
             db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newAttraction.id)
             
-            return newAttraction.id
+            return newAttraction
             
         except db.TransactionFailedError: # undo geobox update
             db.run_in_transaction(self.addToGeoBox, oldGeoBox.key(), latestAttraction.id)
