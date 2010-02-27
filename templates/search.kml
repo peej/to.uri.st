@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+	<Document>
+		<name>{% if search %}{{ search|escape }}{% if coords %} ({{ coords|escape }}){% endif %} : {% else %}{% if coords %}{{ coords|escape }}{% endif %}{% endif %}</name>
+{% for attraction in attractions %}
+		<Placemark>
+			<name>{{ attraction.name|escape }}</name>
+			<description><![CDATA[
+				{{ attraction.description|truncatewords:50|escape|linebreaks }}
+                <p><a href="http://to.uri.st/#{$place->md5}">More</a></p>
+			]]></description>
+			<Point>
+				<coordinates>{{ attraction.lon|escape }},{{ attraction.lat|escape }},0</coordinates>
+			</Point>
+		</Placemark>
+{% endfor %}
+	</Document>
+</kml>

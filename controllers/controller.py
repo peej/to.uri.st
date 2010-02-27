@@ -8,7 +8,8 @@ class Controller(webapp.RequestHandler):
         'html': 'text/html',
         'atom': 'application/atom+xml',
         'js': 'application/javascript',
-        'gpx': 'application/gpx+xml'
+        'gpx': 'application/gpx+xml',
+        'kml': 'application/vnd.google-earth.kml+xml'
     }
     
     tags = {
@@ -318,6 +319,10 @@ class Controller(webapp.RequestHandler):
     def output(self, templateName, type = 'html', values = {}):
         
         path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName + '.' + type)
+        
+        if not os.path.exists(path):
+            self.send404()
+            return
         
         if self.request.get('pretty'):
             self.response.headers.add_header('Content-type', 'text/plain')
