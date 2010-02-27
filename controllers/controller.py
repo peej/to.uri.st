@@ -530,15 +530,15 @@ class Controller(webapp.RequestHandler):
         if subId == None:
             try:
                 user.stats[id] = user.stats[id] + 1
-            except:
+            except KeyError:
                 user.stats[id] = 1
         else:
             try:
                 user.stats[id][subId] = user.stats[id][subId] + 1
-            except:
+            except KeyError:
                 try:
                     user.stats[id][subId] = 1
-                except:
+                except KeyError:
                     user.stats[id] = {}
                     user.stats[id][subId] = 1
     
