@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="/_/style.css" media="screen" type="text/css">
         <link rel="stylesheet" href="/_/mobile.css" media="screen and (max-width:480px)" type="text/css">
         {% if atom %}<link rel="alternate" type="application/atom+xml" href="{{ atom|escape }}">{% endif %}
+        {% if service %}<link rel="service" type="application/atomsvc+xml" href="{{ service|escape }}">{% endif %}
+        {% if search %}<link rel="search" type="application/opensearchdescription+xml" href="{{ search|escape }}">{% endif %}
         {% if json %}<link rel="alternate" type="application/json" href="{{ json|escape }}">{% endif %}
         {% if gpx %}<link rel="alternate" type="application/gpx+xml" href="{{ gpx|escape }}">{% endif %}
         {% if attraction.free %}<link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/">{% endif %}

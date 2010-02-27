@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription>
+    <ShortName>to.uri.st</ShortName>
+    <Description>Search the to.uri.st attraction database.</Description>
+    <Image height="16" width="16" type="image/x-icon">http://to.uri.st/favicon.ico</Image>
+    <Contact>feedback@to.uri.st</Contact>
+    <Url type="application/atom+xml" template="/search.atom?c={geo:lat},{geo:lon}"/>
+    <Url type="application/atom+xml" template="/search.atom?q={searchQuery}"/>
+    <Url type="application/atom+xml" template="/recent.atom?c={geo:lat},{geo:lon}"/>
+</OpenSearchDescription>

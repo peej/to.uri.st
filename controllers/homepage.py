@@ -16,7 +16,9 @@ class HomePage(Controller):
         
         template_values = {
             'recent': recent.fetch(5),
-            'popular': popular.fetch(5)
+            'popular': popular.fetch(5),
+            'service': '/home.atom',
+            'search': '/home.xml'
         }
         
         self.output('home', 'html', template_values)
