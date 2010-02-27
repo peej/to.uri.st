@@ -12,6 +12,7 @@
     <h2>Edit "{{ user.name|escape }}"</h2>
     
     {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}
+    {% if errors.permission %}<p class="error">You must be logged in as this user to edit it.</p>{% endif %}
     
     <form action="/users/{{ user.id }}/edit.html" method="post">
         
@@ -24,20 +25,13 @@
         
         <label>
             Description:
-            <textarea name="description">{{ user.description|escape }}</textarea>
-        </label>
-        
-        <label class="location{% if errors.location %} error{% endif %}">
-            Location:
-            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ user.location.lat|escape }},{{ user.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
-            <input type="hidden" name="lat" value="{{ user.location.lat }}">
-            <input type="hidden" name="lon" value="{{ user.location.lon }}">
+            <textarea name="description">{% if user.description %}{{ user.description|escape }}{% endif %}</textarea>
         </label>
         
         <label{% if errors.href %} class="error"{% endif %}>
             More information URL:
             {% if errors.href %}Enter a valid HTTP URL{% endif %}
-            <input type="text" name="href" value="{{ user.href|escape }}">
+            <input type="text" name="href" value="{% if user.href %}{{ user.href|escape }}{% endif %}">
         </label>
         
         <div class="buttons">

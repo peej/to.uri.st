@@ -13,8 +13,6 @@
     
     <h2>{{ user.name|escape }}</h2>
     
-    {{ user.stats }}
-    
     {% if user.badges %}
     <ul id="badges">
         {% if user.badges.1 %}
@@ -84,6 +82,10 @@
         {{ user.description|escape|linebreaks }}
     {% else %}
         <p><em>This user hasn't added a profile yet.</em></p>
+    {% endif %}
+    
+    {% if user.href %}
+        <a href="{{ user.href|escape }}" rel="nofollow ext" class="more ext">{{ user.href|escape }}</a>
     {% endif %}
     
     {% if edited %}
