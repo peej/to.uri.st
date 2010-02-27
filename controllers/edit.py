@@ -233,7 +233,7 @@ class EditPage(Controller):
                     )
                 else:
                     region = 'Unknown location'
-            except:
+            except KeyError:
                 region = 'Unknown location'
         else:
             region = 'Unknown location'

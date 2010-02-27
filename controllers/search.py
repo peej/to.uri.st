@@ -94,7 +94,7 @@ class SearchPage(Controller):
                                 data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                                 data['Placemark'][0]['AddressDetails']['Country']['CountryName']
                             )
-                    finally:
+                    except KeyError:
                         pass
                 else:
                     lat = float(coords[0])
