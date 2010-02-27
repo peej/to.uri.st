@@ -1,4 +1,4 @@
-import urllib, datetime
+import urllib, datetime, re
 from django.utils import simplejson
 from google.appengine.ext import db
 
@@ -133,14 +133,11 @@ class SearchPage(Controller):
                         template_values['results'] = data['Placemark']
                     else:
                         (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type, tag)
-                        try:
-                            template_values['search'] = "%s, %s" % (
-                                data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                                data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                            )
-                        finally:
-                            pass
-                finally:
+                        template_values['search'] = "%s, %s" % (
+                            data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                            data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                        )
+                except KeyError:
                     pass
             
         elif tag:

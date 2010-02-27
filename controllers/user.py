@@ -65,5 +65,6 @@ class UserPage(Controller):
             template_values['html'] = re.sub(r'\..+$', '.html', self.request.path)
             
             self.output('user', type, template_values)
+            
         else:
             self.output('404', 'html')
