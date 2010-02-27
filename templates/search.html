@@ -1,13 +1,16 @@
 {% extends "shell.html" %}
 
 {% block title %}
-    {% if search %}In "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %} : 
+    {% if results and search %}Locations found for "{{ search|escape }}" :
+    {% else %}{% if search %}In "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %} : 
     {% else %}{% if coords %}In {{ coords|escape }} : 
     {% else %}{% if tag %}Tagged as "{{ tag|escape }}" : 
-    {% endif %}{% endif %}{% endif %}to.uri.st{% endblock %}
+    {% endif %}{% endif %}{% endif %}{% endif %}to.uri.st{% endblock %}
 
 {% block content %}
-    <h2>{% if search %}
+    <h2>{% if results and search %}
+        Locations found for "{{ search|escape }}"
+    {% else %}{% if search %}
         Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
     {% else %}{% if coords %}
         Attractions at {{ coords|escape }}
@@ -15,7 +18,7 @@
         Attractions tagged as "{{ tag|escape }}"
     {% else %}
         Attraction search results
-    {% endif %}{% endif %}{% endif %}</h2>
+    {% endif %}{% endif %}{% endif %}{% endif %}</h2>
     
     {% if results %}
     
