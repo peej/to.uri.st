@@ -167,11 +167,12 @@ class SearchPage(Controller):
             template_values['tag'] = tag
         
         template_values['url'] = self.request.url
-        
         template_values['atomtag'] = self.request.path
-        template_values['atom'] = self.request.url.replace('.html', '.atom')
-        template_values['json'] = self.request.url.replace('.html', '.js')
-        template_values['gpx'] = self.request.url.replace('.html', '.gpx')
         
+        template_values['atom'] = re.sub(r'\..+$', '.atom', self.request.path)
+        template_values['html'] = re.sub(r'\..+$', '.html', self.request.path)
+        template_values['json'] = re.sub(r'\..+$', '.json', self.request.path)
+        template_values['gpx'] = re.sub(r'\..+$', '.gpx', self.request.path)
+
         self.output('search', type, template_values)
 

@@ -15,10 +15,10 @@
 		{% for tag in attraction.tags %}
 		<category scheme="http://to.uri.st/tag" term="{{ tag|escape }}"/>
 		{% endfor %}
-		{% if attraction.user %}
+		{% if attraction.userid %}
 		<author>
-			<name>{{ attraction.user|escape }}</name>
-			<uri>/users/{{ attraction.user|escape }}.html</uri>
+			<name>{{ attraction.username|escape }}</name>
+			<uri>/users/{{ attraction.userid|escape }}.html</uri>
 		</author>
 		{% else %}
 		<author>

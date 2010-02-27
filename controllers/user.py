@@ -1,11 +1,12 @@
 from google.appengine.ext import db
+import re
 
 from controllers.controller import Controller
 from models.attraction import Attraction
 
 class UserPage(Controller):
     
-    def get(self, userid):
+    def get(self, userid, type):
         
         userObject = self.getUserObject(userid)
         
@@ -36,6 +37,11 @@ class UserPage(Controller):
             if edited.count() > 0:
                 template_values['edited'] = edited.fetch(10)
             
+            template_values['updated'] = None
+            for attraction in edited:
+                if template_values['updated'] == None or attraction.datetime > template_values['updated']:
+                    template_values['updated'] = attraction.datetime
+            
             recommended = Attraction.all()
             recommended.filter("root IN", userObject.recommended)
             recommended.filter("next =", None)
@@ -51,7 +57,13 @@ class UserPage(Controller):
             
             if itinerary.count() > 0:
                 template_values['itinerary'] = itinerary
-                
-            self.output('user', 'html', template_values)
+            
+            template_values['url'] = self.request.path
+            template_values['atomtag'] = 'user:' + userid
+            
+            template_values['atom'] = re.sub(r'\..+$', '.atom', self.request.path)
+            template_values['html'] = re.sub(r'\..+$', '.html', self.request.path)
+            
+            self.output('user', type, template_values)
         else:
             self.output('404', 'html')
