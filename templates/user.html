@@ -13,6 +13,8 @@
     
     <h2>{{ user.name|escape }}</h2>
     
+    {{ user.stats }}
+    
     {% if user.badges %}
     <ul id="badges">
         {% if user.badges.1 %}
@@ -62,6 +64,18 @@
         {% endif %}
         {% if user.badges.16 %}
         <li><img src="{{ badges.16.src }}" alt="{{ badges.16.name }}" title="{{ badges.16.name }}: {{ badges.16.description }} ({{ user.badges.16|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.17 %}
+        <li><img src="{{ badges.17.src }}" alt="{{ badges.17.name }}" title="{{ badges.17.name }}: {{ badges.17.description }} ({{ user.badges.17|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.18 %}
+        <li><img src="{{ badges.18.src }}" alt="{{ badges.18.name }}" title="{{ badges.18.name }}: {{ badges.18.description }} ({{ user.badges.18|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.19 %}
+        <li><img src="{{ badges.19.src }}" alt="{{ badges.19.name }}" title="{{ badges.19.name }}: {{ badges.19.description }} ({{ user.badges.19|date:"jS F Y \a\t H:i" }})"></li>
+        {% endif %}
+        {% if user.badges.22 %}
+        <li><img src="{{ badges.22.src }}" alt="{{ badges.22.name }}" title="{{ badges.22.name }}: {{ badges.22.description }} ({{ user.badges.22|date:"jS F Y \a\t H:i" }})"></li>
         {% endif %}
     </ul>
     {% endif %}
