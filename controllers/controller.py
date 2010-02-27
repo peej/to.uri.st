@@ -263,7 +263,7 @@ class Controller(webapp.RequestHandler):
         '6': {
             'src': '/_/badges/6.png',
             'name': 'Local',
-            'description': 'Keeping it local, you\'ve edited 5 attractions in the same neighbourhood'
+            'description': 'Keeping it local, you\'ve made 5 edits in the same neighbourhood'
         },
         '7': {
             'src': '/_/badges/7.png',
@@ -278,7 +278,7 @@ class Controller(webapp.RequestHandler):
         '9': {
             'src': '/_/badges/9.png',
             'name': 'Trendsetter',
-            'description': 'You\'re attractions have gained a following, 5 people have recommended them'
+            'description': 'Your attractions have gained a following, 5 people have recommended them'
         },
         '10': {
             'src': '/_/badges/10.png',
@@ -303,7 +303,7 @@ class Controller(webapp.RequestHandler):
         '14': {
             'src': '/_/badges/14.png',
             'name': 'Commentator',
-            'description': 'Congratulations on your first comment'
+            'description': 'Congratulations on making your first comment'
         },
         '15': {
             'src': '/_/badges/15.png',
@@ -314,6 +314,92 @@ class Controller(webapp.RequestHandler):
             'src': '/_/badges/16.png',
             'name': 'Motormouth',
             'description': 'Give your mouth a rest, that\'s 25 comments'
+        },
+        '17': {
+            'src': '/_/badges/17.png',
+            'name': 'Spam eater',
+            'description': ''
+        },
+        '18': {
+            'src': '/_/badges/18.png',
+            'name': 'Zero hero',
+            'description': 'Stop doing zero size edits, that\'s 3, let it be your last'
+        },
+        '19': {
+            'src': '/_/badges/19.png',
+            'name': 'Ctrl-Z',
+            'description': 'You\'re doing it wrong! You\'ve had 3 of your edits reverted'
+        },
+        '20': {
+            'src': '/_/badges/20.png',
+            'name': 'Man with van',
+            'description': 'Thanks for identifying 3 non-attractions that should be deleted'
+        },
+        '50': {
+            'tag': 'beach',
+            'src': '/_/badges/50.png',
+            'name': 'Life\'s a beach',
+            'description': ''
+        },
+        '51': {
+            'tag': 'forest',
+            'src': '/_/badges/51.png',
+            'name': 'Robin Hood',
+            'description': ''
+        },
+        '52': {
+            'tag': 'castle',
+            'src': '/_/badges/52.png',
+            'name': 'King of the castle',
+            'description': ''
+        },
+        '53': {
+            'tag': 'church',
+            'src': '/_/badges/53.png',
+            'name': '',
+            'description': ''
+        },
+        '54': {
+            'tag': 'garden',
+            'src': '/_/badges/54.png',
+            'name': 'Garden centre',
+            'description': ''
+        },
+        '55': {
+            'tag': 'park',
+            'src': '/_/badges/55.png',
+            'name': 'Park life',
+            'description': ''
+        },
+        '56': {
+            'tag': 'zoo',
+            'src': '/_/badges/56.png',
+            'name': '',
+            'description': ''
+        },
+        '57': {
+            'tag': 'sport',
+            'src': '/_/badges/57.png',
+            'name': '',
+            'description': ''
+        },
+        '58': {
+            'tag': 'shop',
+            'src': '/_/badges/58.png',
+            'name': '',
+            'description': ''
+        },
+        '59': {
+            'tag': 'historic',
+            'src': '/_/badges/59.png',
+            'name': 'Ye olde tourist attraction',
+            'description': ''
+        },
+        '60': {
+            'tag': 'museum',
+            'src': '/_/badges/60.png',
+            'name': 'Curator',
+            'description': ''
         }
     }
     
@@ -473,7 +559,7 @@ class Controller(webapp.RequestHandler):
                 user.badges[2] = datetime.today()
             elif user.stats[1] >= 1 and not 1 in user.badges:
                 user.badges[1] = datetime.today()
-        except:
+        except KeyError:
             pass
         
         # local edits
@@ -483,7 +569,7 @@ class Controller(webapp.RequestHandler):
                     user.badges[7] = datetime.today()
                 elif user.stats[2][loc] >= 5 and not 6 in user.badges:
                     user.badges[6] = datetime.today()
-        except:
+        except KeyError:
             pass
         
         # recommended
@@ -494,7 +580,7 @@ class Controller(webapp.RequestHandler):
                 user.badges[9] = datetime.today()
             elif user.stats[3] >= 1 and not 8 in user.badges:
                 user.badges[8] = datetime.today()
-        except:
+        except KeyError:
             pass
         
         # picture
@@ -503,14 +589,16 @@ class Controller(webapp.RequestHandler):
                 user.badges[12] = datetime.today()
             elif user.stats[4] >= 5 and not 11 in user.badges:
                 user.badges[11] = datetime.today()
-        except:
+        except KeyError:
             pass
         
-        # dupe
+        # info tags
         try:
-            if user.stats[5] >= 3 and not 13 in user.badges:
+            if user.stats[5] >= 3 and not 13 in user.badges: # dupe
                 user.badges[13] = datetime.today()
-        except:
+            if user.stats[12] >= 3 and not 20 in user.badges: # delete
+                user.badges[20] = datetime.today()
+        except KeyError:
             pass
         
         # comments
@@ -521,7 +609,24 @@ class Controller(webapp.RequestHandler):
                 user.badges[15] = datetime.today()
             elif user.stats[6] >= 1 and not 14 in user.badges:
                 user.badges[14] = datetime.today()
-        except:
+        except KeyError:
+            pass
+        
+        # idiot
+        try:
+            if user.stats[8] >= 3 and not 18 in user.badges:
+                user.badges[18] = datetime.today()
+            if user.stats[9] >= 3 and not 19 in user.badges:
+                user.badges[19] = datetime.today()
+        except KeyError:
+            pass
+        
+        # type
+        try:
+            for badgeId in user.stats[11]:
+                if user.stats[11][type] >= 3 and not badgeId in user.badges:
+                    user.badges[badgeId] = datetime.today()
+        except KeyError:
             pass
         
         return [val for val in user.badges if val not in oldBadges]
