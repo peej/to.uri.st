@@ -11,7 +11,7 @@
     </div>
     {% endif %}
     
-    <h2>{{ user.name|escape }}</h2>
+    <h2>{{ user.name|escape }}{% ifnotequal user.name user.username %} ({{ user.username|escape }}){% endifnotequal %}</h2>
     
     {% if user.badges %}
     <ul id="badges">

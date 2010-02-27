@@ -478,11 +478,13 @@ class Controller(webapp.RequestHandler):
             if type(user) == users.User:
                 userObject = User(
                     id = userId,
+                    username = user.nickname(),
                     name = user.nickname()
                 )
             else:
                 userObject = User(
                     id = userId,
+                    username = user,
                     name = user
                 )
             userObject.put()

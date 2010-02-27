@@ -3,6 +3,7 @@ import dictproperty
 
 class User(db.Model):
     id = db.StringProperty()
+    username = db.StringProperty()
     name = db.StringProperty(required = True)
     description = db.TextProperty()
     href = db.StringProperty()
