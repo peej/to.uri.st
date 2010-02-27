@@ -48,6 +48,9 @@ class EditPage(Controller):
             errors['name'] = True
             errors['name_long'] = True
         
+        if len(attraction['description']) > 5000:
+            errors['description'] = True
+        
         if not attraction['location']['lat'] or float(attraction['location']['lat']) < -90 or float(attraction['location']['lat']) > 90:
             errors['location'] = True
         
