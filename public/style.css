@@ -70,6 +70,7 @@ img {
 input:focus,
 textarea:focus {
     border-color: #f80;
+    outline: none;
 }
 
 p#date {
