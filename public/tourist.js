@@ -192,7 +192,14 @@ $(function () {
         nature: "park-urban.png",
         shop: "shoppingmall.png",
         historic: "museum-historical.png",
-        museum: "museum-art.png"
+        museum: "museum-art.png",
+        
+        dupe: "info.png",
+        "delete": "info.png",
+        badloc: "info.png",
+        todo: "info.png",
+        trap: "info.png",
+        translated: "info.png"
         
     };
     
