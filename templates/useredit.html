@@ -1,0 +1,50 @@
+{% extends "shell.html" %}
+
+{% block title %}Editing "{{user.name|escape }}" : to.uri.st{% endblock %}
+
+{% block content %}
+    
+    <div id="attraction-nav">
+        <a href="/users/{{ user.id }}.html">User</a>
+        <span>Edit</span>
+    </div>
+    
+    <h2>Edit "{{ user.name|escape }}"</h2>
+    
+    {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}
+    
+    <form action="/users/{{ user.id }}/edit.html" method="post">
+        
+        <label{% if errors.name %} class="error"{% endif %}>
+            User name:
+            {% if errors.name_empty %}You must have a name{% endif %}
+            {% if errors.name_long %}The user name must be under a 100 characters long{% endif %}
+            <input type="text" name="name" value="{{ user.name|escape }}" maxlength="100">
+        </label>
+        
+        <label>
+            Description:
+            <textarea name="description">{{ user.description|escape }}</textarea>
+        </label>
+        
+        <label class="location{% if errors.location %} error{% endif %}">
+            Location:
+            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ user.location.lat|escape }},{{ user.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
+            <input type="hidden" name="lat" value="{{ user.location.lat }}">
+            <input type="hidden" name="lon" value="{{ user.location.lon }}">
+        </label>
+        
+        <label{% if errors.href %} class="error"{% endif %}>
+            More information URL:
+            {% if errors.href %}Enter a valid HTTP URL{% endif %}
+            <input type="text" name="href" value="{{ user.href|escape }}">
+        </label>
+        
+        <div class="buttons">
+            <input type="submit" value="Save">
+            <a href="/users/{{ user.id }}.html">Cancel</a>
+        </div>
+        
+    </form>
+    
+{% endblock %}
