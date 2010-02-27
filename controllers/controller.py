@@ -497,6 +497,22 @@ class Controller(webapp.RequestHandler):
         except:
             pass
         
+        # picture
+        try:
+            if user.stats[4] >= 20 and not 12 in user.badges:
+                user.badges[12] = datetime.today()
+            elif user.stats[4] >= 5 and not 11 in user.badges:
+                user.badges[11] = datetime.today()
+        except:
+            pass
+        
+        # dupe
+        try:
+            if user.stats[5] >= 3 and not 13 in user.badges:
+                user.badges[13] = datetime.today()
+        except:
+            pass
+        
         # comments
         try:
             if user.stats[6] >= 25 and not 16 in user.badges:
