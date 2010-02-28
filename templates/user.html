@@ -72,8 +72,8 @@
         {% if user.badges.19 %}
         <li><img src="{{ badges.19.src }}" alt="{{ badges.19.name }}" title="{{ badges.19.name }}: {{ badges.19.description }} ({{ user.badges.19|date:"jS F Y \a\t H:i" }})"></li>
         {% endif %}
-        {% if user.badges.22 %}
-        <li><img src="{{ badges.22.src }}" alt="{{ badges.22.name }}" title="{{ badges.22.name }}: {{ badges.22.description }} ({{ user.badges.22|date:"jS F Y \a\t H:i" }})"></li>
+        {% if user.badges.20 %}
+        <li><img src="{{ badges.20.src }}" alt="{{ badges.20.name }}" title="{{ badges.20.name }}: {{ badges.20.description }} ({{ user.badges.22|date:"jS F Y \a\t H:i" }})"></li>
         {% endif %}
     </ul>
     {% endif %}
@@ -88,8 +88,16 @@
         <a href="{{ user.href|escape }}" rel="nofollow ext" class="more ext">{{ user.href|escape }}</a>
     {% endif %}
     
+    {% if user.stats.2 %}
+    <ul id="locations">
+        {% for loc in user.stats.2 %}
+        <li><a href="/search.html?q={{ loc|escape }}">{{ loc|escape }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
     {% if edited %}
-    <h3>Recently edited</h3>
+    <h3>Recently edited attractions</h3>
     <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in edited %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
     <ol>
         {% for attraction in edited %}
@@ -102,7 +110,7 @@
     {% endif %}
     
     {% if recommended %}
-    <h3>Recommended</h3>
+    <h3>Recommended attractions</h3>
     <img src="http://maps.google.com/maps/api/staticmap?size=300x200&amp;maptype=roadmap{% for attraction in recommended %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
     <ol>
         {% for attraction in recommended %}

@@ -596,6 +596,17 @@ ul#badges img {
     border: none;
 }
 
+ul#locations {
+    list-style: none;
+    margin: 2em 0;
+    font-size: 80%;
+}
+
+ul#locations li {
+    display: inline;
+    padding-right: 4px;
+}
+
 /* badges */
 
 div.badge {
