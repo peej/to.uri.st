@@ -119,6 +119,14 @@ class EditPage(Controller):
                 except KeyError:
                     pass
             
+            if newAttraction.region != 'Unknown location':
+                for badge in self.badges.items():
+                    try:
+                        if badge[1]['location'] and badge[1]['location'] in newAttraction.region:
+                            self.addStat(user, 10, badge[0])
+                    except KeyError:
+                        pass
+            
             newBadges = self.updateBadges(user)
             user.put()
             
@@ -222,22 +230,15 @@ class EditPage(Controller):
         jsonString = urllib.urlopen(url).read()
         if jsonString:
             data = simplejson.loads(jsonString)
-            try:
-                if (
-                    'Country' in data['Placemark'][0]['AddressDetails'] and 
-                    'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
-                    'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
-                    'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea'] and
-                    'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
-                ):
+            for placemark in data['Placemark']:
+                try:
                     region = "%s, %s" % (
-                        data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                        data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                        placemark['AddressDetails']['Country']['CountryName']
                     )
-                else:
+                    break;
+                except KeyError:
                     region = 'Unknown location'
-            except KeyError:
-                region = 'Unknown location'
         else:
             region = 'Unknown location'
         

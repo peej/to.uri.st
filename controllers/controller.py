@@ -400,6 +400,12 @@ class Controller(webapp.RequestHandler):
             'src': '/_/badges/60.png',
             'name': 'Curator',
             'description': ''
+        },
+        '110': {
+            'location': 'london',
+            'src': '/_/badges/110.png',
+            'name': 'London calling',
+            'description': ''
         }
     }
     
@@ -626,7 +632,15 @@ class Controller(webapp.RequestHandler):
         # type
         try:
             for badgeId in user.stats[11]:
-                if user.stats[11][type] >= 3 and not badgeId in user.badges:
+                if user.stats[11][badgeId] >= 3 and not badgeId in user.badges:
+                    user.badges[badgeId] = datetime.today()
+        except KeyError:
+            pass
+        
+        # location
+        try:
+            for badgeId in user.stats[10]:
+                if user.stats[10][type] >= 3 and not badgeId in user.badges:
                     user.badges[badgeId] = datetime.today()
         except KeyError:
             pass
