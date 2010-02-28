@@ -313,7 +313,6 @@ $(function () {
         
     case "map":
         
-        //if (navigator.userAgent.indexOf('iPhone') != -1 || navigator.userAgent.indexOf('Android') != -1 ) {
         if ($("#header:visible").length == 0) {
             $("#big-map").height(
                 $(document).height() - 4
