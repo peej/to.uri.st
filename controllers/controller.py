@@ -590,7 +590,7 @@ class Controller(webapp.RequestHandler):
         else:
             sender = "peejeh@gmail.com"
         
-        to = "support@to.uri.st"
+        to = "to.uri.st@peej.co.uk"
         subject = errType + " error"
         body = self.request.path
         mail.send_mail(sender, to, subject, body)
