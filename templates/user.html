@@ -11,7 +11,7 @@
     </div>
     {% endif %}
     
-    <h2>{{ user.name|escape }}{% ifnotequal user.name user.username %} ({{ user.username|escape }}){% endifnotequal %}</h2>
+    <h2>{{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}</h2>
     
     {% if user.badges %}
     <ul id="badges">
@@ -85,7 +85,7 @@
     {% endif %}
     
     {% if user.href %}
-        <a href="{{ user.href|escape }}" rel="nofollow ext" class="more ext">{{ user.href|escape }}</a>
+        <a href="{{ user.href|escape }}" rel="nofollow ext" class="more ext">Visit their website</a>
     {% endif %}
     
     {% if user.stats.2 %}
