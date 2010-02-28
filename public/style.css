@@ -228,7 +228,8 @@ a.more { background-position: 0 -263px; }
 .nav a.feed { background-position: 0 -338px; }
 .nav a.recent { background-position: 0 -376px; }
 .nav a.add { background-position: 0 -412px; }
-
+.nav a.next { background-position: 0 -486px; }
+.nav a.prev { background-position: 0 -523px; }
 
 /* tag editor */
 

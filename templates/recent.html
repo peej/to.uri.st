@@ -22,9 +22,9 @@
     {% endif %}
     
     <div class="nav">
-        {% if previous %}<a href="{{ previous|escape }}">Previous page</a>{% endif %}
-        {% if next %}<a href="{{ next|escape }}">Next page</a>{% endif %}
-        <a href="{{ atom|escape }}">Atom feed</a>
+        {% if previous %}<a class="prev" href="{{ previous|escape }}" rel="prev">Previous page</a>{% endif %}
+        {% if next %}<a class="next" href="{{ next|escape }}" rel="next">Next page</a>{% endif %}
+        <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
         {% if coords %}<a href="/recent.html">Recent edits worldwide</a>{% endif %}
     </div>
     

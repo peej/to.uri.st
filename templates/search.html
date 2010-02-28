@@ -61,8 +61,8 @@
         {% if previous %}<a class="prev" href="{{ previous|escape }}" rel="prev">Previous page</a>{% endif %}
         {% if next %}<a class="next" href="{{ next|escape }}" rel="next">Next page</a>{% endif %}
         {% if coords %}<a class="recent" href="/recent.html?c={{ coords|escape }}">Recent changes</a>{% endif %}
-        <a class="feed" href="{{ atom|escape }}">Atom feed</a>
-        <a class="gps" href="{{ gpx|escape }}">GPS data for this search (GPX)</a>
+        <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
+        <a class="gps" href="{{ gpx|escape }}" rel="alternate" type="application/gpx+xml">GPS data for this search (GPX)</a>
     </div>
     
 {% endblock %}

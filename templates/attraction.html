@@ -113,8 +113,8 @@
     <div class="nav">
         <a class="search" href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}" rel="index">More attractions in this area</a>
         <a class="map" href="/map.html?c={{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}">View on the big map</a>
-        <a class="picture ext" href="http://flickr.com/search/?q=%22{{ attraction.name|escape }}%22" rel="ext">Find pictures of this attraction on Flickr</a>
-        <a class="gps" href="/attractions/{{ attraction.id }}.gpx">Download GPS data for this attraction (GPX)</a>
+        <a class="picture ext" href="http://flickr.com/search/?q=%22{{ attraction.name|escape }}%22" rel="external">Find pictures of this attraction on Flickr</a>
+        <a class="gps" href="/attractions/{{ attraction.id }}.gpx" rel="alternate" type="application/gpx+xml">Download GPS data for this attraction (GPX)</a>
     </div>
     
 {% endblock %}

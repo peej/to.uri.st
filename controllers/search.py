@@ -69,8 +69,11 @@ class SearchPage(Controller):
         if coords:
             
             coords = coords.split(',')
-            
-            template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
+            try:
+                template_values['coords'] = "%.2f,%.2f" % (float(coords[0]), float(coords[1]))
+            except ValueError:
+                self.send404()
+                return
             
             if type == 'js':
                 
