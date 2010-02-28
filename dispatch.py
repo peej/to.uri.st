@@ -18,6 +18,7 @@ from controllers.badge import Badge
 application = webapp.WSGIApplication(
     [
         ('/', HomePage),
+        ('/home(?:\.(html|xml))?', HomePage),
         ('/search(?:\.(html|atom|js|gpx|kml))?', SearchPage),
         ('/attractions/([a-f0-9]{32})(?:\.(html|gpx))?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.(html|atom))?', HistoryPage),
@@ -26,7 +27,7 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/(?:un)?recommend(?:\.html)?', Recommend),
         ('/attractions/([a-f0-9]{32})/(?:un)?itinerary(?:\.html)?', Itinerary),
         ('/add(?:\.html)?', EditPage),
-        ('/recent(?:\.(html|atom))?', RecentPage),
+        ('/recent(?:\.(html|atom|xml))?', RecentPage),
         ('/sitemap(?:\.(xml))?', RecentPage),
         ('/users/([a-z0-9-]+)(?:\.(html|atom))?', UserPage),
         ('/users/([a-z0-9-]+)/edit(?:\.html)?', UserEdit),

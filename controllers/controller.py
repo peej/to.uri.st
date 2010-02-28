@@ -409,6 +409,64 @@ class Controller(webapp.RequestHandler):
         }
     }
     
+    cities = [
+        'amsterdam netherlands',
+        'barcelona spain',
+        'berlin germany',
+        'budapest hungary',
+        'copenhagen denmark',
+        'dublin ireland',
+        'edinburgh uk',
+        'florence italy',
+        'helsinki finland',
+        'krakow poland',
+        'london uk',
+        'istanbul turkey',
+        'lisbon portugal',
+        'manchester uk',
+        'madrid spain',
+        'milan italy',
+        'moscow russia',
+        'munich germany',
+        'paris france',
+        'prague czech republic',
+        'rome italy',
+        'stockholm sweden',
+        'vienna italy',
+        'zurich switzerland'
+        'chicago usa',
+        'honolulu usa',
+        'las vegas usa',
+        'los angeles usa',
+        'miami usa',
+        'new york city usa',
+        'orlando usa',
+        'rio de janeiro brazil',
+        'san francisco usa',
+        'toronto canada',
+        'washington dc usa'
+        'abu dhabi uae',
+        'bahrain',
+        'bangkok thailand',
+        'beijing china',
+        'cairo egypt',
+        'dubai uae',
+        'hong kong',
+        'kuala lumpur malaysia',
+        'singapore',
+        'seoul korea',
+        'shanghai china',
+        'tokyo japan'
+        'adelaide australia',
+        'auckland new zealand',
+        'darwin australia',
+        'melbourne australia',
+        'perth australia',
+        'sydney australia'
+        'cape town south africa',
+        'marrakesh morocco'
+    ]
+    
     def output(self, templateName, type = 'html', values = {}):
         
         path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName + '.' + type)
@@ -428,6 +486,9 @@ class Controller(webapp.RequestHandler):
             values['get'][query] = self.request.get(query)
         
         #self.response.headers.add_header('Cache-control', 'no-cache')
+        
+        if not 'self' in values:
+            values['self'] = self.request.path
         
         from google.appengine.api import users
         user = users.get_current_user()

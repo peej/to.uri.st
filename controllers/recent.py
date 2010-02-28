@@ -77,6 +77,10 @@ class RecentPage(Controller):
         
         template_values['url'] = self.request.url
         template_values['atom'] = self.request.url.replace('.html', '.atom')
+        template_values['sitemap'] = self.request.url.replace('.html', '.xml')
+        
+        if type == 'xml':
+            template_values['cities'] = self.cities
         
         self.output('recent', type, template_values)
         

@@ -4,7 +4,7 @@ from controllers.controller import Controller
 from models.attraction import Attraction
 
 class HomePage(Controller):
-    def get(self):
+    def get(self, type = 'html'):
         
         recent = Attraction.all()
         recent.filter("next =", None)
@@ -21,5 +21,5 @@ class HomePage(Controller):
             'search': '/home.xml'
         }
         
-        self.output('home', 'html', template_values)
+        self.output('home', type, template_values)
         
