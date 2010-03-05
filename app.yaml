@@ -9,7 +9,15 @@ handlers:
   login: admin
 
 - url: /import
-  script: import.py
+  script: loader/import.py
+  login: admin
+
+- url: /dedupe
+  script: loader/dedupe.py
+  login: admin
+
+- url: /fixdate
+  script: loader/fixdate.py
   login: admin
 
 - url: /_
