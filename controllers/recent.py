@@ -56,7 +56,7 @@ class RecentPage(Controller):
             
             try:
                 attractions = recent.fetch(26, (page - 1) * 26)
-            except IndexError:
+            except (IndexError, db.BadRequestError):
                 attractions = []
                 
             if page > 1:
