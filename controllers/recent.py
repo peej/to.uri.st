@@ -54,11 +54,16 @@ class RecentPage(Controller):
             recent.filter("next =", None)
             recent.order("-datetime")
             
-            attractions = recent.fetch(26, (page - 1) * 26)
-            
+            try:
+                attractions = recent.fetch(26, (page - 1) * 26)
+            except IndexError:
+                attractions = []
+                
             if page > 1:
                 template_values['previous'] = self.request.path + '?page=' + str(page - 1)
-            template_values['next'] = self.request.path + '?page=' + str(page + 1)
+            
+            if len(attractions) == 26:
+                template_values['next'] = self.request.path + '?page=' + str(page + 1)
             
             template_values['atomtag'] = 'recent'
         
