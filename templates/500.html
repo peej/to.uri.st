@@ -7,4 +7,10 @@
     
     <p>Whoa! Something went bang!</p>
     
+    {% if issueId %}
+    <p>To help us fix problems, everytime one occurs we send the data to our issue
+    tracker. If you'd like to help further, <a href="http://github.com/peej/to.uri.st/issues/issue/{{ issueId|escape }}">go
+    add more information to the issue on Github</a>.</p>
+    {% endif %}
+    
 {% endblock %}

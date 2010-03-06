@@ -34,7 +34,7 @@ application = webapp.WSGIApplication(
         ('/badges/([0-9]+)(?:\.html)?', Badge),
         ('/.*', Controller)
     ],
-    debug=True
+    debug=False
 )
 
 def main():
