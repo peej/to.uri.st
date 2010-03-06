@@ -358,10 +358,14 @@ $(function () {
         
     case "edit":
         
-        var center = new google.maps.LatLng(parseFloat($("input[name=lat]").val()), parseFloat($("input[name=lon]").val()));
+        var center = new google.maps.LatLng(parseFloat($("input[name=lat]").val()), parseFloat($("input[name=lon]").val())),
+            zoom = 14;
+        if (center.lat() == 0 && center.lng() == 0) {
+            zoom = 3;
+        }
         var mapOptions = {
             center: center,
-            zoom: 14,
+            zoom: zoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false
         };

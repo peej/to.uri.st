@@ -18,7 +18,7 @@
     
     {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}
     
-    <form action="/attractions/{{ attraction.id }}/edit.html" method="post">
+    <form action="{% if attraction.id %}/attractions/{{ attraction.id }}/edit.html{% else %}/add.html{% endif %}" method="post">
         
         <label{% if errors.name %} class="error"{% endif %}>
             Attraction name:
@@ -34,9 +34,9 @@
         
         <label class="location{% if errors.location %} error{% endif %}">
             Location:
-            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
-            <input type="hidden" name="lat" value="{{ attraction.location.lat }}">
-            <input type="hidden" name="lon" value="{{ attraction.location.lon }}">
+            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|default:0|escape }},{{ attraction.location.lon|default:0|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
+            <input type="hidden" name="lat" value="{{ attraction.location.lat|default:0|escape }}">
+            <input type="hidden" name="lon" value="{{ attraction.location.lon|default:0|escape }}">
         </label>
         
         <label{% if errors.href %} class="error"{% endif %}>

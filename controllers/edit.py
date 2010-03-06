@@ -22,7 +22,7 @@ class EditPage(Controller):
         self.output('edit', 'html', template_values)
     
     
-    def post(self, attractionId):
+    def post(self, attractionId = None):
         
         attraction = {}
         attraction['id'] = attractionId
@@ -63,8 +63,10 @@ class EditPage(Controller):
         if not len(attraction['picture']) == 0 and not re.match(r"^https?://.+$", attraction['picture']):
             errors['picture'] = True
         
-        for tag in attraction['tags']:
-            if not re.match(r"^[a-z0-9]+$", tag):
+        for key, tag in enumerate(attraction['tags']):
+            if tag == '':
+                del attraction['tags'][key]
+            elif not re.match(r"^[a-z0-9]+$", tag):
                 errors['tags'] = True
         
         if errors or (self.request.get('location.x') and self.request.get('location.y')):
@@ -80,29 +82,35 @@ class EditPage(Controller):
             
         else:
             
-            next = attractionId
-            while next: # walk to newest version of this attraction
-                query = Attraction.all()
-                query.filter("id =", next)
-                latestAttraction = query.get()
-                next = latestAttraction.next
-            
             #try:
-            newAttraction = self.saveAttraction(latestAttraction, attraction)
             
+            if attractionId: # editing
+                next = attractionId
+                while next: # walk to newest version of this attraction
+                    query = Attraction.all()
+                    query.filter("id =", next)
+                    latestAttraction = query.get()
+                    next = latestAttraction.next
+                
+            else: # creating
+                
+                latestAttraction = None
+            
+            newAttraction = self.saveAttraction(latestAttraction, attraction)
             
             user = self.getUserObject() # create user object if it doesn't exist
             
             # update stats
             self.addStat(user, 1) # new edit
             self.addStat(user, 2, newAttraction.region) # edit location
-            if newAttraction.picture != '' and latestAttraction.picture == '':
+            if latestAttraction and newAttraction.picture != '' and latestAttraction.picture == '':
                 self.addStat(user, 4) # new picture
-            if 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
+            if latestAttraction and 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
                 self.addStat(user, 5) # new dupe tag added
-            if 'delete' in newAttraction.tags and 'delete' not in latestAttraction.tags:
+            if latestAttraction and 'delete' in newAttraction.tags and 'delete' not in latestAttraction.tags:
                 self.addStat(user, 12) # new delete tag added
-            if newAttraction.name == latestAttraction.name \
+            if latestAttraction \
+                and newAttraction.name == latestAttraction.name \
                 and newAttraction.description == latestAttraction.description \
                 and newAttraction.href == latestAttraction.href \
                 and newAttraction.picture == latestAttraction.picture \
@@ -110,8 +118,6 @@ class EditPage(Controller):
                 self.addStat(user, 8) # no change idiot
             
             # type edit
-            #for badge in {50: 'beach', 51: 'forest', 52: 'castle', 53: 'church', 54: 'garden', 55: 'park', 56: 'zoo', 57: 'sport', 58: 'shop', 59: 'historic', 60: 'museum'}.items():
-                #if badge[1] in newAttraction.tags:
             for badge in self.badges.items():
                 try:
                     if badge[1]['tag'] and badge[1]['tag'] in newAttraction.tags:
@@ -150,46 +156,58 @@ class EditPage(Controller):
 
     def saveAttraction(self, latestAttraction, attraction):
         
-        oldGeoBoxId = self.calcGeoBoxId(latestAttraction.location.lat, latestAttraction.location.lon)
-        newGeoBoxId = self.calcGeoBoxId(attraction['location']['lat'], attraction['location']['lon'])
-        
         from models.geobox import GeoBox
         
-        geobox = GeoBox.all()
-        geobox.filter("lat =", oldGeoBoxId[0])
-        geobox.filter("lon =", oldGeoBoxId[1])
-        oldGeoBox = geobox.get()
+        newGeoBoxId = self.calcGeoBoxId(attraction['location']['lat'], attraction['location']['lon'])
         
-        if oldGeoBox == None:
-            oldGeoBox = GeoBox(
-                lat = oldGeoBoxId[0],
-                lon = oldGeoBoxId[1]
-            )
-            oldGeoBox.put()
-        
-        db.run_in_transaction(self.removeFromGeoBox, oldGeoBox.key(), latestAttraction.id)
+        if latestAttraction:
+            oldGeoBoxId = self.calcGeoBoxId(latestAttraction.location.lat, latestAttraction.location.lon)
+            
+            if oldGeoBoxId != newGeoBoxId:
+                
+                geobox = GeoBox.all()
+                geobox.filter("lat =", oldGeoBoxId[0])
+                geobox.filter("lon =", oldGeoBoxId[1])
+                oldGeoBox = geobox.get()
+                
+                if oldGeoBox == None:
+                    oldGeoBox = GeoBox(
+                        lat = oldGeoBoxId[0],
+                        lon = oldGeoBoxId[1]
+                    )
+                    oldGeoBox.put()
+                
+                db.run_in_transaction(self.removeFromGeoBox, oldGeoBox.key(), latestAttraction.id)
+        else:
+            oldGeoBoxId = None
         
         try:
-            newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
+            if latestAttraction:
+                newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
+            else:
+                newAttraction = db.run_in_transaction(self.createAttraction, None, attraction)
             
-            geobox = GeoBox.all()
-            geobox.filter("lat =", newGeoBoxId[0])
-            geobox.filter("lon =", newGeoBoxId[1])
-            newGeoBox = geobox.get()
-            
-            if newGeoBox == None:
-                newGeoBox = GeoBox(
-                    lat = newGeoBoxId[0],
-                    lon = newGeoBoxId[1]
-                )
-                newGeoBox.put()
-            
-            db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newAttraction.id)
+            if oldGeoBoxId != newGeoBoxId:
+                
+                geobox = GeoBox.all()
+                geobox.filter("lat =", newGeoBoxId[0])
+                geobox.filter("lon =", newGeoBoxId[1])
+                newGeoBox = geobox.get()
+                
+                if newGeoBox == None:
+                    newGeoBox = GeoBox(
+                        lat = newGeoBoxId[0],
+                        lon = newGeoBoxId[1]
+                    )
+                    newGeoBox.put()
+                
+                db.run_in_transaction(self.addToGeoBox, newGeoBox.key(), newAttraction.id)
             
             return newAttraction
             
         except db.TransactionFailedError: # undo geobox update
-            db.run_in_transaction(self.addToGeoBox, oldGeoBox.key(), latestAttraction.id)
+            if oldGeoBoxId != newGeoBoxId:
+                db.run_in_transaction(self.addToGeoBox, oldGeoBox.key(), latestAttraction.id)
     
     def calcGeoBoxId(self, lat, lon):
         return (round(float(lat), 1), round(float(lon), 1))
@@ -213,10 +231,8 @@ class EditPage(Controller):
     def createAttraction(self, key, attractionData):
         
         from google.appengine.api import users
-        import urllib
         from django.utils import simplejson
-        
-        oldAttraction = db.get(key)
+        import urllib, md5
         
         user = users.get_current_user()
         if type(user) == users.User:
@@ -241,11 +257,24 @@ class EditPage(Controller):
                     region = 'Unknown location'
         else:
             region = 'Unknown location'
+            
+        if key:
+            oldAttraction = db.get(key)
+            attractionData['root'] = oldAttraction.root
+            attractionData['previous'] = oldAttraction.id
+            attractionData['free'] = oldAttraction.free
+            attractionData['rating'] = oldAttraction.rating
+        else:
+            oldAttraction = None
+            attractionData['root'] = None
+            attractionData['previous'] = None
+            attractionData['free'] = True
+            attractionData['rating'] = 0
         
         newAttraction = Attraction(
             parent = oldAttraction,
-            root = oldAttraction.root,
-            previous = oldAttraction.id,
+            root = attractionData['root'],
+            previous = attractionData['previous'],
             name = attractionData['name'],
             region = region,
             description = attractionData['description'],
@@ -256,17 +285,19 @@ class EditPage(Controller):
             href = attractionData['href'],
             picture = attractionData['picture'],
             tags = attractionData['tags'],
-            free = oldAttraction.free,
-            rating = oldAttraction.rating,
+            free = attractionData['free'],
+            rating = attractionData['rating'],
             userid = attractionData['userid'],
             username = attractionData['username']
         )
         
-        import md5
         newAttraction.id = md5.new(unicode(newAttraction)).hexdigest()
-        oldAttraction.next = newAttraction.id
-        
-        oldAttraction.put()
+        if not newAttraction.root:
+            newAttraction.root = newAttraction.id
         newAttraction.put()
+        
+        if oldAttraction:
+            oldAttraction.next = newAttraction.id
+            oldAttraction.put()
         
         return newAttraction

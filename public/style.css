@@ -501,7 +501,7 @@ form#rating label input {
 }
 
 label.location #map {
-    width: 300px;
+    width: 98%;
     height: 150px;
     border: 1px solid #999;
 }
