@@ -15,6 +15,13 @@ from controllers.user import UserPage
 from controllers.useredit import UserEdit
 from controllers.badge import Badge
 
+import os
+environ = dict(os.environ.items())
+if environ['SERVER_SOFTWARE'][0:11] == 'Development':
+    debug = True
+else:
+    debug = False
+
 application = webapp.WSGIApplication(
     [
         ('/', HomePage),
@@ -34,7 +41,7 @@ application = webapp.WSGIApplication(
         ('/badges/([0-9]+)(?:\.html)?', Badge),
         ('/.*', Controller)
     ],
-    debug=False
+    debug=debug
 )
 
 def main():
