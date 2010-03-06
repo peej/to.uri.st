@@ -593,7 +593,8 @@ class Controller(webapp.RequestHandler):
             
             from google.appengine.api import memcache
             from google.appengine.api import urlfetch
-            import urllib, json, re
+            from django.utils import simplejson
+            import urllib, re
             
             token = '62f3219001d6a930336f84998f23c8c3'
             
@@ -620,7 +621,7 @@ class Controller(webapp.RequestHandler):
                 
                 if result.status_code == 200:
                     
-                    response = json.loads(result.content)
+                    response = simplejson.loads(result.content)
                     issueId = response['issue']['number']
                     memcache.add(key = 'errorHash_' + errorHash, value = issueId)
                     template_values['issueId'] = issueId
