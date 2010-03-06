@@ -469,6 +469,9 @@ class Controller(webapp.RequestHandler):
     
     def output(self, templateName, type = 'html', values = {}):
         
+        if type == None:
+            type = 'html'
+        
         path = os.path.join(os.path.dirname(__file__), '../templates/' + templateName + '.' + type)
         
         if not os.path.exists(path):

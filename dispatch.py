@@ -14,6 +14,7 @@ from controllers.recent import RecentPage
 from controllers.user import UserPage
 from controllers.useredit import UserEdit
 from controllers.badge import Badge
+from controllers.redirect import Redirect
 
 import os
 environ = dict(os.environ.items())
@@ -39,6 +40,13 @@ application = webapp.WSGIApplication(
         ('/users/([a-z0-9-]+)(?:\.(html|atom))?', UserPage),
         ('/users/([a-z0-9-]+)/edit(?:\.html)?', UserEdit),
         ('/badges/([0-9]+)(?:\.html)?', Badge),
+        
+        ('/m\.html', Redirect),
+        ('/places(?:\.(html|atom))?', Redirect),
+        ('/places/([a-f0-9]{32})(?:\.(html|gpx))?', Redirect),
+        ('/places/([a-f0-9]{32})/history(?:\.(html|atom))?', Redirect),
+        ('/edit\.html', Redirect),
+        
         ('/.*', Controller)
     ],
     debug=debug
