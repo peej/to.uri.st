@@ -7,7 +7,7 @@
         <link rel="canonical" href="{{ self|escape }}">
         {% if atom %}<link rel="alternate" type="application/atom+xml" href="{{ atom|escape }}">{% endif %}
         {% if service %}<link rel="service" type="application/atomsvc+xml" href="{{ service|escape }}">{% endif %}
-        {% if search %}<link rel="search" type="application/opensearchdescription+xml" href="{{ search|escape }}">{% endif %}
+        {% if opensearch %}<link rel="search" type="application/opensearchdescription+xml" href="{{ opensearch|escape }}">{% endif %}
         {% if json %}<link rel="alternate" type="application/json" href="{{ json|escape }}">{% endif %}
         {% if gpx %}<link rel="alternate" type="application/gpx+xml" href="{{ gpx|escape }}">{% endif %}
         {% if sitemap %}<link rel="alternate" type="application/sitemap+xml" href="{{ sitemap|escape }}">{% endif %}
