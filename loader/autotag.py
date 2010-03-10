@@ -261,6 +261,8 @@ class AutoTagWorker(webapp.RequestHandler):
                 attraction = query.get()
                 
                 if attraction:
+                    if row[9] != '' and row[9] != 'unknown' and row[9] not in attraction.tags:
+                        attraction.tags.append(row[9])
                     for key in self.tags.keys():
                         if ' ' + key + ' ' in ' ' + row[3].lower() + ' ' and self.tags[key] not in attraction.tags:
                             attraction.tags.append(self.tags[key])
