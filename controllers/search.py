@@ -44,6 +44,12 @@ class SearchPage(Controller):
                             attractions.append(attraction)
                             if updated == None or attraction.datetime > updated:
                                 updated = attraction.datetime
+                        if len(attractions) >= 26:
+                            break
+                if len(attractions) >= 26:
+                    break
+            if len(attractions) >= 26:
+                break
         
         attractions.sort(lambda x, y: cmp(x.name, y.name))
         
