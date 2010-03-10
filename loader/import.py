@@ -10,11 +10,13 @@ from models.attraction import Attraction
 class ImportWorker(webapp.RequestHandler):
     def get(self):
         n = self.request.get('n') or 1
+        f = self.request.get('f') or 1
         
         taskqueue.add(
             url = '/import',
             params = {
-                'n': n
+                'n': n,
+                'f': f
             }
         )
         
@@ -23,19 +25,28 @@ class ImportWorker(webapp.RequestHandler):
     def post(self):
         n = int(self.request.get('n'))
         l = 50
+        f = self.request.get('f')
         
         import csv
         
-        csvReader = csv.reader(open('attractions4.csv'))
+        csvReader = csv.reader(open('attractions' + f + '.csv'))
         
         count = 1
         for row in csvReader:
             
             if count >= n and count < n + l:
                 
-                attractions = Attraction.all()
-                attractions.filter("id =", row[0])
-                attraction = attractions.get()
+                q = Attraction.all()
+                q.filter("id =", row[0])
+                
+                if q.count() > 1:
+                    attractions = q.fetch(100)
+                    for attraction in attractions:
+                        attraction.delete()
+                    attraction = None
+                else:
+                    attraction = q.get()
+                
                 if not attraction:
                     
                     location = row[1].split(',')
@@ -88,8 +99,9 @@ class ImportWorker(webapp.RequestHandler):
                                 lon = newGeoBoxId[1]
                             )
                             newGeoBox.put()
-                            
-                        newGeoBox.attractions.append(row[0])
+                        
+                        if row[0] not in newGeoBox.attractions:
+                            newGeoBox.attractions.append(row[0])
                         
                         newAttraction.put()
                         newGeoBox.put()
@@ -103,11 +115,21 @@ class ImportWorker(webapp.RequestHandler):
                     url = '/import',
                     params = {
                         'n': n + l,
+                        'f': f
                     }
                 )
                 break
             
             count = count  + 1
+        
+        if f < 4:
+            taskqueue.add(
+                url = '/import',
+                params = {
+                    'n': n + l,
+                    'f': f + 1
+                }
+            )
 
 def main():
     run_wsgi_app(webapp.WSGIApplication([
