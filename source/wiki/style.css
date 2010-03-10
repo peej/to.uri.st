@@ -1,0 +1,69 @@
+body {
+    background: #fff;
+    color: #000;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+}
+
+a {
+	color: rgb(0,0,238);
+}
+
+a[href~=http:] {
+	color: #080;
+}
+
+h1 {
+    letter-spacing: -0.04em;
+    font-size: 200%;
+}
+
+h1 a {
+    text-decoration: none;
+    color: #000;
+}
+
+h2 {
+	font-size: 120%;
+    font-family: Georgia;
+	border-bottom: 1px solid #000;
+	clear: both;
+}
+
+h3 {
+	font-size: 120%;
+    font-style: italic;
+	margin: 10px 0;
+}
+
+h4 {
+	font-size: 100%;
+	margin: 10px 0;
+}
+
+ul {
+	margin-left: 30px;
+    padding: 0;
+}
+
+dl, dt, dd {
+	margin: 10px;
+    padding: 0;
+}
+
+dt {
+	font-weight: bold;
+}
+
+input.formfields,
+textarea {
+    border: 1px solid #999;
+    font-family: monospace;
+    font-weight: normal;
+}
+
+input.formfields:focus,
+textarea:focus {
+    border-color: #f80;
+    outline: none;
+}

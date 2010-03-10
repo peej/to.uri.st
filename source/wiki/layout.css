@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+}
+
+td {
+    padding: 0;
+}
+
+table.logo {
+    margin: 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+table.logo td {
+    vertical-align: top;
+}
+
+table.logo td.logo_banner {
+    padding: 3px 0;
+}
+
+table.logo td.user_banner {
+    padding-top: 2em;
+}
+
+
+#banner {
+    padding: 1em 10%;
+    background: #e6f0ff;
+    border-bottom: 1px solid #d6e0ef;
+}
+
+#banner:after {
+    content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+
+div.tabArea {
+	text-align: left;
+}
+
+div.tabArea a {
+	padding: 5px 10px 5px 0;
+    margin: 0;
+}
+
+#search_form form {
+    position: absolute;
+    top: 1em;
+    right: 10%;
+}
+
+#title {
+    margin: 1px 10% 1em;
+}
+
+#title h1 {
+    margin: 0.6em 0 0;
+}
+
+#title_area_table,
+#title_table,
+#title_text {
+    width: 100%;
+}
+
+#title .pageIcon,
+#title .pageIconSelected {
+    vertical-align: top;
+}
+
+#title .pageIcon a,
+#title .pageIconSelected a {
+    background: #d6e0ef;
+    padding: 2px 5px;
+    margin-left: 4px;
+    font-size: 90%;
+}
+
+#title .pageIcon a span,
+#title .pageIconSelected a span {
+    text-decoration: underline;
+}
+
+#title .pageIcon a img,
+#title .pageIconSelected a img {
+    display: none;
+}
+
+#content,
+.content {
+    margin: 10px 10%;
+    background-color: #fff;
+}
+
+#message {
+    padding: 5px 10px;
+    background-color: #eee;
+    border-top: 1px solid #ddd;
+    font-size: 90%;
+}
+
+#message {
+    border: 1px solid #ddd;
+    max-width: 600px;
+    margin: 10px auto;
+}
+
+#footer {
+    padding: 1em 10%;
+    background: #e6f0ff;
+    border-bottom: 1px solid #d6e0ef;
+    clear: both;
+    border-top: 1px solid #d6e0ef;
+    font-size: 80%;
+}
+
+.wikiGlobalFooter {
+    background-color: #eee;
+    border-bottom: 1px solid #ddd;
+    padding: 1em 10%;
+}
+
+.license {
+    font-size: 90%;
+}
+
+div.rcEntry div {
+    margin: 10px 0;
+}
+
+div.rcEntry div.rccomment {
+    margin: 10px;
+}
+
+.rctime {
+    color: #666;
+    font-size: 85%;
+    padding-left: 10px;
+}
+
+.actionBoxes {
+    padding-left: 10px;
+}
+
+#editComment,
+#editButtonRow {
+    margin: 10px 0;
+}
+
+span.floatRight,
+span.floatLeft {
+    margin-top: 0;
+}
+
+pre {
+    background-color: #e8ecf9;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+}
+
+div.wikitable td {
+    padding: 2px;
+}
