@@ -20,6 +20,10 @@ handlers:
   script: loader/fixdate.py
   login: admin
 
+- url: /autotag
+  script: loader/autotag.py
+  login: admin
+
 - url: /_
   static_dir: public
 
