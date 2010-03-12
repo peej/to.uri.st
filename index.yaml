@@ -12,6 +12,26 @@ indexes:
 
 - kind: Attraction
   properties:
+  - name: geobox
+  - name: next
+  - name: datetime
+    direction: desc
+
+- kind: Attraction
+  properties:
+  - name: geobox
+  - name: next
+  - name: name
+
+- kind: Attraction
+  properties:
+  - name: geobox
+  - name: next
+  - name: tags
+  - name: name
+
+- kind: Attraction
+  properties:
   - name: next
   - name: datetime
     direction: desc
@@ -28,8 +48,3 @@ indexes:
   - name: userid
   - name: datetime
     direction: desc
-
-- kind: GeoBox
-  properties:
-  - name: lat
-  - name: lon
