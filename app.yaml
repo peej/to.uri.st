@@ -12,6 +12,10 @@ handlers:
   script: loader/import.py
   login: admin
 
+- url: /creategeo
+  script: loader/creategeo.py
+  login: admin
+
 - url: /dedupe
   script: loader/dedupe.py
   login: admin
