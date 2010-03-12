@@ -33,7 +33,10 @@
     {% else %}{% if attractions %}
     
     <div id="search-results">
-        <a href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}"><img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map"></a>
+        <a class="map" href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}">
+            <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
+            <span>View on the big map</span>
+        </a>
         <ol>
             {% for attraction in attractions %}
             <li>
@@ -61,6 +64,7 @@
         {% if previous %}<a class="prev" href="{{ previous|escape }}" rel="prev">Previous page</a>{% endif %}
         {% if next %}<a class="next" href="{{ next|escape }}" rel="next">Next page</a>{% endif %}
         {% if coords %}<a class="recent" href="/recent.html?c={{ coords|escape }}">Recent changes</a>{% endif %}
+        <a class="map" href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}">View on the big map</a>
         <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
         <a class="gps" href="{{ gpx|escape }}" rel="alternate" type="application/gpx+xml">GPS data for this search (GPX)</a>
     </div>
