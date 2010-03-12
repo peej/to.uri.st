@@ -71,6 +71,7 @@ class ImportWorker(webapp.RequestHandler):
                                 lat = location[0],
                                 lon = location[1]
                             ),
+                            geobox = str(round(float(location[0]), 1)) + ',' + str(round(float(location[1]), 1)),
                             href = row[4].decode('utf-8'),
                             picture = row[5].decode('utf-8'),
                             free = freeVal,
@@ -84,27 +85,7 @@ class ImportWorker(webapp.RequestHandler):
                             )
                         )
                         
-                        newGeoBoxId = (round(float(location[0]), 1), round(float(location[1]), 1))
-                        
-                        from models.geobox import GeoBox
-                        
-                        geobox = GeoBox.all()
-                        geobox.filter("lat =", newGeoBoxId[0])
-                        geobox.filter("lon =", newGeoBoxId[1])
-                        newGeoBox = geobox.get()
-                        
-                        if newGeoBox == None:
-                            newGeoBox = GeoBox(
-                                lat = newGeoBoxId[0],
-                                lon = newGeoBoxId[1]
-                            )
-                            newGeoBox.put()
-                        
-                        if row[0] not in newGeoBox.attractions:
-                            newGeoBox.attractions.append(row[0])
-                        
                         newAttraction.put()
-                        newGeoBox.put()
                         
                     except db.BadValueError:
                         pass

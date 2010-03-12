@@ -61,7 +61,10 @@ class AttractionLoader(bulkloader.Loader):
                 lon = latLon[1]
             )
         
-        theGeoBox.attractions.append(entity.id)
+        theGeoBox.attractions.append({
+            'id': entity.id,
+            'name': entity.name
+        })
         theGeoBox.put()
         
         return entity
