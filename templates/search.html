@@ -34,7 +34,7 @@
     
     <div id="search-results">
         <a class="map" href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}">
-            <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}&amp;markers=color:0xff8800|{% if attraction.label %}label:{{ attraction.label }}|{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}&amp;sensor=false" alt="Map">
+            <img src="http://maps.google.com/maps/api/staticmap?size=300x300&amp;maptype=roadmap{% for attraction in attractions %}{% if attraction.label %}&amp;markers=color:0xff8800|label:{{ attraction.label }}|{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endif %}{% endfor %}&amp;sensor=false" alt="Map">
             <span>View on the big map</span>
         </a>
         <ol>
