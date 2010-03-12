@@ -6,6 +6,7 @@ class Attraction(db.Model):
     previous = db.StringProperty(default = None)
     next = db.StringProperty(default = None)
     location = db.GeoPtProperty(required = True)
+    geobox = db.StringProperty()
     name = db.StringProperty(required = True)
     description = db.TextProperty()
     href = db.StringProperty()

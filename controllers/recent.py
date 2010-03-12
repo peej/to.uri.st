@@ -8,6 +8,7 @@ class RecentPage(Controller):
     def get(self, type):
         
         coords = self.request.get("c")
+        page = int(self.request.get("page", 1));
         
         template_values = {}
         
@@ -21,41 +22,46 @@ class RecentPage(Controller):
             lons = [lon - 0.1, lon, lon + 0.1]
             
             attractions = []
-            
-            from models.geobox import GeoBox
+            count = 0
             
             for latitude in lats:
                 for longitude in lons:
                     
-                    geobox = GeoBox.all()
-                    geobox.filter("lat =", latitude)
-                    geobox.filter("lon =", longitude)
+                    query = Attraction.all()
+                    query.filter("next =", None)
+                    query.filter("geobox =", '%s,%s' % (latitude, longitude))
+                    query.order("-datetime")
                     
-                    geoboxes = geobox.get()
-                    
-                    if geoboxes:
-                        for attractionId in geoboxes.attractions:
-                            attractionQuery = Attraction.all()
-                            attractionQuery.filter("id =", attractionId)
-                            attractionQuery.filter("next =", None)
-                            attraction = attractionQuery.get()
-                            if attraction:
+                    try:
+                        #fetched = query.fetch(26, ((page - 1) * 26) + count)
+                        #for attraction in fetched:
+                        for attraction in query:
+                            count = count + 1
+                            if count > (page - 1) * 26:
                                 attractions.append(attraction)
-            
+                            if count >= (page - 1) * 26 + 26:
+                                break
+                    except (IndexError, db.BadRequestError):
+                        pass
+                    
+                    if count >= 26:
+                        break
+                if count >= 26:
+                    break
+                    
             attractions.sort()
             
             template_values['coords'] = '%.1f,%.1f' % (lat, lon)
             template_values['atomtag'] = 'recent:' + template_values['coords']
             
         else:
-            page = int(self.request.get("page", 1));
             
-            recent = Attraction.all()
-            recent.filter("next =", None)
-            recent.order("-datetime")
+            query = Attraction.all()
+            query.filter("next =", None)
+            query.order("-datetime")
             
             try:
-                attractions = recent.fetch(26, (page - 1) * 26)
+                attractions = query.fetch(26, (page - 1) * 26)
             except (IndexError, db.BadRequestError):
                 attractions = []
                 

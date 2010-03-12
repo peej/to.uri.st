@@ -36,7 +36,7 @@ class CommentAdd(EditPage):
             data['free'] = latestAttraction.free
             data['rating'] = latestAttraction.rating
             
-            newAttraction = self.saveAttraction(latestAttraction, data)
+            newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), data)
             
             user = self.getUserObject() # create user object if it doesn't exist
             

@@ -4,7 +4,6 @@ from google.appengine.ext import db
 
 from controllers.controller import Controller
 from models.attraction import Attraction
-from models.geobox import GeoBox
 
 class SearchPage(Controller):
     
@@ -26,30 +25,18 @@ class SearchPage(Controller):
         for latitude in lats:
             for longitude in lons:
                 
-                geobox = GeoBox.all()
-                geobox.filter("lat =", round(latitude, 1))
-                geobox.filter("lon =", round(longitude, 1))
+                query = Attraction.all()
+                query.filter("next =", None)
+                query.filter("geobox =", '%s,%s' % (latitude, longitude))
+                if tag:
+                    query.filter("tags =", tag)
+                query.order("name")
                 
-                geoboxes = geobox.get()
-                
-                if geoboxes:
-                    for attractionId in geoboxes.attractions:
-                        attractionQuery = Attraction.all()
-                        attractionQuery.filter("id =", attractionId)
-                        attractionQuery.filter("next =", None)
-                        if tag:
-                            attractionQuery.filter("tags =", tag)
-                        attraction = attractionQuery.get()
-                        if attraction:
-                            attractions.append(attraction)
-                            if updated == None or attraction.datetime > updated:
-                                updated = attraction.datetime
-                        if len(attractions) >= 26:
-                            break
-                if len(attractions) >= 26:
-                    break
-            if len(attractions) >= 26:
-                break
+                try:
+                    for attraction in query:
+                        attractions.append(attraction)
+                except (IndexError, db.BadRequestError):
+                    pass
         
         attractions.sort(lambda x, y: cmp(x.name, y.name))
         
@@ -59,8 +46,6 @@ class SearchPage(Controller):
             attractionCount = attractionCount + 1
             if attractionCount < 91:
                 attraction.label = chr(attractionCount)
-            if attraction.picture:
-                attraction.thumbnail = self.convertFlickrUrl(attraction.picture, "s")
             
         return (attractions, updated)
     
@@ -81,7 +66,7 @@ class SearchPage(Controller):
                 self.send404()
                 return
             
-            if type == 'js':
+            if type != 'js':
                 
                 url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(coords[0]), float(coords[1]))
                 
