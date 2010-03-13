@@ -438,6 +438,7 @@ div.info.todo { background-image: url(/_/info/todo.png); }
 div.info.trap { background-image: url(/_/info/trap.png); }
 div.info.translated { background-image: url(/_/info/translated.png); }
 div.info.old { background-image: url(/_/info/old.png); }
+div.info.nonfree { background-image: url(/_/info/nonfree.png); }
 
 ul#tags {
     list-style: none;
