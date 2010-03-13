@@ -7,20 +7,35 @@ from models.attraction import Attraction
 
 class SearchPage(Controller):
     
-    def getAttractions(self, lat, lon, type, tag = ''):
-        
-        lat = round(lat, 1)
-        lon = round(lon, 1)
-        
-        if type == 'js':
-            lats = [lat]
-            lons = [lon]
-        else:
-            lats = [lat - 0.1, lat, lat + 0.1]
-            lons = [lon - 0.1, lon, lon + 0.1]
+    def getAttractions(self, lat = None, lon = None, type = 'html', tag = '', bounds = {}):
         
         attractions = []
         updated = None
+        
+        boxLat = round(lat, 1)
+        boxLon = round(lon, 1)
+        
+        defaultAccuracy = 1
+        
+        if tag:
+            accuracy = defaultAccuracy
+        else:
+            try:
+                boundsLat = bounds['north'] - bounds['south']
+                boundsLon = bounds['east'] - bounds['west']
+                if boundsLat < boundsLon:
+                    accuracy = boundsLat
+                else:
+                    accuracy = boundsLon
+            except IndexError:
+                accuracy = defaultAccuracy
+        
+        if type == 'js' or accuracy < defaultAccuracy:
+            lats = [boxLat]
+            lons = [boxLon]
+        else:
+            lats = [boxLat - 0.1, boxLat, boxLat + 0.1]
+            lons = [boxLon - 0.1, boxLon, boxLon + 0.1]
         
         for latitude in lats:
             for longitude in lons:
@@ -34,7 +49,13 @@ class SearchPage(Controller):
                 
                 try:
                     for attraction in query:
-                        attractions.append(attraction)
+                        if accuracy >= defaultAccuracy or (\
+                            attraction.location.lat > lat - accuracy and \
+                            attraction.location.lat < lat + accuracy and \
+                            attraction.location.lon > lon - accuracy and \
+                            attraction.location.lon < lon + accuracy
+                        ):
+                            attractions.append(attraction)
                 except (IndexError, db.BadRequestError):
                     pass
         
@@ -48,6 +69,8 @@ class SearchPage(Controller):
                 attraction.label = chr(attractionCount)
             if attraction.picture:
                 attraction.thumbnail = self.convertFlickrUrl(attraction.picture, "s")
+            if updated == None or attraction.datetime > updated:
+                updated = attraction.datetime
             
         return (attractions, updated)
     
@@ -83,13 +106,18 @@ class SearchPage(Controller):
                             'Country' in data['Placemark'][0]['AddressDetails'] and 
                             'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
                             'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
-                            'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea'] and
                             'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
                         ):
-                            template_values['search'] = "%s, %s" % (
-                                data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                                data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                            )
+                            if 'AddressLine' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']:
+                                template_values['search'] = "%s, %s" % (
+                                    data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
+                                    data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                                )
+                            elif 'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']:
+                                template_values['search'] = "%s, %s" % (
+                                    data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                                    data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                                )
                     except KeyError:
                         pass
                 else:
@@ -122,13 +150,20 @@ class SearchPage(Controller):
             if jsonString:
                 data = simplejson.loads(jsonString)
                 try:
+                    bounds = data['Placemark'][0]['ExtendedData']['LatLonBox']
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
                     template_values['coords'] = "%.1f,%.1f" % (lat, lon)
-                    if len(data['Placemark']) > 1:
-                        template_values['results'] = data['Placemark']
+                    #if len(data['Placemark']) > 1:
+                    #    template_values['results'] = data['Placemark']
+                    #else:
+                    (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type, tag, bounds)
+                    if 'AddressLine' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']:
+                        template_values['search'] = "%s, %s" % (
+                            data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'][0],
+                            data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                        )
                     else:
-                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type, tag)
                         template_values['search'] = "%s, %s" % (
                             data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                             data['Placemark'][0]['AddressDetails']['Country']['CountryName']
