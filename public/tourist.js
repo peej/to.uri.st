@@ -335,6 +335,12 @@ $(function () {
         if (!location) {
             location = [null, 0, 0];
             zoom = 2;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (loc) {
+                    map.setCenter(new google.maps.LatLng(loc.coords.latitude, loc.coords.longitude));
+                    map.setZoom(12);
+                });
+            }
         }
         
         var center = new google.maps.LatLng(parseFloat(location[1]), parseFloat(location[2]));
