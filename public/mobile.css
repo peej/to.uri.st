@@ -28,6 +28,10 @@
     margin: 10px auto;
 }
 
+#fdbk_tab {
+    display: none;
+}
+
 /* map */
 
 #map #header,
