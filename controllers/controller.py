@@ -539,7 +539,6 @@ class Controller(webapp.RequestHandler):
             user = users.get_current_user()
         
         userId = self.getUserId(user)
-        
         if not userId:
             return None
         
@@ -557,8 +556,8 @@ class Controller(webapp.RequestHandler):
             else:
                 userObject = User(
                     id = userId,
-                    username = user,
-                    name = user
+                    username = userId,
+                    name = userId
                 )
             userObject.put()
         
@@ -693,98 +692,106 @@ class Controller(webapp.RequestHandler):
                         user.stats[id][subId] = 1
     
     def updateBadges(self, user):
-        from datetime import datetime
+        if user:
+            
+            from datetime import datetime
+            
+            if user.badges:
+                oldBadges = user.badges.copy()
+            else:
+                oldBadges = {}
+            
+            # edits
+            try:
+                if user.stats[1] >= 100 and not 5 in user.badges:
+                    user.badges[5] = datetime.today()
+                elif user.stats[1] >= 25 and not 4 in user.badges:
+                    user.badges[4] = datetime.today()
+                elif user.stats[1] >= 10 and not 3 in user.badges:
+                    user.badges[3] = datetime.today()
+                elif user.stats[1] >= 3 and not 2 in user.badges:
+                    user.badges[2] = datetime.today()
+                elif user.stats[1] >= 1 and not 1 in user.badges:
+                    user.badges[1] = datetime.today()
+            except KeyError:
+                pass
+            
+            # local edits
+            try:
+                for loc in user.stats[2]:
+                    if user.stats[2][loc] >= 20 and not 7 in user.badges:
+                        user.badges[7] = datetime.today()
+                    elif user.stats[2][loc] >= 5 and not 6 in user.badges:
+                        user.badges[6] = datetime.today()
+            except KeyError:
+                pass
+            
+            # recommended
+            try:
+                if user.stats[3] >= 25 and not 10 in user.badges:
+                    user.badges[10] = datetime.today()
+                elif user.stats[3] >= 5 and not 9 in user.badges:
+                    user.badges[9] = datetime.today()
+                elif user.stats[3] >= 1 and not 8 in user.badges:
+                    user.badges[8] = datetime.today()
+            except KeyError:
+                pass
+            
+            # picture
+            try:
+                if user.stats[4] >= 20 and not 12 in user.badges:
+                    user.badges[12] = datetime.today()
+                elif user.stats[4] >= 5 and not 11 in user.badges:
+                    user.badges[11] = datetime.today()
+            except KeyError:
+                pass
+            
+            # info tags
+            try:
+                if user.stats[5] >= 3 and not 13 in user.badges: # dupe
+                    user.badges[13] = datetime.today()
+                if user.stats[12] >= 3 and not 20 in user.badges: # delete
+                    user.badges[20] = datetime.today()
+            except KeyError:
+                pass
+            
+            # comments
+            try:
+                if user.stats[6] >= 25 and not 16 in user.badges:
+                    user.badges[16] = datetime.today()
+                elif user.stats[6] >= 5 and not 15 in user.badges:
+                    user.badges[15] = datetime.today()
+                elif user.stats[6] >= 1 and not 14 in user.badges:
+                    user.badges[14] = datetime.today()
+            except KeyError:
+                pass
+            
+            # idiot
+            try:
+                if user.stats[8] >= 3 and not 18 in user.badges:
+                    user.badges[18] = datetime.today()
+                if user.stats[9] >= 3 and not 19 in user.badges:
+                    user.badges[19] = datetime.today()
+            except KeyError:
+                pass
+            
+            # type
+            try:
+                for badgeId in user.stats[11]:
+                    if user.stats[11][badgeId] >= 3 and not badgeId in user.badges:
+                        user.badges[badgeId] = datetime.today()
+            except KeyError:
+                pass
+            
+            # location
+            try:
+                for badgeId in user.stats[10]:
+                    if user.stats[10][type] >= 3 and not badgeId in user.badges:
+                        user.badges[badgeId] = datetime.today()
+            except KeyError:
+                pass
+            
+            return [val for val in user.badges if val not in oldBadges]
         
-        oldBadges = user.badges.copy()
-        
-        # edits
-        try:
-            if user.stats[1] >= 100 and not 5 in user.badges:
-                user.badges[5] = datetime.today()
-            elif user.stats[1] >= 25 and not 4 in user.badges:
-                user.badges[4] = datetime.today()
-            elif user.stats[1] >= 10 and not 3 in user.badges:
-                user.badges[3] = datetime.today()
-            elif user.stats[1] >= 3 and not 2 in user.badges:
-                user.badges[2] = datetime.today()
-            elif user.stats[1] >= 1 and not 1 in user.badges:
-                user.badges[1] = datetime.today()
-        except KeyError:
-            pass
-        
-        # local edits
-        try:
-            for loc in user.stats[2]:
-                if user.stats[2][loc] >= 20 and not 7 in user.badges:
-                    user.badges[7] = datetime.today()
-                elif user.stats[2][loc] >= 5 and not 6 in user.badges:
-                    user.badges[6] = datetime.today()
-        except KeyError:
-            pass
-        
-        # recommended
-        try:
-            if user.stats[3] >= 25 and not 10 in user.badges:
-                user.badges[10] = datetime.today()
-            elif user.stats[3] >= 5 and not 9 in user.badges:
-                user.badges[9] = datetime.today()
-            elif user.stats[3] >= 1 and not 8 in user.badges:
-                user.badges[8] = datetime.today()
-        except KeyError:
-            pass
-        
-        # picture
-        try:
-            if user.stats[4] >= 20 and not 12 in user.badges:
-                user.badges[12] = datetime.today()
-            elif user.stats[4] >= 5 and not 11 in user.badges:
-                user.badges[11] = datetime.today()
-        except KeyError:
-            pass
-        
-        # info tags
-        try:
-            if user.stats[5] >= 3 and not 13 in user.badges: # dupe
-                user.badges[13] = datetime.today()
-            if user.stats[12] >= 3 and not 20 in user.badges: # delete
-                user.badges[20] = datetime.today()
-        except KeyError:
-            pass
-        
-        # comments
-        try:
-            if user.stats[6] >= 25 and not 16 in user.badges:
-                user.badges[16] = datetime.today()
-            elif user.stats[6] >= 5 and not 15 in user.badges:
-                user.badges[15] = datetime.today()
-            elif user.stats[6] >= 1 and not 14 in user.badges:
-                user.badges[14] = datetime.today()
-        except KeyError:
-            pass
-        
-        # idiot
-        try:
-            if user.stats[8] >= 3 and not 18 in user.badges:
-                user.badges[18] = datetime.today()
-            if user.stats[9] >= 3 and not 19 in user.badges:
-                user.badges[19] = datetime.today()
-        except KeyError:
-            pass
-        
-        # type
-        try:
-            for badgeId in user.stats[11]:
-                if user.stats[11][badgeId] >= 3 and not badgeId in user.badges:
-                    user.badges[badgeId] = datetime.today()
-        except KeyError:
-            pass
-        
-        # location
-        try:
-            for badgeId in user.stats[10]:
-                if user.stats[10][type] >= 3 and not badgeId in user.badges:
-                    user.badges[badgeId] = datetime.today()
-        except KeyError:
-            pass
-        
-        return [val for val in user.badges if val not in oldBadges]
+        else:
+            return False

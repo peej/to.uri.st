@@ -19,7 +19,7 @@ class CommentAdd(EditPage):
             from google.appengine.api import users
             user = users.get_current_user()
             if user:
-                username = user.email();
+                username = user.nickname();
             else:
                 username = self.request.remote_addr
             

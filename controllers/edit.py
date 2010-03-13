@@ -101,47 +101,50 @@ class EditPage(Controller):
                     newAttraction = db.run_in_transaction(self.createAttraction, None, attraction)
                 
                 user = self.getUserObject() # create user object if it doesn't exist
-                
-                # update stats
-                self.addStat(user, 1) # new edit
-                self.addStat(user, 2, newAttraction.region) # edit location
-                if latestAttraction and newAttraction.picture != '' and latestAttraction.picture == '':
-                    self.addStat(user, 4) # new picture
-                if latestAttraction and 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
-                    self.addStat(user, 5) # new dupe tag added
-                if latestAttraction and 'delete' in newAttraction.tags and 'delete' not in latestAttraction.tags:
-                    self.addStat(user, 12) # new delete tag added
-                if latestAttraction \
-                    and newAttraction.name == latestAttraction.name \
-                    and newAttraction.description == latestAttraction.description \
-                    and newAttraction.href == latestAttraction.href \
-                    and newAttraction.picture == latestAttraction.picture \
-                    and newAttraction.tags == latestAttraction.tags:
-                    self.addStat(user, 8) # no change idiot
-                
-                # type edit
-                for badge in self.badges.items():
-                    try:
-                        if badge[1]['tag'] and badge[1]['tag'] in newAttraction.tags:
-                            self.addStat(user, 11, badge[0])
-                    except KeyError:
-                        pass
-                
-                if newAttraction.region != 'Unknown location':
+                if user:
+                    
+                    # update stats
+                    self.addStat(user, 1) # new edit
+                    self.addStat(user, 2, newAttraction.region) # edit location
+                    if latestAttraction and newAttraction.picture != '' and latestAttraction.picture == '':
+                        self.addStat(user, 4) # new picture
+                    if latestAttraction and 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
+                        self.addStat(user, 5) # new dupe tag added
+                    if latestAttraction and 'delete' in newAttraction.tags and 'delete' not in latestAttraction.tags:
+                        self.addStat(user, 12) # new delete tag added
+                    if latestAttraction \
+                        and newAttraction.name == latestAttraction.name \
+                        and newAttraction.description == latestAttraction.description \
+                        and newAttraction.href == latestAttraction.href \
+                        and newAttraction.picture == latestAttraction.picture \
+                        and newAttraction.tags == latestAttraction.tags:
+                        self.addStat(user, 8) # no change idiot
+                    
+                    # type edit
                     for badge in self.badges.items():
                         try:
-                            if badge[1]['location'] and badge[1]['location'] in newAttraction.region:
-                                self.addStat(user, 10, badge[0])
+                            if badge[1]['tag'] and badge[1]['tag'] in newAttraction.tags:
+                                self.addStat(user, 11, badge[0])
                         except KeyError:
                             pass
+                    
+                    if newAttraction.region != 'Unknown location':
+                        for badge in self.badges.items():
+                            try:
+                                if badge[1]['location'] and badge[1]['location'] in newAttraction.region:
+                                    self.addStat(user, 10, badge[0])
+                            except KeyError:
+                                pass
+                    
+                    newBadges = self.updateBadges(user)
+                    user.put()
+                    
+                    if newBadges:
+                        self.redirect('/badges/%s.html' % newBadges.pop(0))
+                        return
                 
-                newBadges = self.updateBadges(user)
-                user.put()
-                
-                if newBadges:
-                    self.redirect('/badges/%s.html' % newBadges.pop(0))
-                else:
-                    self.redirect('/attractions/' + newAttraction.id + '.html')
+                self.redirect('/attractions/' + newAttraction.id + '.html')
+                return
                 
             except db.TransactionFailedError:
             
@@ -165,7 +168,7 @@ class EditPage(Controller):
             attractionData['userid'] = self.getUserId(user.email())
             attractionData['username'] = user.nickname()
         else:
-            attractionData['userid'] = self.getUserId(self.request.remote_addr)
+            attractionData['userid'] = None
             attractionData['username'] = self.request.remote_addr
         
         url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(attractionData['location']['lat']), float(attractionData['location']['lon']))
@@ -197,6 +200,13 @@ class EditPage(Controller):
             attractionData['free'] = True
             attractionData['rating'] = 0
         
+        free = oldAttraction.free
+        if not free:
+            import difflib
+            s = difflib.SequenceMatcher(None, oldAttraction.description, attractionData['description'])
+            if s.ratio() < 0.5:
+                free = True
+        
         newAttraction = Attraction(
             parent = oldAttraction,
             root = attractionData['root'],
@@ -212,7 +222,7 @@ class EditPage(Controller):
             href = attractionData['href'],
             picture = attractionData['picture'],
             tags = attractionData['tags'],
-            free = attractionData['free'],
+            free = free,
             rating = attractionData['rating'],
             userid = attractionData['userid'],
             username = attractionData['username']
