@@ -479,9 +479,9 @@ class Controller(webapp.RequestHandler):
             return
         
         if self.request.get('pretty'):
-            self.response.headers.add_header('Content-type', 'text/plain')
+            self.response.headers.add_header('Content-type', 'text/plain; charset=utf-8')
         else:
-            self.response.headers.add_header('Content-type', self.mimetypes[type])
+            self.response.headers.add_header('Content-type', self.mimetypes[type] + '; charset=utf-8')
         
         values['page'] = templateName
         values['get'] = {}
