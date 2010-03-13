@@ -3,12 +3,15 @@ import re
 
 from controllers.controller import Controller
 from models.attraction import Attraction
+from models.user import User
 
 class UserPage(Controller):
     
     def get(self, userid, type):
         
-        userObject = self.getUserObject(userid)
+        query = User.all()
+        query.filter("id =", userid)
+        userObject = query.get()
         
         from google.appengine.api import users
         user = users.get_current_user()
