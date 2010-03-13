@@ -21,9 +21,15 @@
 			<uri>/users/{{ attraction.userid|escape }}.html</uri>
 		</author>
 		{% else %}
+		{% if attraction.username %}
+		<author>
+			<name>{{ attraction.username|escape }}</name>
+		</author>
+		{% else %}
 		<author>
 			<name>Anonymous</name>
 		</author>
+		{% endif %}
 		{% endif %}
 		<content type="html">{{ attraction.description|escape }}</content>
 		{% if attraction.thumbnail %}<media:content url="{{ attraction.thumbnail|escape }}" medium="image" />{% endif %}

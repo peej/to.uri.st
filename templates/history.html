@@ -15,7 +15,7 @@
     <ol>
     {% for attraction in attractions %}
         <li>
-            <a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by {% if attraction.userid %}<a href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
+            <a href="/attractions/{{ attraction.id|escape }}.html">{{ attraction.datetime|date:"jS F Y \a\t H:i" }} ({{ attraction.datetime|timesince}} ago)</a> by {% if attraction.userid %}<a rel="author" href="/users/{{ attraction.userid|urlencode }}.html">{{ attraction.username|escape }}</a>{% else %}{% if attraction.username %}{{ attraction.username|escape }}{% else %}Anonymous{% endif %}{% endif %}
             <ol class="diff">
             {% if attraction.diff %}
                 {% for line in attraction.diff %}
