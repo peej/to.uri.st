@@ -28,6 +28,10 @@ handlers:
   script: loader/autotag.py
   login: admin
 
+- url: /fixregion
+  script: loader/fixregion.py
+  login: admin
+
 - url: /_
   static_dir: public
 
