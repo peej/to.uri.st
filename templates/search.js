@@ -4,6 +4,7 @@
 {
     "id": "{{ attraction.id }}",
     "title": "{{ attraction.name }}",
+    "description": "{{ attraction.description|truncatewords:20 }}",
     "location": {
         "lat": {{ attraction.location.lat }},
         "lon": {{ attraction.location.lon }}
