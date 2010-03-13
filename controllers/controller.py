@@ -540,6 +540,9 @@ class Controller(webapp.RequestHandler):
         
         userId = self.getUserId(user)
         
+        if not userId:
+            return None
+        
         query = User.all()
         query.filter("id =", userId)
         userObject = query.get()
@@ -672,21 +675,22 @@ class Controller(webapp.RequestHandler):
         logging.warning('500 error ' + errorHash)
     
     def addStat(self, user, id, subId = None):
-        if subId == None:
-            try:
-                user.stats[id] = user.stats[id] + 1
-            except KeyError:
-                user.stats = {}
-                user.stats[id] = 1
-        else:
-            try:
-                user.stats[id][subId] = user.stats[id][subId] + 1
-            except KeyError:
+        if user:
+            if subId == None:
                 try:
-                    user.stats[id][subId] = 1
+                    user.stats[id] = user.stats[id] + 1
                 except KeyError:
-                    user.stats[id] = {}
-                    user.stats[id][subId] = 1
+                    user.stats = {}
+                    user.stats[id] = 1
+            else:
+                try:
+                    user.stats[id][subId] = user.stats[id][subId] + 1
+                except KeyError:
+                    try:
+                        user.stats[id][subId] = 1
+                    except KeyError:
+                        user.stats[id] = {}
+                        user.stats[id][subId] = 1
     
     def updateBadges(self, user):
         from datetime import datetime

@@ -39,12 +39,13 @@ class CommentAdd(EditPage):
             newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), data)
             
             user = self.getUserObject() # create user object if it doesn't exist
+            newBadges = None
             
-            # update stats
-            self.addStat(user, 6)
-            
-            newBadges = self.updateBadges(user)
-            user.put()
+            if user: # update stats
+                self.addStat(user, 6)
+                
+                newBadges = self.updateBadges(user)
+                user.put()
             
             if newBadges:
                 self.redirect('/badges/%s.html' % newBadges.pop(0))
