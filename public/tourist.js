@@ -131,14 +131,6 @@ $(function () {
         view: "panoramic180.png",
         cave: "cave.png",
         
-        bookshop: "bookstore.png",
-        giftshop: "gifts.png",
-        artgallery: "artgallery.png",
-        market: "market.png",
-        bar: "bar.png",
-        cafe: "coffee.png",
-        icecream: "icecream.png",
-        
         bowling: "bowling.png",
         snooker: "billiard.png",
         aquarium: "aquarium.png",
@@ -197,6 +189,14 @@ $(function () {
         shop: "shoppingmall.png",
         historic: "museum-historical.png",
         museum: "museum-art.png",
+        
+        bookshop: "bookstore.png",
+        giftshop: "gifts.png",
+        artgallery: "artgallery.png",
+        market: "market.png",
+        bar: "bar.png",
+        cafe: "coffee.png",
+        icecream: "icecream.png",
         
         dupe: "info.png",
         "delete": "info.png",
