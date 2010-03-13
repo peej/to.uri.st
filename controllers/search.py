@@ -27,7 +27,7 @@ class SearchPage(Controller):
                     accuracy = boundsLat
                 else:
                     accuracy = boundsLon
-            except IndexError:
+            except KeyError:
                 accuracy = defaultAccuracy
         
         if type == 'js' or accuracy < defaultAccuracy:
