@@ -91,7 +91,9 @@
     {% if user.stats.2 %}
     <ul id="locations">
         {% for loc in user.stats.2 %}
+            {% ifnotequal loc 'Unknown location' %}
         <li><a href="/search.html?q={{ loc|escape }}">{{ loc|escape }}</a></li>
+            {% endifnotequal %}
         {% endfor %}
     </ul>
     {% endif %}
