@@ -283,15 +283,6 @@ class AutoTagWorker(webapp.RequestHandler):
             
             count = count  + 1
         
-        if f < 4:
-            taskqueue.add(
-                url = '/autotag',
-                params = {
-                    'n': n + l,
-                    'f': f + 1
-                }
-            )
-
 def main():
     run_wsgi_app(webapp.WSGIApplication([
         ('/autotag', AutoTagWorker),
