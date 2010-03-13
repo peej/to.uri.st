@@ -54,6 +54,12 @@ class RecentPage(Controller):
             template_values['coords'] = '%.1f,%.1f' % (lat, lon)
             template_values['atomtag'] = 'recent:' + template_values['coords']
             
+            if page > 1:
+                template_values['previous'] = self.request.path + '?c=%.1f,%.1f&page=%d' % (lat, lon, page - 1)
+            
+            if count == 26:
+                template_values['next'] = self.request.path + '?c=%.1f,%.1f&page=%d' % (lat, lon, page + 1)
+            
         else:
             
             query = Attraction.all()
