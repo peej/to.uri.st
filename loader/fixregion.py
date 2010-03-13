@@ -50,22 +50,25 @@ class FixRegionWorker(webapp.RequestHandler):
                     jsonString = urllib.urlopen(url).read()
                     if jsonString:
                         data = simplejson.loads(jsonString)
-                        for placemark in data['Placemark']:
-                            try:
-                                attraction.region = u"%s, %s" % (
-                                    placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                                    placemark['AddressDetails']['Country']['CountryName']
-                                )
-                                break;
-                            except KeyError:
+                        if 'Placemark' in data:
+                            for placemark in data['Placemark']:
                                 try:
                                     attraction.region = u"%s, %s" % (
-                                        placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
+                                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                                         placemark['AddressDetails']['Country']['CountryName']
                                     )
                                     break;
                                 except KeyError:
-                                    attraction.region = 'Unknown location'
+                                    try:
+                                        attraction.region = u"%s, %s" % (
+                                            placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
+                                            placemark['AddressDetails']['Country']['CountryName']
+                                        )
+                                        break;
+                                    except KeyError:
+                                        attraction.region = 'Unknown location'
+                        else:
+                            attraction.region = 'Unknown location'
                     else:
                         attraction.region = 'Unknown location'
                     
