@@ -53,6 +53,7 @@ $(function () {
                                                 content += '<img src="' + data[index].thumbnail + '">';
                                             }
                                             content += '<a href="/attractions/' + data[index].id + '.html">' + data[index].title + "</a>";
+                                            content += '<p>' + data[index].description + '</p>';
                                             if (data[index].tags) {
                                                 content += '<ul id="tags">';
                                                 $.each(data[index].tags, function () {
@@ -62,6 +63,9 @@ $(function () {
                                             }
                                             content += '</div>';
                                             infowindow.setContent(content);
+                                            infowindow.setOptions({
+                                                maxWidth: $("#big-map").width() / 2
+                                            });
                                             infowindow.open(map, marker);
                                         });
                                         markers[boxId].push(marker);
