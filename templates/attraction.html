@@ -105,6 +105,7 @@
         {% if attraction.rating %}<br>{{ attraction.rating }} pe{{ attraction.rating|pluralize:"rson has,ople have" }} recommended this attaction{% endif %}
     </p>
     
+    {% if signedin %}
     <div class="nav">
     {% if recommended %}
         <a class="recommend recommended" href="/attractions/{{ attraction.id|escape }}/unrecommend.html">Stop recommending this attraction</a>
@@ -117,6 +118,7 @@
         <a class="itinerary" href="/attractions/{{ attraction.id|escape }}/itinerary.html">Add to your itinerary</a>
     {% endif %}
     </div>
+    {% endif %}
     
     <div class="nav">
         <a class="search" href="/search.html?c={{ attraction.location.lat|floatformat:2|escape }},{{ attraction.location.lon|floatformat:2|escape }}" rel="index">More attractions in this area</a>

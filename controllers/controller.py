@@ -676,6 +676,7 @@ class Controller(webapp.RequestHandler):
             try:
                 user.stats[id] = user.stats[id] + 1
             except KeyError:
+                user.stats = {}
                 user.stats[id] = 1
         else:
             try:
