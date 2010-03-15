@@ -11,6 +11,9 @@ $(function () {
     var mapChanged = function () {
         window.clearTimeout(timeout);
         timeout = window.setTimeout(loadData, 1000);
+            
+        var center = map.getCenter();
+        $(".nav .add").attr("href", "/add.html?c=" + center.lat().toFixed(4) + "," + center.lng().toFixed(4));
     }
     
     var loadData = function () {
@@ -381,11 +384,27 @@ $(function () {
         };
         $("input.map").wrap('<div id="map"></div>');
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        $("#map").height(300);
+        
+        var icon = new google.maps.MarkerImage(
+            "http://www.google.com/intl/en_ALL/mapfiles/marker_orange.png",
+            new google.maps.Size(20, 34),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(20, 34)
+        );
         
         var marker = new google.maps.Marker({
             position: center,
             map: map,
-            icon: "http://www.google.com/intl/en_ALL/mapfiles/marker_orange.png"
+            icon: icon,
+            shadow: "http://maps.gstatic.com/intl/en_uk/mapfiles/shadow50.png",
+            draggable: true,
+            title: "Drag to set attraction location"
+        });
+        
+        google.maps.event.addListener(marker, "dragend", function (e) {
+            $("input[name=lat]").val(e.latLng.lat().toFixed(4));
+            $("input[name=lon]").val(e.latLng.lng().toFixed(4));
         });
         
         google.maps.event.addListener(map, "click", function (e) {

@@ -34,9 +34,9 @@
         
         <label class="location{% if errors.location %} error{% endif %}">
             Location:
-            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|default:0|escape }},{{ attraction.location.lon|default:0|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
-            <input type="hidden" name="lat" value="{{ attraction.location.lat|default:0|escape }}">
-            <input type="hidden" name="lon" value="{{ attraction.location.lon|default:0|escape }}">
+            <input class="map" type="image" name="location" src="http://maps.google.com/maps/api/staticmap?size=300x150&amp;maptype=roadmap&amp;zoom=14&amp;markers=color:red|{{ attraction.location.lat|default:lat|escape }},{{ attraction.location.lon|default:lon|escape }}&amp;sensor=false&amp;key={{ mapkey }}" alt="Location">
+            <input type="hidden" name="lat" value="{{ attraction.location.lat|default:lat|escape }}">
+            <input type="hidden" name="lon" value="{{ attraction.location.lon|default:lon|escape }}">
         </label>
         
         <label{% if errors.href %} class="error"{% endif %}>
@@ -58,6 +58,12 @@
             {% if errors.tags %}Enter a space separated list of tags{% endif %}
             <input type="text" name="tags" value="{% for tag in attraction.tags %}{{ tag|escape }}{% if not forloop.last %} {% endif %}{% endfor %}">
         </label>
+        
+        <p class="smallprint">By submitting content, you agree for it to be licensed
+        under <a rel="ext license" class="ext" href="http://creativecommons.org/licenses/by-sa/1.0/">the
+        Creative Commons Attribution-ShareAlike 1.0 license</a>. Please only submit
+        content that you write yourself or that is licenced under a compatible license.
+        Learn more about <a rel="ext help" class="ext" href="http://wiki.to.uri.st/Content_policy">our content policy</a>.</p>
         
         <div class="buttons">
             <input type="submit" value="Save">

@@ -514,6 +514,12 @@ label.location #map {
     border: 1px solid #999;
 }
 
+p.smallprint {
+    font-size: 80%;
+    color: #666;
+    margin: 1em 0;
+}
+
 /* history */
 
 ol.diff {
