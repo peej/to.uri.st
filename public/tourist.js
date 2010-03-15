@@ -433,9 +433,13 @@ $(function () {
             })
             .focusout(function (e) {
                 $(".tags div").removeClass("active");
+                addTag();
             })
             .keypress(function (e) {
-                if (e.which == '13' || e.which == '32') {
+                if (
+                    (e.which < 48 || e.which > 57) &&
+                    (e.which < 97 || e.which > 122)
+                ) {
                     addTag();
                     e.preventDefault();
                 }
