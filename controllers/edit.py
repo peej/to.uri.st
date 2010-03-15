@@ -193,19 +193,20 @@ class EditPage(Controller):
             attractionData['previous'] = oldAttraction.id
             attractionData['free'] = oldAttraction.free
             attractionData['rating'] = oldAttraction.rating
+            attractionData['free'] = oldAttraction.free
         else:
             oldAttraction = None
             attractionData['root'] = None
             attractionData['previous'] = None
             attractionData['free'] = True
             attractionData['rating'] = 0
+            attractionData['free'] = True
         
-        free = oldAttraction.free
-        if not free:
+        if not attractionData['free']:
             import difflib
             s = difflib.SequenceMatcher(None, oldAttraction.description, attractionData['description'])
             if s.ratio() < 0.5:
-                free = True
+                attractionData['free'] = True
         
         newAttraction = Attraction(
             parent = oldAttraction,
@@ -222,7 +223,7 @@ class EditPage(Controller):
             href = attractionData['href'],
             picture = attractionData['picture'],
             tags = attractionData['tags'],
-            free = free,
+            free = attractionData['free'],
             rating = attractionData['rating'],
             userid = attractionData['userid'],
             username = attractionData['username']
