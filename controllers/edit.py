@@ -9,6 +9,8 @@ class EditPage(Controller):
     def get(self, attractionId = None):
         
         template_values = {}
+        template_values['lat'] = 0
+        template_values['lon'] = 0
         
         if attractionId:
             query = Attraction.all()
@@ -24,7 +26,7 @@ class EditPage(Controller):
                 coords = self.request.get('c').split(',')
                 template_values['lat'] = "%.2f" % float(coords[0])
                 template_values['lon'] = "%.2f" % float(coords[1])
-            except ValueError:
+            except:
                 pass
         
         self.output('edit', 'html', template_values)
