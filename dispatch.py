@@ -35,9 +35,9 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/(?:un)?recommend(?:\.html)?', Recommend),
         ('/attractions/([a-f0-9]{32})/(?:un)?itinerary(?:\.html)?', Itinerary),
         ('/add(?:\.html)?', EditPage),
-        ('/recent(?:\.(html|atom|xml))?', RecentPage),
+        ('/recent(?:\.(html|atom|xml|js))?', RecentPage),
         ('/sitemap(?:\.(xml))?', RecentPage),
-        ('/users/([a-z0-9-]+)(?:\.(html|atom))?', UserPage),
+        ('/users/([a-z0-9-]+)(?:\.(html|atom|js))?', UserPage),
         ('/users/([a-z0-9-]+)/edit(?:\.html)?', UserEdit),
         ('/badges/([0-9]+)(?:\.html)?', Badge),
         

@@ -1,6 +1,6 @@
 {% if get.callback %}{{ get.callback }}({% endif %}
 {% if attractions %}[
-    {% for attraction in attractions %}
+    {% for attraction in recommended %}
 {
     "id": "{{ attraction.id }}",
     "url": "/attractions/{{ attraction.id }}",
