@@ -1,0 +1,271 @@
+<html>
+    <head>
+		<title>to.uri.st Embeddable Map</title>
+        <style type="text/css">
+body {
+    color: #000;
+    margin: 0;
+}
+#tourist-map {
+    width: 100%;
+    height: 100%;
+    background: url(/_/icon.png) center center no-repeat;
+}
+#details,
+#details-bg {
+    display: none;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+}
+#details-bg {
+    background: #ddf;
+    opacity: 0.8;
+}
+#details-bg.otd {
+    background-color: #ff6;
+}
+#details p {
+    display: block;
+    margin: 4px 4px 0;
+    font-size: 12px;
+    color: #000;
+}
+#details a {
+    font-weight: bold;
+}
+        </style>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+        <script type="text/javascript">
+var TOURISTMAP = function () {
+	var map, username, lat, lng, zoom, attractions, width, height;
+	
+    var markerIcons = {
+        wildlife: "animals.png",
+        beach: "beach.png",
+        lake: "lake.png",
+        wetland: "wetland.png",
+        forest: "forest.png",
+        waterfall: "waterfall.png",
+        castle: "castle.png",
+        palace: "palace.png",
+        citywalls: "gateswalls.png",
+        tower: "tower.png",
+        ruins: "ruins.png",
+        church: "church.png",
+        farm: "farm.png",
+        windmill: "windmill.png",
+        vineyard: "wineyard.png",
+        watermill: "watermill.png",
+        garden: "garden.png",
+        bridge: "bridge.png",
+        fountain: "fountain.png",
+        monument: "monument.png",
+        worldheritagesite: "worldheritagesite.png",
+        statue: "statue.png",
+        park: "park-urban.png",
+        picnic: "picnic.png",
+        view: "panoramic180.png",
+        cave: "cave.png",
+        
+        bowling: "bowling.png",
+        snooker: "billiard.png",
+        aquarium: "aquarium.png",
+        cinema: "cinema.png",
+        theatre: "theater.png",
+        casino: "casino.png",
+        music: "music-rock.png",
+        
+        archeological: "museum-archeological.png",
+        naval: "museum-naval.png",
+        war: "museum-war.png",
+        science: "museum-science.png",
+        crafts: "museum-crafts.png",
+        
+        themepark: "themepark.png",
+        zoo: "zoo.png",
+        art: "publicart.png",
+        circus: "circus.png",
+        festival: "festival.png",
+        waterpark: "waterpark.png",
+        ferriswheel: "ferriswheel.png",
+        
+        playground: "playground.png",
+        
+        americanfootball: "usfootball.png",
+        baseball: "baseball.png",
+        basketball: "basketball.png",
+        cricket: "cricket.png",
+        football: "soccer.png",
+        golf: "golf.png",
+        rugby: "rugby.png",
+        tennis: "tennis.png",
+        cycling: "cyclingsport.png",
+        racetrack: "racing.png",
+        archery: "archery.png",
+        climbing: "climbing.png",
+        fishing: "fishing.png",
+        hiking: "hiking.png",
+        horse: "horseriding.png",
+        skateboarding: "skateboarding.png",
+        pool: "pool.png",
+        kayaking: "kayak.png",
+        boating: "sailboat-sport.png",
+        surfing: "surfing.png",
+        swimming: "swim-outdoor.png",
+        waterskiing: "waterskiing.png",
+        windsurfing: "windsurfing.png",
+        icehockey: "icehockey.png",
+        iceskating: "iceskating.png",
+        snowboarding: "snowboarding.png",
+        skiing: "skiing.png",
+        stadium: "stadium.png",
+        
+        sport: "stadium.png",
+        nature: "park-urban.png",
+        shop: "shoppingmall.png",
+        historic: "museum-historical.png",
+        museum: "museum-art.png",
+        
+        bookshop: "bookstore.png",
+        giftshop: "gifts.png",
+        artgallery: "artgallery.png",
+        market: "market.png",
+        bar: "bar.png",
+        cafe: "coffee.png",
+        icecream: "icecream.png",
+        
+        dupe: "info.png",
+        "delete": "info.png",
+        badloc: "info.png",
+        todo: "info.png",
+        trap: "info.png",
+        translated: "info.png"
+        
+    };
+    
+    var getMarkerIcon = function (tags) {
+        var icon = "info.png";
+        for (var i = 0; i < markerIcons.length; i++) {
+            icon = markerIcons[markerIcons[i]];
+            return false;
+        }
+        return "http://google-maps-icons.googlecode.com/files/" + icon;
+    };
+    
+    var src = document.location.search;
+    username = src.match(/u=([A-Za-z0-9_-]+)/);
+    if (username) username = username[1];
+    lat = src.match(/lat=([0-9.-]+)/);
+    if (lat) lat = lat[1];
+    lng = src.match(/lng=([0-9.-]+)/);
+    if (lng) lng = lng[1];
+    zoom = src.match(/zoom=([0-9]+)/);
+    if (zoom) zoom = zoom[1];
+    attractions = src.match(/a=([a-f0-9]{32}(?:,[a-f0-9]{32})*)/);
+    if (attractions) attractions = attractions[1];
+    
+	var init = function () {
+        
+        var tourist = document.getElementById("tourist-map");
+        
+        var center = new google.maps.LatLng(0, 0);
+        var mapOptions = {
+            center: center,
+            zoom: 1,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false
+        };
+        
+        map = new google.maps.Map(tourist, mapOptions);
+       
+        if (username) {
+            var url = "/users/" + username + ".js?callback=TOURISTMAP.onload";
+        } else if (lat && lng) {
+            if (!zoom) zoom = 10;
+            map.setCenter(new google.maps.LatLng(lat, lng));
+            map.setZoom(parseInt(zoom));
+            var url = "/search.js?callback=TOURISTMAP.onload&c=" + lat + "," + lng;
+        } else if (attractions) {
+            var url = "/search.js?callback=TOURISTMAP.onload&a=" + attractions;
+        } else {
+            var url = "/recent.js?callback=TOURISTMAP.onload";
+        }
+        loadData(url);
+    };
+    
+    function showAttractionInfo() {
+        document.getElementById("details").innerHTML = this.str;
+        document.getElementById("details").style.display = "block";
+        document.getElementById("details-bg").style.display = "block";
+        document.getElementById("details-bg").className = "";
+        selected = true;
+    }
+    
+    function getMarkerFilename(placeType) {
+        return "http://google-maps-icons.googlecode.com/files/info.png";
+    }
+    
+    function drawAttractions(attractions) {
+        for (var i = 0; i < attractions.length; i++) {
+            var point = new google.maps.LatLng(
+                attractions[i].location.lat,
+                attractions[i].location.lon
+            );
+            
+            var title = attractions[i].title;
+            
+            var marker = new google.maps.Marker({
+                position: point,
+                map: map,
+                title: title,
+                icon: getMarkerIcon(attractions[i].tags)
+            });
+            
+            marker.str = '<p><a href="http://to.uri.st' + attractions[i].url + '" target="_top">' + attractions[i].title + "</a></p>";
+            google.maps.event.addListener(marker, "click", showAttractionInfo);
+            
+        }
+    }
+    
+    function loadData(url) {
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        script.setAttribute("src", url);
+        document.getElementsByTagName("body")[0].appendChild(script);
+    }
+    
+    function showData(places) {
+        if (places) {
+            drawAttractions(places);
+            var bounds = new google.maps.LatLngBounds();
+            for (var i = 0; i < places.length; i++) {
+                bounds.extend(new google.maps.LatLng(places[i].location.lat, places[i].location.lon));
+            }
+            map.fitBounds(bounds);
+        }
+    }
+    
+    if (typeof window.onload == "function") {
+        var oldOnload = window.onload;
+        window.onload = function () {
+            oldOnload();
+            init();
+        }
+    } else {
+        window.onload = init;
+    }
+   
+    return {
+        onload: showData
+    };
+}();
+        </script>
+    </head>
+    <body>
+        <div id="tourist-map"></div>
+        <div id="details-bg"></div>
+        <div id="details"></div>
+    </body>
+</html>
