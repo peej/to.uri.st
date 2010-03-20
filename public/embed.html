@@ -128,7 +128,7 @@ var TOURISTMAP = function () {
         historic: "museum-historical.png",
         museum: "museum-art.png",
         
-        bookshop: "bookstore.png",
+        bookstore: "bookstore.png",
         giftshop: "gifts.png",
         artgallery: "artgallery.png",
         market: "market.png",
@@ -147,9 +147,11 @@ var TOURISTMAP = function () {
     
     var getMarkerIcon = function (tags) {
         var icon = "info.png";
-        for (var i = 0; i < markerIcons.length; i++) {
-            icon = markerIcons[markerIcons[i]];
-            return false;
+        for (marker in markerIcons) {
+            if (tags.join(" ").indexOf(marker) != -1) {
+                icon = markerIcons[marker];
+                break;
+            }
         }
         return "http://google-maps-icons.googlecode.com/files/" + icon;
     };
@@ -157,11 +159,12 @@ var TOURISTMAP = function () {
     var src = document.location.search;
     username = src.match(/u=([A-Za-z0-9_-]+)/);
     if (username) username = username[1];
-    lat = src.match(/lat=([0-9.-]+)/);
-    if (lat) lat = lat[1];
-    lng = src.match(/lng=([0-9.-]+)/);
-    if (lng) lng = lng[1];
-    zoom = src.match(/zoom=([0-9]+)/);
+    center = src.match(/c=([0-9.-]+),([0-9.-]+)/);
+    if (center) {
+        lat = center[1];
+        lng = center[2];
+    }
+    zoom = src.match(/z=([0-9]+)/);
     if (zoom) zoom = zoom[1];
     attractions = src.match(/a=([a-f0-9]{32}(?:,[a-f0-9]{32})*)/);
     if (attractions) attractions = attractions[1];
@@ -201,10 +204,6 @@ var TOURISTMAP = function () {
         document.getElementById("details-bg").style.display = "block";
         document.getElementById("details-bg").className = "";
         selected = true;
-    }
-    
-    function getMarkerFilename(placeType) {
-        return "http://google-maps-icons.googlecode.com/files/info.png";
     }
     
     function drawAttractions(attractions) {

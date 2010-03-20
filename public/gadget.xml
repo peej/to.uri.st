@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="Tourist Attractions" title_url="http://to.uri.st/" description="Display tourist information from to.uri.st. We collect tourist attractions and places to visit and plot them on our Google Maps mashup, this gadget is a mini version of our site." author="Paul James" author_email="feedback@to.uri.st" author_affiliation="to.uri.st" thumbnail="http://peejeh.googlepages.com/thumb.png" screenshot="http://peejeh.googlepages.com/gadget.png" height="260">
+    <Require feature="views"/>
+	<Require feature="analytics"/>
+</ModulePrefs>
+<UserPref name="type" display_name="Show" datatype="enum" default_value="1">
+    <EnumValue value="1" display_value="Attractions"/>
+    <EnumValue value="2" display_value="Recent Changes"/>
+</UserPref>
+<UserPref name="loc" display_name="Location" datatype="string" required="true" default_value=""/>
+<UserPref name="zoom" display_name="Zoom" datatype="enum" default_value="12">
+    <EnumValue value="8" display_value="Far out"/>
+    <EnumValue value="10" display_value="Somewhere in the middle"/>
+    <EnumValue value="12" display_value="Close up"/>
+</UserPref>
+<Content type="html" view="home,profile,canvas"><![CDATA[
+    <style type="text/css">
+#details,
+#details-bg {
+    display: none;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+}
+#details-bg {
+    background: #ddf;
+    opacity: 0.8;
+}
+#details-bg.otd {
+    background-color: #ff6;
+}
+#details p {
+    display: block;
+    margin: 4px 4px 0;
+    font-size: 12px;
+    color: #000;
+}
+#details a {
+    font-weight: bold;
+}
+    </style>
+    <script src="http://maps.google.com/maps?file=js&amp;v=2" type="text/javascript"></script>
+    <div id="map" style="width: 100%; height: 100%;"></div>
+    <div id="details-bg"></div>
+    <div id="details"></div>
+    <script type="text/javascript">
+    	var prefs = new _IG_Prefs();
+		var loadTimeout;
+		var map = new GMap2(document.getElementById("map"));
+        var geocoder = new GClientGeocoder();
+            
+            
+        var markerIcons = {
+            wildlife: "animals.png",
+            beach: "beach.png",
+            lake: "lake.png",
+            wetland: "wetland.png",
+            forest: "forest.png",
+            waterfall: "waterfall.png",
+            castle: "castle.png",
+            palace: "palace.png",
+            citywalls: "gateswalls.png",
+            tower: "tower.png",
+            ruins: "ruins.png",
+            church: "church.png",
+            farm: "farm.png",
+            windmill: "windmill.png",
+            vineyard: "wineyard.png",
+            watermill: "watermill.png",
+            garden: "garden.png",
+            bridge: "bridge.png",
+            fountain: "fountain.png",
+            monument: "monument.png",
+            worldheritagesite: "worldheritagesite.png",
+            statue: "statue.png",
+            park: "park-urban.png",
+            picnic: "picnic.png",
+            view: "panoramic180.png",
+            cave: "cave.png",
+            
+            bowling: "bowling.png",
+            snooker: "billiard.png",
+            aquarium: "aquarium.png",
+            cinema: "cinema.png",
+            theatre: "theater.png",
+            casino: "casino.png",
+            music: "music-rock.png",
+            
+            archeological: "museum-archeological.png",
+            naval: "museum-naval.png",
+            war: "museum-war.png",
+            science: "museum-science.png",
+            crafts: "museum-crafts.png",
+            
+            themepark: "themepark.png",
+            zoo: "zoo.png",
+            art: "publicart.png",
+            circus: "circus.png",
+            festival: "festival.png",
+            waterpark: "waterpark.png",
+            ferriswheel: "ferriswheel.png",
+            
+            playground: "playground.png",
+            
+            americanfootball: "usfootball.png",
+            baseball: "baseball.png",
+            basketball: "basketball.png",
+            cricket: "cricket.png",
+            football: "soccer.png",
+            golf: "golf.png",
+            rugby: "rugby.png",
+            tennis: "tennis.png",
+            cycling: "cyclingsport.png",
+            racetrack: "racing.png",
+            archery: "archery.png",
+            climbing: "climbing.png",
+            fishing: "fishing.png",
+            hiking: "hiking.png",
+            horse: "horseriding.png",
+            skateboarding: "skateboarding.png",
+            pool: "pool.png",
+            kayaking: "kayak.png",
+            boating: "sailboat-sport.png",
+            surfing: "surfing.png",
+            swimming: "swim-outdoor.png",
+            waterskiing: "waterskiing.png",
+            windsurfing: "windsurfing.png",
+            icehockey: "icehockey.png",
+            iceskating: "iceskating.png",
+            snowboarding: "snowboarding.png",
+            skiing: "skiing.png",
+            stadium: "stadium.png",
+            
+            sport: "stadium.png",
+            nature: "park-urban.png",
+            shop: "shoppingmall.png",
+            historic: "museum-historical.png",
+            museum: "museum-art.png",
+            
+            bookstore: "bookstore.png",
+            giftshop: "gifts.png",
+            artgallery: "artgallery.png",
+            market: "market.png",
+            bar: "bar.png",
+            cafe: "coffee.png",
+            icecream: "icecream.png",
+            
+            dupe: "info.png",
+            "delete": "info.png",
+            badloc: "info.png",
+            todo: "info.png",
+            trap: "info.png",
+            translated: "info.png"
+            
+        };
+        
+        var getMarkerIcon = function (tags) {
+            var icon = "info.png";
+            for (marker in markerIcons) {
+                if (tags.join(" ").indexOf(marker) != -1) {
+                    icon = markerIcons[marker];
+                    break;
+                }
+            }
+            return "http://google-maps-icons.googlecode.com/files/" + icon;
+        };
+        
+        
+        map.addControl(new GSmallMapControl());
+		map.enableDoubleClickZoom();
+		map.enableContinuousZoom();
+		
+		_IG_Analytics("UA-2063563-1", "/gadget");
+		
+        if (prefs.getString('type') == 1) {
+    		GEvent.addListener(map, "moveend", scheduleShowData);
+            GEvent.addListener(map, "zoomend", scheduleShowData);
+            
+            if (prefs.getString('loc')) {
+                geocoder.getLatLng(prefs.getString('loc'), function (point) {
+                    if (typeof point == "object") {
+                        
+                    }
+                });
+            }
+            map.setCenter(new GLatLng(0, 0), 2);
+        } else {
+            var url = "http://beta.to.uri.st/recent.js";
+            if (prefs.getString('loc')) {
+                geocoder.getLatLng(prefs.getString('loc'), function (point) {
+                    if (point != null) {
+                        map.setCenter(point, prefs.getInt("zoom"));
+                        var bounds = map.getBounds();
+                        var ne = bounds.getNorthEast();
+                        var sw = bounds.getSouthWest();
+                        url += "?lat=" + sw.lat() + "&lng=" + sw.lng() + "&dlat=" + ne.lat() + "&dlng=" + ne.lng();
+                        showRecent(url);
+                    } else {
+                        showRecent(url);
+                    }
+                });
+            } else {
+                showRecent(url);
+            }
+        }
+        
+		function scheduleShowData() {
+            document.getElementById("details").style.display = "none";
+            document.getElementById("details-bg").style.display = "none";
+			clearTimeout(loadTimeout);
+			loadTimeout = setTimeout(showData, 1000);
+		}
+		
+		function getMarkerFilename(placeType) {
+			switch (placeType) {
+			case "historic":
+				return "http://to.uri.st/gfx/markers/historic.png";
+			case "museum":
+				return "http://to.uri.st/gfx/markers/museum.png";
+			case "nature":
+				return "http://to.uri.st/gfx/markers/nature.png";
+			case "shop":
+				return "http://to.uri.st/gfx/markers/shop.png";
+			case "sport":
+				return "http://to.uri.st/gfx/markers/sport.png";
+			case "theatre":
+				return "http://to.uri.st/gfx/markers/theatre.png";
+			case "themepark":
+				return "http://to.uri.st/gfx/markers/themepark.png";
+			case "view":
+				return "http://to.uri.st/gfx/markers/view.png";
+			case "zoo":
+				return "http://to.uri.st/gfx/markers/zoo.png";
+			default:
+				return "http://to.uri.st/gfx/markers/marker.png";
+			}
+		}
+        
+        function drawAttractions(attractions, cluster) {
+            for (var i = 0; i < attractions.length; i++) {
+                var point = new GLatLng(
+                    attractions[i].getAttribute("lat"),
+                    attractions[i].getAttribute("lng")
+                );
+                
+                if (cluster) {
+                    var icon = new GIcon();
+                    icon.image = "http://to.uri.st/gfx/markers/cluster.png";
+                    icon.iconSize = new GSize(23, 34);
+                    icon.iconAnchor = new GPoint(9, 34);
+                    icon.shadow = "http://www.google.com/intl/en_uk/mapfiles/shadow50.png";
+                    icon.shadowSize = new GSize(37, 34);
+                    var title = "Zoom in to see " + attractions[i].getAttribute("size") + " more";
+                } else {
+                    var icon = new GIcon();
+                    icon.image = getMarkerFilename(attractions[i].getAttribute("type"));
+                    icon.iconSize = new GSize(32, 32);
+                    icon.iconAnchor = new GPoint(16, 32);
+                    icon.shadow = "http://www.google.com/intl/en_uk/mapfiles/shadow50.png";
+                    icon.shadowSize = new GSize(42, 32);
+                    var title = attractions[i].getAttribute("title");
+                }
+                
+                var marker = new GMarker(point, {
+                    icon: icon,
+                    title: title
+                });
+                
+                if (cluster) {
+                    GEvent.addListener(marker, "click", function() {
+                        map.setCenter(this.getLatLng(), map.getZoom() + 1);
+                    });
+                } else {
+                    marker.id = attractions[i].getAttribute("id");
+                    marker.str = '<p><a href="http://to.uri.st/#' + marker.id + '" target="_top">' + attractions[i].getAttribute("title") + "</a></p>";
+                    GEvent.addListener(marker, "click", showAttractionInfo);
+                }
+                map.addOverlay(marker);
+            }
+        }
+        
+        function showAttractionInfo() {
+            if (gadgets.views.getCurrentView().getName() == "canvas") {
+                map.openInfoWindowHtml(this.getLatLng(), this.str);
+            } else {
+                document.getElementById("details").innerHTML = this.str;
+                document.getElementById("details").style.display = "block";
+                document.getElementById("details-bg").style.display = "block";
+                document.getElementById("details-bg").className = "";
+            }
+            selected = true;
+            _IG_Analytics("UA-2063563-1", "/gadget/" + this.id);
+        }
+		
+        function showRecent(url) {
+            map.setCenter(new GLatLng(0, 0), 1);
+            _IG_FetchXmlContent(url, function(response) {
+                if (typeof(response) == "object") {
+                    map.clearOverlays();
+                    var places = response.getElementsByTagName("place");
+                    drawAttractions(places, false);
+                    var bounds = new GLatLngBounds();
+                    for (var i = 0; i < places.length; i++) {
+                        bounds.extend(new GLatLng(places[i].getAttribute('lat'), places[i].getAttribute('lng')));
+                    }
+                    map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
+                }
+            });
+        }
+		
+		function showData() {
+            if (map.getZoom() > 4) {
+                
+                var bounds = map.getBounds();
+                var ne = bounds.getNorthEast();
+                var sw = bounds.getSouthWest();
+                
+                var lat = sw.lat().toPrecision(4);
+                var dlat = ne.lat().toPrecision(4);
+                var lng = sw.lng().toPrecision(4);
+                var dlng = ne.lng().toPrecision(4);
+                
+                _IG_FetchXmlContent("http://to.uri.st/places.xml?lat=" + lat + "&dlat=" + dlat + "&lng=" + lng + "&dlng=" + dlng, function(response) {
+                    if (typeof(response) == "object") {
+                        map.clearOverlays();
+                        drawAttractions(response.getElementsByTagName("cluster"), true);
+                        drawAttractions(response.getElementsByTagName("place"), false);
+                    }
+                });
+            }
+		}
+		
+    </script>
+]]></Content>
+</Module>

@@ -32,6 +32,10 @@ handlers:
   script: loader/fixregion.py
   login: admin
 
+- url: /userstat
+  script: loader/userstat.py
+  login: admin
+
 - url: /_
   static_dir: public
 
@@ -42,6 +46,14 @@ handlers:
 - url: /robots.txt
   static_files: public/robots.txt
   upload: public/robots.txt
+
+- url: /embed.html
+  static_files: public/embed.html
+  upload: public/embed.html
+
+- url: /gadget.xml
+  static_files: public/gadget.xml
+  upload: public/gadget.xml
 
 - url: /.*
   script: dispatch.py
