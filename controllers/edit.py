@@ -107,15 +107,18 @@ class EditPage(Controller):
             try:
                 if latestAttraction:
                     newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
+                    sameEditor = (user.id == latestAttraction.userid)
                 else:
                     newAttraction = db.run_in_transaction(self.createAttraction, None, attraction)
+                    sameEditor = False
                 
                 user = self.getUserObject() # create user object if it doesn't exist
                 if user:
                     
                     # update stats
-                    self.addStat(user, 1) # new edit
-                    self.addStat(user, 2, newAttraction.region) # edit location
+                    if not sameEditor:
+                        self.addStat(user, 1) # new edit
+                        self.addStat(user, 2, newAttraction.region) # edit location
                     if latestAttraction and newAttraction.picture != '' and latestAttraction.picture == '':
                         self.addStat(user, 4) # new picture
                     if latestAttraction and 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
@@ -131,20 +134,21 @@ class EditPage(Controller):
                         self.addStat(user, 8) # no change idiot
                     
                     # type edit
-                    for badge in self.badges.items():
-                        try:
-                            if badge[1]['tag'] and badge[1]['tag'] in newAttraction.tags:
-                                self.addStat(user, 11, badge[0])
-                        except KeyError:
-                            pass
-                    
-                    if newAttraction.region != 'Unknown location':
+                    if not sameEditor:
                         for badge in self.badges.items():
                             try:
-                                if badge[1]['location'] and badge[1]['location'] in newAttraction.region:
-                                    self.addStat(user, 10, badge[0])
+                                if badge[1]['tag'] and badge[1]['tag'] in newAttraction.tags:
+                                    self.addStat(user, 11, badge[0])
                             except KeyError:
                                 pass
+                        
+                        if newAttraction.region != 'Unknown location':
+                            for badge in self.badges.items():
+                                try:
+                                    if badge[1]['location'] and badge[1]['location'] in newAttraction.region:
+                                        self.addStat(user, 10, badge[0])
+                                except KeyError:
+                                    pass
                     
                     newBadges = self.updateBadges(user)
                     user.put()
