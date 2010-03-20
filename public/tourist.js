@@ -40,7 +40,7 @@ $(function () {
                             url: "/search.js?c=" + lat + "," + lon,
                             dataType: "json",
                             success: function (data) {
-                                if (typeof data == "object") {
+                                if (typeof data == "object" && loading > 0) {
                                     $.each(data, function (index) {
                                         var center = new google.maps.LatLng(this.location.lat, this.location.lon);
                                         var marker = new google.maps.Marker({
@@ -75,14 +75,16 @@ $(function () {
                                 }
                             },
                             complete: function () {
-                                loaded++;
-                                var progress = $("#big-map").width() / loading * loaded;
-                                $("#loading").animate({
-                                    "border-left": progress + "px solid #f80",
-                                    width: ($("#big-map").width() - progress) + "px"
-                                }, "slow");
-                                if (loading == loaded) {
-                                    loading = loaded = 0;
+                                if (loading > 0) {
+                                    loaded++;
+                                    var progress = $("#big-map").width() / loading * loaded;
+                                    $("#loading").animate({
+                                        "border-left": progress + "px solid #f80",
+                                        width: ($("#big-map").width() - progress) + "px"
+                                    }, "slow");
+                                    if (loading == loaded) {
+                                        loading = loaded = 0;
+                                    }
                                 }
                             }
                         });
@@ -98,9 +100,10 @@ $(function () {
                     this.setMap(null);
                 });
             });
+            loading = loaded = 0;
             markers = {};
             
-            $("#loading").width(0);
+            $("#loading").stop(true).css("width", "0");
             $("#zoom-in").show();
             
         }
