@@ -339,67 +339,67 @@ class Controller(webapp.RequestHandler):
             'tag': 'beach',
             'src': '/_/badges/50.png',
             'name': 'Life\'s a beach',
-            'description': ''
+            'description': 'You beach bum, that\'s 10 edits to beaches'
         },
         '51': {
             'tag': 'forest',
             'src': '/_/badges/51.png',
             'name': 'Robin Hood',
-            'description': ''
+            'description': 'Well done, that\'s 10 edits to forests'
         },
         '52': {
             'tag': 'castle',
             'src': '/_/badges/52.png',
             'name': 'King of the castle',
-            'description': ''
+            'description': 'Well done, that\'s 10 edits to castles'
         },
         '53': {
             'tag': 'church',
             'src': '/_/badges/53.png',
             'name': '',
-            'description': ''
+            'description': 'Well done, that\'s 10 edits to churches'
         },
         '54': {
             'tag': 'garden',
             'src': '/_/badges/54.png',
             'name': 'Garden centre',
-            'description': ''
+            'description': 'Green fingers \'ey, that\'s 10 edits to gardens'
         },
         '55': {
             'tag': 'park',
             'src': '/_/badges/55.png',
             'name': 'Park life',
-            'description': ''
+            'description': 'Well done, that\'s 10 edits to parks'
         },
         '56': {
             'tag': 'zoo',
             'src': '/_/badges/56.png',
-            'name': '',
-            'description': ''
+            'name': 'Wild thing',
+            'description': 'Well done, that\'s 10 edits to zoos'
         },
         '57': {
             'tag': 'sport',
             'src': '/_/badges/57.png',
-            'name': '',
-            'description': ''
+            'name': 'Sports star',
+            'description': 'Well done, that\'s 10 edits to sporting venues'
         },
         '58': {
             'tag': 'shop',
             'src': '/_/badges/58.png',
-            'name': '',
-            'description': ''
+            'name': 'Shopaholic',
+            'description': 'Well done, that\'s 10 edits to shops'
         },
         '59': {
             'tag': 'historic',
             'src': '/_/badges/59.png',
             'name': 'Ye olde tourist attraction',
-            'description': ''
+            'description': 'That\'s 10 edits to historic attractions'
         },
         '60': {
             'tag': 'museum',
             'src': '/_/badges/60.png',
             'name': 'Curator',
-            'description': ''
+            'description': 'That\'s 10 edits to museums'
         },
         '110': {
             'location': 'london',
@@ -679,15 +679,21 @@ class Controller(webapp.RequestHandler):
                 try:
                     user.stats[id] = user.stats[id] + 1
                 except KeyError:
+                    user.stats[id] = 1
+                except TypeError:
                     user.stats = {}
                     user.stats[id] = 1
             else:
                 try:
                     user.stats[id][subId] = user.stats[id][subId] + 1
-                except KeyError:
+                except (KeyError, TypeError):
                     try:
                         user.stats[id][subId] = 1
                     except KeyError:
+                        user.stats[id] = {}
+                        user.stats[id][subId] = 1
+                    except TypeError:
+                        user.stats = {}
                         user.stats[id] = {}
                         user.stats[id][subId] = 1
     
@@ -778,7 +784,7 @@ class Controller(webapp.RequestHandler):
             # type
             try:
                 for badgeId in user.stats[11]:
-                    if user.stats[11][badgeId] >= 3 and not badgeId in user.badges:
+                    if user.stats[11][badgeId] >= 10 and not badgeId in user.badges:
                         user.badges[badgeId] = datetime.today()
             except KeyError:
                 pass
@@ -786,7 +792,7 @@ class Controller(webapp.RequestHandler):
             # location
             try:
                 for badgeId in user.stats[10]:
-                    if user.stats[10][type] >= 3 and not badgeId in user.badges:
+                    if user.stats[10][type] >= 10 and not badgeId in user.badges:
                         user.badges[badgeId] = datetime.today()
             except KeyError:
                 pass
