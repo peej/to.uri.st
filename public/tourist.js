@@ -50,7 +50,6 @@ $(function () {
                                             icon: getMarkerIcon(data[index].tags)
                                         });
                                         google.maps.event.addListener(marker, 'click', function() {
-                                            //document.location = "/attractions/" + data[index].id + ".html";
                                             var content = '<div id="infowindow">'
                                             if (data[index].thumbnail) {
                                                 content += '<img src="' + data[index].thumbnail + '">';
@@ -90,6 +89,7 @@ $(function () {
                     }
                 }
             }
+            $("#zoom-in").hide();
             
         } else {
             
@@ -101,6 +101,7 @@ $(function () {
             markers = {};
             
             $("#loading").width(0);
+            $("#zoom-in").show();
             
         }
     };
@@ -364,6 +365,9 @@ $(function () {
         google.maps.event.addListener(map, "zoom_changed", mapChanged);
         
         $("#big-map").before('<div id="loading"></div>');
+        
+        var zoomIn = $('<div id="zoom-in">Zoom in to the map to load attractions for that area</div>');
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomIn[0]);
         
         mapChanged();
         

@@ -568,6 +568,16 @@ ol.diff li.pic img.old {
     z-index: 1000;
 }
 
+#zoom-in {
+    display: none;
+    margin: 10px 4px;
+    font-size: 70%;
+    color: #55a;
+    padding: 2px 5px;
+    border: 1px solid #999;
+    background: #fff;
+}
+
 #infowindow {
     padding-right: 20px;
 }
