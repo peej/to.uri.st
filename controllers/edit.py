@@ -105,20 +105,21 @@ class EditPage(Controller):
                 latestAttraction = None
             
             try:
-                if latestAttraction:
-                    newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
-                    sameEditor = (user.id == latestAttraction.userid)
-                else:
-                    newAttraction = db.run_in_transaction(self.createAttraction, None, attraction)
-                    sameEditor = False
-                
                 user = self.getUserObject() # create user object if it doesn't exist
                 if user:
+                    
+                    if latestAttraction:
+                        newAttraction = db.run_in_transaction(self.createAttraction, latestAttraction.key(), attraction)
+                        sameEditor = (user.id == latestAttraction.userid)
+                    else:
+                        newAttraction = db.run_in_transaction(self.createAttraction, None, attraction)
+                        sameEditor = False
                     
                     # update stats
                     if not sameEditor:
                         self.addStat(user, 1) # new edit
-                        self.addStat(user, 2, newAttraction.region) # edit location
+                        if newAttraction.region != 'Unknown location':
+                            self.addStat(user, 2, newAttraction.region) # edit location
                     if latestAttraction and newAttraction.picture != '' and latestAttraction.picture == '':
                         self.addStat(user, 4) # new picture
                     if latestAttraction and 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
@@ -197,7 +198,14 @@ class EditPage(Controller):
                     )
                     break;
                 except KeyError:
-                    region = 'Unknown location'
+                    try:
+                        region = "%s, %s" % (
+                            placemark['AddressDetails']['Country']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                            placemark['AddressDetails']['Country']['CountryName']
+                        )
+                        break;
+                    except KeyError:
+                        region = 'Unknown location'
         else:
             region = 'Unknown location'
             

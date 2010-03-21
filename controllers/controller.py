@@ -393,19 +393,31 @@ class Controller(webapp.RequestHandler):
             'tag': 'historic',
             'src': '/_/badges/59.png',
             'name': 'Ye olde tourist attraction',
-            'description': 'That\'s 10 edits to historic attractions'
+            'description': 'Well done, that\'s 10 edits to historic attractions'
         },
         '60': {
             'tag': 'museum',
             'src': '/_/badges/60.png',
             'name': 'Curator',
-            'description': 'That\'s 10 edits to museums'
+            'description': 'Well done, that\'s 10 edits to museums'
+        },
+        '102': {
+            'location': 'Berlin, Deutschland',
+            'src': '/_/badges/102.png',
+            'name': 'Ich bin ein Berliner',
+            'description': 'Well done, that\'s 10 edits in Berlin'
+        },
+        '105': {
+            'location': 'Dublin City, Ireland',
+            'src': '/_/badges/105.png',
+            'name': 'Dubliner',
+            'description': 'Well done, that\'s 10 edits in Dublin'
         },
         '110': {
-            'location': 'london',
+            'location': 'Westminister, United Kingdom',
             'src': '/_/badges/110.png',
             'name': 'London calling',
-            'description': ''
+            'description': 'Well done, that\'s 10 edits in London town'
         }
     }
     
@@ -790,12 +802,12 @@ class Controller(webapp.RequestHandler):
                 pass
             
             # location
-            try:
-                for badgeId in user.stats[10]:
-                    if user.stats[10][type] >= 10 and not badgeId in user.badges:
+            for badgeId in self.badges.keys():
+                try:
+                    if user.stats[2][self.badges[badgeId]['location']] >= 10 and not badgeId in user.badges:
                         user.badges[badgeId] = datetime.today()
-            except KeyError:
-                pass
+                except KeyError:
+                    pass
             
             return [val for val in user.badges if val not in oldBadges]
         
