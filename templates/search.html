@@ -67,6 +67,7 @@
         <a class="map" href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}">View on the big map</a>
         <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
         <a class="gps" href="{{ gpx|escape }}" rel="alternate" type="application/gpx+xml">GPS data for this search (GPX)</a>
+        <a class="add" href="/add.html{% if coords %}?c={{ coords|escape }}{% endif %}">Add a new attraction here</a>
     </div>
     
 {% endblock %}
