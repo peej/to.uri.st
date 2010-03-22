@@ -1,3 +1,5 @@
+# coding=utf-8
+
 from google.appengine.ext import webapp
 import os, re
 from google.appengine.ext.webapp import template
@@ -414,10 +416,16 @@ class Controller(webapp.RequestHandler):
             'description': 'Well done, that\'s 10 edits in Dublin'
         },
         '110': {
-            'location': 'Westminister, United Kingdom',
+            'location': 'Greater London, United Kingdom',
             'src': '/_/badges/110.png',
             'name': 'London calling',
             'description': 'Well done, that\'s 10 edits in London town'
+        },
+        '116': {
+            'location': 'Московская область, Россия',
+            'src': '/_/badges/116.png',
+            'name': 'From Russia with love',
+            'description': 'Well done, that\'s 10 edits in Moscow'
         }
     }
     
