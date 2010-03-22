@@ -233,7 +233,19 @@ class Controller(webapp.RequestHandler):
         'skiing': 'skiing',
         'ski': 'skiing',
         'skislope': 'skiing',
-        'snowboarding': 'snowboarding'
+        'snowboarding': 'snowboarding',
+        'dupe': 'dupe',
+        'dupes': 'dupe',
+        'delete': 'delete',
+        'deletes': 'delete',
+        'deleted': 'delete',
+        'badloc': 'badloc',
+        'badlocs': 'badloc',
+        'todo': 'todo',
+        'todos': 'todo',
+        'trap': 'trap',
+        'traps': 'trap',
+        'translated': 'translated'
     }
     
     badges = {
