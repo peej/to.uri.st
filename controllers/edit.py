@@ -119,7 +119,9 @@ class EditPage(Controller):
                     if not sameEditor:
                         self.addStat(user, 1) # new edit
                         if newAttraction.region != 'Unknown location':
-                            self.addStat(user, 2, newAttraction.region) # edit location
+                            parts = newAttraction.region.split(",")
+                            region = ",".join(parts[-2:]).strip(" ")
+                            self.addStat(user, 2, region) # edit location
                     if latestAttraction and newAttraction.picture != '' and latestAttraction.picture == '':
                         self.addStat(user, 4) # new picture
                     if latestAttraction and 'dupe' in newAttraction.tags and 'dupe' not in latestAttraction.tags:
@@ -192,20 +194,36 @@ class EditPage(Controller):
             data = simplejson.loads(jsonString)
             for placemark in data['Placemark']:
                 try:
-                    region = "%s, %s" % (
+                    region = "%s, %s, %s" % (
+                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                         placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
                         placemark['AddressDetails']['Country']['CountryName']
                     )
                     break;
                 except KeyError:
                     try:
-                        region = "%s, %s" % (
-                            placemark['AddressDetails']['Country']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                        region = "%s, %s, %s" % (
+                            placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
+                            placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
                             placemark['AddressDetails']['Country']['CountryName']
                         )
                         break;
                     except KeyError:
-                        region = 'Unknown location'
+                        try:
+                            region = "%s, %s" % (
+                                placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                                placemark['AddressDetails']['Country']['CountryName']
+                            )
+                            break;
+                        except KeyError:
+                            try:
+                                region = "%s, %s" % (
+                                    placemark['AddressDetails']['Country']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                                    placemark['AddressDetails']['Country']['CountryName']
+                                )
+                                break;
+                            except KeyError:
+                                region = 'Unknown location'
         else:
             region = 'Unknown location'
             
