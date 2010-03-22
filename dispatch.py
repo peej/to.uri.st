@@ -26,7 +26,7 @@ else:
 application = webapp.WSGIApplication(
     [
         ('/', HomePage),
-        ('/home(?:\.(html|xml))?', HomePage),
+        ('/home(?:\.(html|xml|atom))?', HomePage),
         ('/search(?:\.(html|atom|js|gpx|kml))?', SearchPage),
         ('/attractions/([a-f0-9]{32})(?:\.(html|gpx))?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.(html|atom))?', HistoryPage),
