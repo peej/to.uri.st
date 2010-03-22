@@ -193,7 +193,7 @@ class EditPage(Controller):
             for placemark in data['Placemark']:
                 try:
                     region = "%s, %s" % (
-                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                        placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
                         placemark['AddressDetails']['Country']['CountryName']
                     )
                     break;
