@@ -148,9 +148,9 @@ class EditPage(Controller):
                         if newAttraction.region != 'Unknown location':
                             for badge in self.badges.items():
                                 try:
-                                    if badge[1]['location'] in newAttraction.region:
+                                    if str(badge[1]['location']) in newAttraction.region:
                                         self.addStat(user, 10, badge[0])
-                                except KeyError:
+                                except:
                                     pass
                     
                     newBadges = self.updateBadges(user)
