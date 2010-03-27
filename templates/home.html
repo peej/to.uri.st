@@ -49,9 +49,9 @@
         {% ifnotequal users.count 0 %}
             <ul>
             {% for user in users %}
-                <li>
-                    <a href="/users/{{ user.id }}.html">{{ user.username|escape }}</a>
-                </li>
+                <li><a href="/users/{{ user.id }}.html">
+                    {{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}
+                </a></li>
             {% endfor %}
             {% ifnotequal users.count 5 %}
                 <li>You could be here, get editing today</li>
