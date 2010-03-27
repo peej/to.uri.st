@@ -9,6 +9,7 @@ class User(db.Model):
     href = db.StringProperty()
     recommended = db.StringListProperty()
     itinerary = db.StringListProperty()
+    activity = db.IntegerProperty()
     stats = dictproperty.DictProperty()
     badges = dictproperty.DictProperty()
     datetime = db.DateTimeProperty(auto_now = True)

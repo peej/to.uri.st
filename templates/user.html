@@ -11,7 +11,7 @@
     </div>
     {% endif %}
     
-    <h2>{{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}</h2>
+    <h2 title="{{ user.username|escape }} has {{ user.activity }} experience points">{{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}</h2>
     
     {% if user.badges %}
     <ul id="badges">
