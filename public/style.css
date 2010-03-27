@@ -17,9 +17,8 @@ body {
     height: 1%;
 }
 
-#header,
-#footer {
-    background: #e6f0ff;
+#header {
+    background: #e6f0ff url(/_/beta.png) 35% 50% no-repeat;
     border-bottom: 1px solid #d6e0ef;
 }
 
@@ -34,6 +33,8 @@ body {
 
 #footer {
     clear: both;
+    background: #e6f0ff;
+    border-bottom: 1px solid #d6e0ef;
     border-top: 1px solid #d6e0ef;
     font-size: 80%;
 }
