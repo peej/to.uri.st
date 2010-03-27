@@ -88,7 +88,9 @@ div.tabArea a {
 }
 
 #title .pageIcon a img,
-#title .pageIconSelected a img {
+#title .pageIconSelected a img,
+#title .pageIcon span img,
+#title .pageIconSelected span img {
     display: none;
 }
 
