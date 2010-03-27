@@ -26,7 +26,7 @@ else:
 application = webapp.WSGIApplication(
     [
         ('/', HomePage),
-        ('/home(?:\.(html|xml|atom))?', HomePage),
+        ('/home(?:\.(html|search|atom))?', HomePage),
         ('/search(?:\.(html|atom|js|gpx|kml))?', SearchPage),
         ('/attractions/([a-f0-9]{32})(?:\.(html|gpx))?', AttractionPage),
         ('/attractions/([a-f0-9]{32})/history(?:\.(html|atom))?', HistoryPage),
@@ -35,7 +35,7 @@ application = webapp.WSGIApplication(
         ('/attractions/([a-f0-9]{32})/(?:un)?recommend(?:\.html)?', Recommend),
         ('/attractions/([a-f0-9]{32})/(?:un)?itinerary(?:\.html)?', Itinerary),
         ('/add(?:\.html)?', EditPage),
-        ('/recent(?:\.(html|atom|xml|js))?', RecentPage),
+        ('/recent(?:\.(html|atom|sitemap|js))?', RecentPage),
         ('/sitemap(?:\.(xml))?', RecentPage),
         ('/users/([a-z0-9-]+)(?:\.(html|atom|js))?', UserPage),
         ('/users/([a-z0-9-]+)/edit(?:\.html)?', UserEdit),

@@ -12,7 +12,8 @@ class Controller(webapp.RequestHandler):
         'js': 'application/javascript',
         'gpx': 'application/gpx+xml',
         'kml': 'application/vnd.google-earth.kml+xml',
-        'xml': 'text/xml'
+        'xml': 'text/xml',
+        'search': 'application/opensearchdescription+xml'
     }
     
     tags = {
@@ -707,6 +708,10 @@ class Controller(webapp.RequestHandler):
     
     def addStat(self, user, id, subId = None):
         if user:
+            try:
+                user.activity = user.activity + 1
+            except:
+                user.activity = 1
             if subId == None:
                 try:
                     user.stats[id] = user.stats[id] + 1
