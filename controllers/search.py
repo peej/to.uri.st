@@ -82,6 +82,17 @@ class SearchPage(Controller):
         
         template_values = {}
         
+        if search[-11:] == " everywhere":
+            tag = search[0:-11]
+            if tag in self.tags:
+                tag = self.tags[tag]
+            search = None
+        elif search[-9:] == " anywhere":
+            tag = search[0:-9]
+            if tag in self.tags:
+                tag = self.tags[tag]
+            search = None
+        
         if coords:
             
             coords = coords.split(',')
