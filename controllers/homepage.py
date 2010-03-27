@@ -2,6 +2,7 @@ from google.appengine.ext import db
 
 from controllers.controller import Controller
 from models.attraction import Attraction
+from models.user import User
 
 class HomePage(Controller):
     def get(self, type = 'html'):
@@ -14,11 +15,15 @@ class HomePage(Controller):
         popular.filter("next =", None)
         popular.order("-rating")
         
+        users = User.all()
+        users.order("activity")
+        
         template_values = {
-            'recent': recent.fetch(5),
+            'recent': recent.fetch(10),
             'popular': popular.fetch(5),
+            'users': users.fetch(5),
             'service': '/home.atom',
-            'opensearch': '/home.xml'
+            'opensearch': '/home.search'
         }
         
         self.output('home', type, template_values)

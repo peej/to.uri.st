@@ -24,7 +24,7 @@
             {% endfor %}
             </ul>
         {% else %}
-            <p>Nothing</p>
+            <p>No changes</p>
         {% endifnotequal %}
     </div>
     
@@ -40,7 +40,23 @@
             {% endfor %}
             </ul>
         {% else %}
-            <p>Nothing</p>
+            <p>Nothing is popular</p>
+        {% endifnotequal %}
+    </div>
+    
+    <div class="homepage-list">
+        <h3>Top users</h3>
+        {% ifnotequal users.count 0 %}
+            <ul>
+            {% for user in users %}
+                <li>
+                    <a href="/users/{{ user.id }}.html">{{ user.username|escape }}</a>
+                </li>
+            {% endfor %}
+            {% ifnotequal users.count 5 %}
+                <li>You could be here, get editing today</li>
+            {% endifnotequal %}
+            </ul>
         {% endifnotequal %}
     </div>
     
