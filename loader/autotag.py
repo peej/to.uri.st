@@ -225,7 +225,13 @@ class AutoTagWorker(webapp.RequestHandler):
         'skiing': 'skiing',
         'ski': 'skiing',
         'skislope': 'skiing',
-        'snowboarding': 'snowboarding'
+        'snowboarding': 'snowboarding',
+        '{{dupe}}': 'dupe',
+        '{{delete}}': 'delete',
+        '{{badloc}}': 'badloc',
+        '{{todo}}': 'todo',
+        '{{trap}}': 'trap',
+        '{{translated}}': 'translated'
     }
     
     def get(self):
