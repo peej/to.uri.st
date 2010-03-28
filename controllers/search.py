@@ -81,16 +81,30 @@ class SearchPage(Controller):
         
         template_values = {}
         
+        template_values['q'] = search
+        
+        # special search strings
+        if search[0:10] == "tagged as ":
+            search = search[10:]
+            if " in " not in search:
+                tag = search[10:]
+                if tag in self.tags:
+                    tag = self.tags[tag]
+        elif search[0:12] == "tagged with ":
+            search = search[12:]
+            if " in " not in search:
+                tag = search[12:]
+                if tag in self.tags:
+                    tag = self.tags[tag]
+        
         if search[-11:] == " everywhere":
             tag = search[0:-11]
             if tag in self.tags:
                 tag = self.tags[tag]
-            template_values['q'] = search
         elif search[-9:] == " anywhere":
             tag = search[0:-9]
             if tag in self.tags:
                 tag = self.tags[tag]
-            template_values['q'] = search
         
         if coords:
             
@@ -170,13 +184,12 @@ class SearchPage(Controller):
         
         elif search:
             
-            template_values['q'] = search
-            
             if " in " in search:
-                tag = search[0:search.find(' in ')].replace(' ', '')
+                pos = search.find(' in ')
+                tag = search[0:pos].replace(' ', '')
+                search = search[pos + 4:]
                 
                 if tag in self.tags:
-                    search = search[search.find(' in ') + 4:]
                     tag = self.tags[tag]
                     
                 template_values['tag'] = tag
