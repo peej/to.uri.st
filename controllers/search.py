@@ -61,7 +61,6 @@ class SearchPage(Controller):
         
         attractions.sort(lambda x, y: cmp(x.name, y.name))
         
-        numberOfAttractions = len(attractions)
         attractionCount = 64
         for attraction in attractions:
             attractionCount = attractionCount + 1
@@ -157,7 +156,13 @@ class SearchPage(Controller):
                 template_values['next'] = self.request.path + '?t=' + tag + '&page=' + str(page + 1)
             
             template_values['updated'] = None
+            attractionCount = 64
             for attraction in template_values['attractions']:
+                attractionCount = attractionCount + 1
+                if attractionCount < 91:
+                    attraction.label = chr(attractionCount)
+                if attraction.picture:
+                    attraction.thumbnail = self.convertFlickrUrl(attraction.picture, "s")
                 if template_values['updated'] == None or attraction.datetime > template_values['updated']:
                     template_values['updated'] = attraction.datetime
             
