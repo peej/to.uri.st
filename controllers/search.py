@@ -86,12 +86,12 @@ class SearchPage(Controller):
             tag = search[0:-11]
             if tag in self.tags:
                 tag = self.tags[tag]
-            search = None
+            template_values['q'] = search
         elif search[-9:] == " anywhere":
             tag = search[0:-9]
             if tag in self.tags:
                 tag = self.tags[tag]
-            search = None
+            template_values['q'] = search
         
         if coords:
             
@@ -140,6 +140,29 @@ class SearchPage(Controller):
                 lon = float(coords[1])
                 (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
         
+        elif tag:
+            page = int(self.request.get("page", 1));
+                        
+            attractionQuery = Attraction.all()
+            attractionQuery.filter("tags =", tag)
+            attractionQuery.filter("next =", None)
+            try:
+                template_values['attractions'] = attractionQuery.fetch(26, (page - 1) * 26)
+            except:
+                template_values['attractions'] = []
+            
+            if page > 1:
+                template_values['previous'] = self.request.path + '?t=' + tag + '&page=' + str(page - 1)
+            if len(template_values['attractions']) == 26:
+                template_values['next'] = self.request.path + '?t=' + tag + '&page=' + str(page + 1)
+            
+            template_values['updated'] = None
+            for attraction in template_values['attractions']:
+                if template_values['updated'] == None or attraction.datetime > template_values['updated']:
+                    template_values['updated'] = attraction.datetime
+            
+            template_values['tag'] = tag
+        
         elif search:
             
             template_values['q'] = search
@@ -182,29 +205,6 @@ class SearchPage(Controller):
                 except KeyError:
                     pass
             
-        elif tag:
-            page = int(self.request.get("page", 1));
-                        
-            attractionQuery = Attraction.all()
-            attractionQuery.filter("tags =", tag)
-            attractionQuery.filter("next =", None)
-            try:
-                template_values['attractions'] = attractionQuery.fetch(26, (page - 1) * 26)
-            except:
-                template_values['attractions'] = []
-            
-            if page > 1:
-                template_values['previous'] = self.request.path + '?t=' + tag + '&page=' + str(page - 1)
-            if len(template_values['attractions']) == 26:
-                template_values['next'] = self.request.path + '?t=' + tag + '&page=' + str(page + 1)
-            
-            template_values['updated'] = None
-            for attraction in template_values['attractions']:
-                if template_values['updated'] == None or attraction.datetime > template_values['updated']:
-                    template_values['updated'] = attraction.datetime
-            
-            template_values['tag'] = tag
-        
         template_values['url'] = self.request.url
         template_values['atomtag'] = self.request.path
         
