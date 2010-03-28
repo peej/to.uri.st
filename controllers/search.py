@@ -17,18 +17,15 @@ class SearchPage(Controller):
         
         defaultAccuracy = 1
         
-        if tag:
+        try:
+            boundsLat = bounds['north'] - bounds['south']
+            boundsLon = bounds['east'] - bounds['west']
+            if boundsLat < boundsLon:
+                accuracy = boundsLat
+            else:
+                accuracy = boundsLon
+        except KeyError:
             accuracy = defaultAccuracy
-        else:
-            try:
-                boundsLat = bounds['north'] - bounds['south']
-                boundsLon = bounds['east'] - bounds['west']
-                if boundsLat < boundsLon:
-                    accuracy = boundsLat
-                else:
-                    accuracy = boundsLon
-            except KeyError:
-                accuracy = defaultAccuracy
         
         if type == 'js' or accuracy < defaultAccuracy:
             lats = [boxLat]
@@ -87,22 +84,22 @@ class SearchPage(Controller):
         if search[0:10] == "tagged as ":
             search = search[10:]
             if " in " not in search:
-                tag = search[10:]
+                tag = search[10:].strip(" ")
                 if tag in self.tags:
                     tag = self.tags[tag]
         elif search[0:12] == "tagged with ":
             search = search[12:]
             if " in " not in search:
-                tag = search[12:]
+                tag = search[12:].strip(" ")
                 if tag in self.tags:
                     tag = self.tags[tag]
         
         if search[-11:] == " everywhere":
-            tag = search[0:-11]
+            tag = search[0:-11].strip(" ")
             if tag in self.tags:
                 tag = self.tags[tag]
         elif search[-9:] == " anywhere":
-            tag = search[0:-9]
+            tag = search[0:-9].strip(" ")
             if tag in self.tags:
                 tag = self.tags[tag]
         
@@ -193,6 +190,8 @@ class SearchPage(Controller):
                     tag = self.tags[tag]
                     
                 template_values['tag'] = tag
+            
+            search = search.strip(" ")
             
             url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % urllib.quote(search)
             
