@@ -523,11 +523,11 @@ $(function () {
                         }
                         $.each(data.photos.photo, function () {
                             $("label.picture ul")
-                                .append('<li><img src="http://farm' + this.farm + '.static.flickr.com/' + this.server + '/' + this.id + '_' + this.secret + '_s.jpg" alt="" title="' + this.title + '"></li>')
+                                .append('<li><a href="http://www.flickr.com/photos/' + this.owner + '/' + this.id + '"><img src="http://farm' + this.farm + '.static.flickr.com/' + this.server + '/' + this.id + '_' + this.secret + '_s.jpg" alt="" title="' + this.title + '"></a></li>')
                                 .css("width", $("label.picture li").length * 80);
                         });
-                        $("label.picture ul img").click(function () {
-                            var newUrl = this.src.replace("_s.jpg", "_m.jpg");
+                        $("label.picture ul a").click(function () {
+                            var newUrl = $(this).find("img").attr("src").replace("_s.jpg", "_m.jpg");
                             if ($("label.picture img.picture").length) {
                                 $("label.picture img.picture").attr("src", newUrl);
                             } else {
@@ -537,6 +537,7 @@ $(function () {
                             $("label.picture div").remove();
                             $("label.picture span.change").text("Change");
                             picturePage = 1;
+                            return false;
                         });
                         $("label.picture span.change").text("Load more pictures");
                         picturePage++;
