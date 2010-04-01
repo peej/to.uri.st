@@ -510,8 +510,9 @@ $(function () {
         if ($("label.picture img").length == 0) {
             $("label.picture span.change").text("Add");
         }
+        
         var picturePage = 1;
-        $("label.picture span.change").click(function () {
+        $("label.picture span.change").live("click", function () {
             $("label.picture span.change").text("Loading...");
             $.getJSON(
                 "http://api.flickr.com/services/rest/?method=flickr.photos.search&format=json&api_key=abfb0fa992b89d701afa5342e183639f&license=4,5,6&per_page=10&page=" + picturePage + "&text=" + encodeURI($("input[name=name]").val()) + "&jsoncallback=?",
@@ -535,9 +536,13 @@ $(function () {
                             $("input[name=picture]").val(newUrl);
                             $("label.picture div").remove();
                             $("label.picture span.change").text("Change");
+                            picturePage = 1;
                         });
-                        $("label.picture span.change").text("More pictures");
+                        $("label.picture span.change").text("Load more pictures");
                         picturePage++;
+                        $("label.picture div").animate({
+                            scrollLeft: $("label.picture li").length * 80
+                        }, "slow");
                     } else {
                         $("label.picture span.change").text("No pictures found on Flickr for this attraction");
                     }
@@ -545,11 +550,21 @@ $(function () {
             );
         });
         $("label.picture span.paste").click(function () {
-            $("label.picture div, label.picture span").remove();
+            $("label.picture div, label.picture span").hide();
             $("input[name=picture]")
                 .appendTo("label.picture")
                 .css("display", "block")
-                .focus();
+                .focus()
+                .change(function () {
+                    if (this.value.match(/http:\/\/farm[0-9]\.static\.flickr\.com\/[0-9]+\/[0-9]+_[0-9a-f]_[sm]\.jpg/)) {
+                        var newUrl = this.value.replace("_m.jpg", "_s.jpg");
+                        if ($("label.picture img.picture").length) {
+                            $("label.picture img.picture").attr("src", newUrl);
+                        } else {
+                            $("label.picture").prepend('<img src="' + newUrl + '" class="picture" alt="">');
+                        }
+                    }
+                });
         });
         
         break;
