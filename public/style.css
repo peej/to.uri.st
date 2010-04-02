@@ -217,6 +217,7 @@ form label.error {
 }
 
 .nav a,
+.nav span,
 #add-comment,
 a.more {
     display: block;
@@ -239,6 +240,13 @@ a.more { background-position: 0 -263px; }
 .nav a.add { background-position: 0 -412px; }
 .nav a.next { background-position: 0 -486px; }
 .nav a.prev { background-position: 0 -523px; }
+.nav a.gmap, .nav span.kml { background-position: 0 -560px; }
+
+.nav span a {
+    display: inline;
+    background: none;
+    padding: 0;
+}
 
 /* tag editor */
 

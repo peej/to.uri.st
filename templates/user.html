@@ -142,6 +142,9 @@
         </li>
         {% endfor %}
     </ol>
+    <div class="nav">
+        <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed of the recent edits</a>
+    </div>
     {% endif %}
     
     {% if recommended %}
@@ -154,6 +157,9 @@
         </li>
         {% endfor %}
     </ol>
+    <div class="nav">
+        <span class="kml"><a href="http://maps.google.co.uk/?q={{ kml|escape }}" rel="ext">View on Google Maps</a> (<a href="{{ kml|escape }}" rel="alternate" type="application/vnd.google-earth.kml+xml">KML data</a>)</span>
+    </div>
     {% endif %}
     
     {% if itinerary %}
@@ -166,10 +172,9 @@
         </li>
         {% endfor %}
     </ol>
-    {% endif %}
-    
     <div class="nav">
-        <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
+        <a class="gmap" href="http://maps.google.co.uk/?q=from:{% for attraction in itinerary %}{% if not forloop.first %} to:{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}" rel="ext">View on Google Maps</a>
     </div>
+    {% endif %}
     
 {% endblock %}

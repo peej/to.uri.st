@@ -29,6 +29,7 @@
         {% if next %}<a class="next" href="{{ next|escape }}" rel="next">Next page</a>{% endif %}
         <a class="map" href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}">View on the big map</a>
         <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
+        <span class="kml"><a href="http://maps.google.com/?q={{ kml|escape }}" rel="ext">View on Google Maps</a> (<a href="{{ kml|escape }}" rel="alternate" type="application/vnd.google-earth.kml+xml">KML data</a>)</span>
         {% if coords %}<a href="/recent.html">Recent edits worldwide</a>{% endif %}
     </div>
     

@@ -66,6 +66,7 @@ class UserPage(Controller):
             
             template_values['atom'] = re.sub(r'\..+$', '.atom', self.request.path)
             template_values['html'] = re.sub(r'\..+$', '.html', self.request.path)
+            template_values['kml'] = re.sub(r'\.[^.]+$', '.kml', self.request.url)
             
             self.output('user', type, template_values)
             

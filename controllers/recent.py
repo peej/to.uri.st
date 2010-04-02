@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+import re
 
 from controllers.controller import Controller
 from models.attraction import Attraction
@@ -93,8 +94,9 @@ class RecentPage(Controller):
         template_values['updated'] = updated
         
         template_values['url'] = self.request.url
-        template_values['atom'] = self.request.url.replace('.html', '.atom')
-        template_values['sitemap'] = self.request.url.replace('.html', '.xml')
+        template_values['atom'] = re.sub(r'\..+$', '.atom', self.request.path)
+        template_values['sitemap'] = re.sub(r'\..+$', '.xml', self.request.path)
+        template_values['kml'] = re.sub(r'\..+$', '.kml', self.request.path)
         
         if type == 'xml':
             template_values['cities'] = self.cities
