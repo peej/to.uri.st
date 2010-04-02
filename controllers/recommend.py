@@ -42,7 +42,7 @@ class Recommend(Controller):
                 
                 if attraction.userid != userObject.id:
                     query = User.all()
-                    query.filter("id =", userObject.id)
+                    query.filter("id =", attraction.userid)
                     user = query.get()
                     
                     if user:
