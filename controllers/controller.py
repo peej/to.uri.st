@@ -429,14 +429,14 @@ class Controller(webapp.RequestHandler):
             'description': 'Well done, that\'s 10 edits in Dublin'
         },
         '110': {
-            'location': 'Greater London, United Kingdom',
+            'location': 'Greater London, UK',
             'src': '/_/badges/110.png',
             'name': 'London calling',
             'description': 'Well done, that\'s 10 edits in London town'
         },
         '116': {
             'location': 'Московская область, Россия',
-            'src': '/_/badges/116.png',
+            'src': '/_/badges/99.png',
             'name': 'From Russia with love',
             'description': 'Well done, that\'s 10 edits in Moscow'
         }

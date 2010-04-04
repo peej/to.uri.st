@@ -53,20 +53,36 @@ class FixRegionWorker(webapp.RequestHandler):
                         if 'Placemark' in data:
                             for placemark in data['Placemark']:
                                 try:
-                                    attraction.region = u"%s, %s" % (
+                                    attraction.region = "%s, %s, %s" % (
                                         placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                                        placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
                                         placemark['AddressDetails']['Country']['CountryName']
                                     )
                                     break;
                                 except KeyError:
                                     try:
-                                        attraction.region = u"%s, %s" % (
+                                        attraction.region = "%s, %s, %s" % (
                                             placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
+                                            placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
                                             placemark['AddressDetails']['Country']['CountryName']
                                         )
                                         break;
                                     except KeyError:
-                                        attraction.region = 'Unknown location'
+                                        try:
+                                            attraction.region = "%s, %s" % (
+                                                placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                                                placemark['AddressDetails']['Country']['CountryName']
+                                            )
+                                            break;
+                                        except KeyError:
+                                            try:
+                                                attraction.region = "%s, %s" % (
+                                                    placemark['AddressDetails']['Country']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                                                    placemark['AddressDetails']['Country']['CountryName']
+                                                )
+                                                break;
+                                            except KeyError:
+                                                attraction.region = 'Unknown location'
                         else:
                             attraction.region = 'Unknown location'
                     else:
