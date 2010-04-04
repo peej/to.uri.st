@@ -53,6 +53,8 @@ class FixRegionWorker(webapp.RequestHandler):
                         if 'Placemark' in data:
                             for placemark in data['Placemark']:
                                 try:
+                                    if placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                                        raise KeyError
                                     attraction.region = "%s, %s, %s" % (
                                         placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                                         placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
@@ -61,6 +63,8 @@ class FixRegionWorker(webapp.RequestHandler):
                                     break;
                                 except KeyError:
                                     try:
+                                        if placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                                            raise KeyError
                                         attraction.region = "%s, %s, %s" % (
                                             placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
                                             placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],

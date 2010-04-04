@@ -194,6 +194,8 @@ class EditPage(Controller):
             data = simplejson.loads(jsonString)
             for placemark in data['Placemark']:
                 try:
+                    if placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                        raise KeyError
                     region = "%s, %s, %s" % (
                         placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
                         placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
@@ -202,6 +204,8 @@ class EditPage(Controller):
                     break;
                 except KeyError:
                     try:
+                        if placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                            raise KeyError
                         region = "%s, %s, %s" % (
                             placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
                             placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
