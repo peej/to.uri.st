@@ -416,11 +416,35 @@ class Controller(webapp.RequestHandler):
             'name': 'Curator',
             'description': 'Well done, that\'s 10 edits to museums'
         },
+        '100': {
+            'location': 'Amsterdam, Noord-Holland, Nederland',
+            'src': '/_/badges/99.png',
+            'name': 'Amsterdam',
+            'description': 'Well done, that\'s 10 edits in Amsterdam'
+        },
+        '101': {
+            'location': 'Barcelona, CT, Espanya',
+            'src': '/_/badges/99.png',
+            'name': 'Barcelona',
+            'description': 'Well done, that\'s 10 edits in Barcelona'
+        },
         '102': {
             'location': 'Berlin, Deutschland',
             'src': '/_/badges/102.png',
             'name': 'Ich bin ein Berliner',
             'description': 'Well done, that\'s 10 edits in Berlin'
+        },
+        '103': {
+            'location': 'Budapest, Magyarország',
+            'src': '/_/badges/99.png',
+            'name': 'Budapest',
+            'description': 'Well done, that\'s 10 edits in Budapest'
+        },
+        '104': {
+            'location': 'København, Hovedstaden, Danmark',
+            'src': '/_/badges/99.png',
+            'name': 'Copenhagen',
+            'description': 'Well done, that\'s 10 edits in Copenhagen'
         },
         '105': {
             'location': 'Dublin City, Ireland',
@@ -428,17 +452,293 @@ class Controller(webapp.RequestHandler):
             'name': 'Dubliner',
             'description': 'Well done, that\'s 10 edits in Dublin'
         },
+        '106': {
+            'location': 'City of Edinburgh, UK',
+            'src': '/_/badges/99.png',
+            'name': 'Edinburgh',
+            'description': 'Well done, that\'s 10 edits in Edinburgh'
+        },
+        '107': {
+            'location': 'FI, Toscana, Italia',
+            'src': '/_/badges/99.png',
+            'name': 'Florence',
+            'description': 'Well done, that\'s 10 edits in Florence'
+        },
+        '108': {
+            'location': 'Nyland, Södra Finland, Finland',
+            'src': '/_/badges/99.png',
+            'name': 'Helsinki',
+            'description': 'Well done, that\'s 10 edits in Helsinki'
+        },
+        '109': {
+            'location': 'Kraków, Małopolskie, Polska',
+            'src': '/_/badges/99.png',
+            'name': 'Krakow',
+            'description': 'Well done, that\'s 10 edits in Krakow'
+        },
         '110': {
             'location': 'Greater London, UK',
             'src': '/_/badges/110.png',
             'name': 'London calling',
-            'description': 'Well done, that\'s 10 edits in London town'
+            'description': 'Well done, that\'s 10 edits in London'
+        },
+        '111': {
+            'location': 'Istanbul, Türkiye',
+            'src': '/_/badges/99.png',
+            'name': 'Istanbul',
+            'description': 'Well done, that\'s 10 edits in Istanbul'
+        },
+        '112': {
+            'location': 'Lisboa, Portugal',
+            'src': '/_/badges/99.png',
+            'name': 'Lisbon',
+            'description': 'Well done, that\'s 10 edits in Lisbon'
+        },
+        '113': {
+            'location': 'Greater Manchester, UK',
+            'src': '/_/badges/99.png',
+            'name': 'Manchester',
+            'description': 'Well done, that\'s 10 edits in Manchester'
+        },
+        '114': {
+            'location': 'Comunidad de Madrid, España',
+            'src': '/_/badges/99.png',
+            'name': 'Madrid',
+            'description': 'Well done, that\'s 10 edits in Madrid'
+        },
+        '115': {
+            'location': 'Milano, Lombardia, Italia',
+            'src': '/_/badges/99.png',
+            'name': 'Milan',
+            'description': 'Well done, that\'s 10 edits in Milan'
         },
         '116': {
             'location': 'Московская область, Россия',
             'src': '/_/badges/99.png',
             'name': 'From Russia with love',
             'description': 'Well done, that\'s 10 edits in Moscow'
+        },
+        '117': {
+            'location': 'München, Bayern, Deutschland',
+            'src': '/_/badges/99.png',
+            'name': 'Munich',
+            'description': 'Well done, that\'s 10 edits in Munich'
+        },
+        '118': {
+            'location': 'Paris, Ile-de-France, France',
+            'src': '/_/badges/99.png',
+            'name': 'Moi j\'suis d\'Paname',
+            'description': 'Well done, that\'s 10 edits in Paris'
+        },
+        '119': {
+            'location': 'Praha, Hlavní město Praha, Česká republika',
+            'src': '/_/badges/99.png',
+            'name': 'Prague',
+            'description': 'Well done, that\'s 10 edits in Prague'
+        },
+        '120': {
+            'location': 'RM, Lazio, Italia',
+            'src': '/_/badges/99.png',
+            'name': 'Rome',
+            'description': 'Well done, that\'s 10 edits in Rome'
+        },
+        '121': {
+            'location': 'Stockholms Län, Sverige',
+            'src': '/_/badges/99.png',
+            'name': 'Stockholm',
+            'description': 'Well done, that\'s 10 edits in Stockholm'
+        },
+        '122': {
+            'location': 'Venezia, Veneto, Repubblica Italiana',
+            'src': '/_/badges/99.png',
+            'name': 'Vienna',
+            'description': 'Well done, that\'s 10 edits in Vienna'
+        },
+        '123': {
+            'location': 'Zürich, Schweiz',
+            'src': '/_/badges/99.png',
+            'name': 'Zurich',
+            'description': 'Well done, that\'s 10 edits in Zurich'
+        },
+        '124': {
+            'location': 'Cook, IL, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Chicago',
+            'description': 'Well done, that\'s 10 edits in Chicago'
+        },
+        '125': {
+            'location': 'Honolulu, HI, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Honolulu',
+            'description': 'Well done, that\'s 10 edits in Honolulu'
+        },
+        '126': {
+            'location': 'Clark, NV, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Viva Las Vegas',
+            'description': 'Well done, that\'s 10 edits in Las Vegas'
+        },
+        '127': {
+            'location': 'Los Angeles, CA, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Los Angeles',
+            'description': 'Well done, that\'s 10 edits in Los Angeles'
+        },
+        '128': {
+            'location': 'Miami-Dade, FL, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Miami',
+            'description': 'Well done, that\'s 10 edits in Miami'
+        },
+        '129': {
+            'location': 'New York, NY, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Big apple',
+            'description': 'Well done, that\'s 10 edits in New York City'
+        },
+        '130': {
+            'location': 'Orange, FL, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Orlando',
+            'description': 'Well done, that\'s 10 edits in Orlando'
+        },
+        '131': {
+            'location': 'Rio de Janeiro, RJ, Brasil',
+            'src': '/_/badges/99.png',
+            'name': 'Rio de Janeiro',
+            'description': 'Well done, that\'s 10 edits in Rio de Janeiro'
+        },
+        '132': {
+            'location': 'San Francisco, CA, USA',
+            'src': '/_/badges/99.png',
+            'name': 'San Francisco',
+            'description': 'Well done, that\'s 10 edits in San Francisco'
+        },
+        '133': {
+            'location': 'Toronto Division, ON, Canada',
+            'src': '/_/badges/99.png',
+            'name': 'Toronto',
+            'description': 'Well done, that\'s 10 edits in Toronto'
+        },
+        '134': {
+            'location': 'District of Columbia, DC, USA',
+            'src': '/_/badges/99.png',
+            'name': 'Washington DC',
+            'description': 'Well done, that\'s 10 edits in Washington DC'
+        },
+        '135': {
+            'location': 'Abu Dhabi, United Arab Emirates',
+            'src': '/_/badges/99.png',
+            'name': 'Abu Dhabi',
+            'description': 'Well done, that\'s 10 edits in Abu Dhabi'
+        },
+        '136': {
+            'location': 'Bahrain',
+            'src': '/_/badges/99.png',
+            'name': 'Bahrain',
+            'description': 'Well done, that\'s 10 edits in Bahrain'
+        },
+        '137': {
+            'location': 'Bangkok, Thailand',
+            'src': '/_/badges/99.png',
+            'name': 'Bangkok',
+            'description': 'Well done, that\'s 10 edits in Bangkok'
+        },
+        '138': {
+            'location': '北京市, 中国',
+            'src': '/_/badges/99.png',
+            'name': 'Beijing',
+            'description': 'Well done, that\'s 10 edits in Beijing'
+        },
+        '139': {
+            'location': 'القاهر, Egypt',
+            'src': '/_/badges/99.png',
+            'name': 'Cairo',
+            'description': 'Well done, that\'s 10 edits in Cairo'
+        },
+        '140': {
+            'location': 'Dubai, United Arab Emirates',
+            'src': '/_/badges/99.png',
+            'name': 'Dubai',
+            'description': 'Well done, that\'s 10 edits in Dubai'
+        },
+        '141': {
+            'location': 'Hong Kong',
+            'src': '/_/badges/99.png',
+            'name': 'Hong Kong',
+            'description': 'Well done, that\'s 10 edits in Hong Kong'
+        },
+        '142': {
+            'location': 'Kuala Lumpur, Malaysia',
+            'src': '/_/badges/99.png',
+            'name': 'Kuala Lumpur',
+            'description': 'Well done, that\'s 10 edits in Kuala Lumpur'
+        },
+        '143': {
+            'location': 'Singapore',
+            'src': '/_/badges/99.png',
+            'name': 'Singapore',
+            'description': 'Well done, that\'s 10 edits in Singapore'
+        },
+        '144': {
+            'location': '서울특별시, 한국',
+            'src': '/_/badges/99.png',
+            'name': 'Seoul',
+            'description': 'Well done, that\'s 10 edits in Seoul'
+        },
+        '145': {
+            'location': '上海市, 中国',
+            'src': '/_/badges/99.png',
+            'name': 'Shanghai',
+            'description': 'Well done, that\'s 10 edits in Shanghai'
+        },
+        '146': {
+            'location': '東京都, 日本',
+            'src': '/_/badges/99.png',
+            'name': 'Big in Japan',
+            'description': 'Well done, that\'s 10 edits in Tokyo'
+        },
+        '147': {
+            'location': 'Adelaide, SA, Australia',
+            'src': '/_/badges/99.png',
+            'name': 'Adelaide',
+            'description': 'Well done, that\'s 10 edits in Adelaide'
+        },
+        '148': {
+            'location': 'Darwin, NT, Australia',
+            'src': '/_/badges/99.png',
+            'name': 'Darwin',
+            'description': 'Well done, that\'s 10 edits in Darwin'
+        },
+        '149': {
+            'location': 'Melbourne, VIC, Australia',
+            'src': '/_/badges/99.png',
+            'name': 'Melbourne',
+            'description': 'Well done, that\'s 10 edits in Melbourne'
+        },
+        '150': {
+            'location': 'Perth, WA, Australia',
+            'src': '/_/badges/99.png',
+            'name': 'Perth',
+            'description': 'Well done, that\'s 10 edits in Perth'
+        },
+        '151': {
+            'location': 'Sydney, NSW, Australia',
+            'src': '/_/badges/99.png',
+            'name': 'Sydney',
+            'description': 'Well done, that\'s 10 edits in Sydney'
+        },
+        '152': {
+            'location': 'Cape Town, Western Cape, South Africa',
+            'src': '/_/badges/99.png',
+            'name': 'Cape Town',
+            'description': 'Well done, that\'s 10 edits in Cape Town'
+        },
+        '153': {
+            'location': 'Marrakesh, Marrakech-Tensift-El Haouz, Morocco',
+            'src': '/_/badges/99.png',
+            'name': 'Marrakesh',
+            'description': 'Well done, that\'s 10 edits in Marrakesh'
         }
     }
     
