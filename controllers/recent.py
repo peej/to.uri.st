@@ -96,7 +96,7 @@ class RecentPage(Controller):
         template_values['url'] = self.request.url
         template_values['atom'] = re.sub(r'\..+$', '.atom', self.request.path)
         template_values['sitemap'] = re.sub(r'\..+$', '.xml', self.request.path)
-        template_values['kml'] = re.sub(r'\..+$', '.kml', self.request.path)
+        template_values['kml'] = re.sub(r'\.[^.]+$', '.kml', self.request.url)
         
         if type == 'xml':
             template_values['cities'] = self.cities
