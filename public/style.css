@@ -605,6 +605,13 @@ ol.diff li.pic img.old {
 
 /* user */
 
+#user h2 span {
+    float: right;
+    color: #f80;
+    font-weight: bold;
+    text-shadow: 1px 0 2px #000;
+}
+
 #user h3 {
     clear: right;
 }
@@ -633,16 +640,8 @@ div#badges ul li {
     float: left;
 }
 
-div#badges ul li.xp {
-    padding-right: 10px;
-    color: #f80;
-    font-size: 3em;
-    font-weight: bold;
-    text-shadow: 1px 0 2px #000;
-}
-
 div#badges ul img {
-    margin: 0 10px 10px 0;
+    margin: 0 10px 0 0;
     width: 50px;
     height: 50px;
     border: none;
@@ -650,6 +649,9 @@ div#badges ul img {
 
 div#badges a {
     font-size: 75%;
+    display: block;
+    clear: left;
+    text-align: center;
 }
 
 ul#locations {

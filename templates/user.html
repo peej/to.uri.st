@@ -11,106 +11,109 @@
     </div>
     {% endif %}
     
-    <h2>{{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}</h2>
+    <h2>
+        {{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}
+        <span title="{{ user.username|escape }} has {{ user.activity }} experience points">{{ user.activity }}</span>
+    </h2>
     
     {% if user.badges %}
-    <div id="badges"><ul>
-        <li class="xp" title="{{ user.username|escape }} has {{ user.activity }} experience points">{{ user.activity }}</li>
-        {% if user.badges.1 %}
-        <li><img src="{{ badges.1.src }}" alt="{{ badges.1.name }}" title="{{ badges.1.name }}: {{ badges.1.description }} ({{ user.badges.1|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.2 %}
-        <li><img src="{{ badges.2.src }}" alt="{{ badges.2.name }}" title="{{ badges.2.name }}: {{ badges.2.description }} ({{ user.badges.2|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.3 %}
-        <li><img src="{{ badges.3.src }}" alt="{{ badges.3.name }}" title="{{ badges.3.name }}: {{ badges.3.description }} ({{ user.badges.3|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.4 %}
-        <li><img src="{{ badges.4.src }}" alt="{{ badges.4.name }}" title="{{ badges.4.name }}: {{ badges.4.description }} ({{ user.badges.4|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.5 %}
-        <li><img src="{{ badges.5.src }}" alt="{{ badges.5.name }}" title="{{ badges.5.name }}: {{ badges.5.description }} ({{ user.badges.5|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.6 %}
-        <li><img src="{{ badges.6.src }}" alt="{{ badges.6.name }}" title="{{ badges.6.name }}: {{ badges.6.description }} ({{ user.badges.6|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.7 %}
-        <li><img src="{{ badges.7.src }}" alt="{{ badges.7.name }}" title="{{ badges.7.name }}: {{ badges.7.description }} ({{ user.badges.7|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.8 %}
-        <li><img src="{{ badges.8.src }}" alt="{{ badges.8.name }}" title="{{ badges.8.name }}: {{ badges.8.description }} ({{ user.badges.8|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.9 %}
-        <li><img src="{{ badges.9.src }}" alt="{{ badges.9.name }}" title="{{ badges.9.name }}: {{ badges.9.description }} ({{ user.badges.9|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.10 %}
-        <li><img src="{{ badges.10.src }}" alt="{{ badges.10.name }}" title="{{ badges.10.name }}: {{ badges.10.description }} ({{ user.badges.10|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.11 %}
-        <li><img src="{{ badges.11.src }}" alt="{{ badges.11.name }}" title="{{ badges.11.name }}: {{ badges.11.description }} ({{ user.badges.11|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.12 %}
-        <li><img src="{{ badges.12.src }}" alt="{{ badges.12.name }}" title="{{ badges.12.name }}: {{ badges.12.description }} ({{ user.badges.12|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.13 %}
-        <li><img src="{{ badges.13.src }}" alt="{{ badges.13.name }}" title="{{ badges.13.name }}: {{ badges.13.description }} ({{ user.badges.13|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.14 %}
-        <li><img src="{{ badges.14.src }}" alt="{{ badges.14.name }}" title="{{ badges.14.name }}: {{ badges.14.description }} ({{ user.badges.14|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.15 %}
-        <li><img src="{{ badges.15.src }}" alt="{{ badges.15.name }}" title="{{ badges.15.name }}: {{ badges.15.description }} ({{ user.badges.15|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.16 %}
-        <li><img src="{{ badges.16.src }}" alt="{{ badges.16.name }}" title="{{ badges.16.name }}: {{ badges.16.description }} ({{ user.badges.16|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.17 %}
-        <li><img src="{{ badges.17.src }}" alt="{{ badges.17.name }}" title="{{ badges.17.name }}: {{ badges.17.description }} ({{ user.badges.17|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.18 %}
-        <li><img src="{{ badges.18.src }}" alt="{{ badges.18.name }}" title="{{ badges.18.name }}: {{ badges.18.description }} ({{ user.badges.18|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.19 %}
-        <li><img src="{{ badges.19.src }}" alt="{{ badges.19.name }}" title="{{ badges.19.name }}: {{ badges.19.description }} ({{ user.badges.19|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.20 %}
-        <li><img src="{{ badges.20.src }}" alt="{{ badges.20.name }}" title="{{ badges.20.name }}: {{ badges.20.description }} ({{ user.badges.20|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.50 %}
-        <li><img src="{{ badges.50.src }}" alt="{{ badges.50.name }}" title="{{ badges.50.name }}: {{ badges.50.description }} ({{ user.badges.50|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.51 %}
-        <li><img src="{{ badges.51.src }}" alt="{{ badges.51.name }}" title="{{ badges.51.name }}: {{ badges.51.description }} ({{ user.badges.51|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.52 %}
-        <li><img src="{{ badges.52.src }}" alt="{{ badges.52.name }}" title="{{ badges.52.name }}: {{ badges.52.description }} ({{ user.badges.52|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.53 %}
-        <li><img src="{{ badges.53.src }}" alt="{{ badges.53.name }}" title="{{ badges.53.name }}: {{ badges.53.description }} ({{ user.badges.53|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.54 %}
-        <li><img src="{{ badges.54.src }}" alt="{{ badges.54.name }}" title="{{ badges.54.name }}: {{ badges.54.description }} ({{ user.badges.54|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.55 %}
-        <li><img src="{{ badges.55.src }}" alt="{{ badges.55.name }}" title="{{ badges.55.name }}: {{ badges.55.description }} ({{ user.badges.55|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.56 %}
-        <li><img src="{{ badges.56.src }}" alt="{{ badges.56.name }}" title="{{ badges.56.name }}: {{ badges.56.description }} ({{ user.badges.56|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.57 %}
-        <li><img src="{{ badges.57.src }}" alt="{{ badges.57.name }}" title="{{ badges.57.name }}: {{ badges.57.description }} ({{ user.badges.57|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.58 %}
-        <li><img src="{{ badges.58.src }}" alt="{{ badges.58.name }}" title="{{ badges.58.name }}: {{ badges.58.description }} ({{ user.badges.58|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.59 %}
-        <li><img src="{{ badges.59.src }}" alt="{{ badges.59.name }}" title="{{ badges.59.name }}: {{ badges.59.description }} ({{ user.badges.59|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-        {% if user.badges.60 %}
-        <li><img src="{{ badges.60.src }}" alt="{{ badges.60.name }}" title="{{ badges.60.name }}: {{ badges.60.description }} ({{ user.badges.60|date:"jS F Y \a\t H:i" }})"></li>
-        {% endif %}
-    </ul>
-    <a href="http://wiki.to.uri.st/Badges" rel="ext help" class="ext">What is this?</a>
+    <div id="badges">
+        <ul>
+            {% if user.badges.1 %}
+            <li><img src="{{ badges.1.src }}" alt="{{ badges.1.name }}" title="{{ badges.1.name }}: {{ badges.1.description }} ({{ user.badges.1|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.2 %}
+            <li><img src="{{ badges.2.src }}" alt="{{ badges.2.name }}" title="{{ badges.2.name }}: {{ badges.2.description }} ({{ user.badges.2|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.3 %}
+            <li><img src="{{ badges.3.src }}" alt="{{ badges.3.name }}" title="{{ badges.3.name }}: {{ badges.3.description }} ({{ user.badges.3|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.4 %}
+            <li><img src="{{ badges.4.src }}" alt="{{ badges.4.name }}" title="{{ badges.4.name }}: {{ badges.4.description }} ({{ user.badges.4|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.5 %}
+            <li><img src="{{ badges.5.src }}" alt="{{ badges.5.name }}" title="{{ badges.5.name }}: {{ badges.5.description }} ({{ user.badges.5|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.6 %}
+            <li><img src="{{ badges.6.src }}" alt="{{ badges.6.name }}" title="{{ badges.6.name }}: {{ badges.6.description }} ({{ user.badges.6|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.7 %}
+            <li><img src="{{ badges.7.src }}" alt="{{ badges.7.name }}" title="{{ badges.7.name }}: {{ badges.7.description }} ({{ user.badges.7|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.8 %}
+            <li><img src="{{ badges.8.src }}" alt="{{ badges.8.name }}" title="{{ badges.8.name }}: {{ badges.8.description }} ({{ user.badges.8|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.9 %}
+            <li><img src="{{ badges.9.src }}" alt="{{ badges.9.name }}" title="{{ badges.9.name }}: {{ badges.9.description }} ({{ user.badges.9|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.10 %}
+            <li><img src="{{ badges.10.src }}" alt="{{ badges.10.name }}" title="{{ badges.10.name }}: {{ badges.10.description }} ({{ user.badges.10|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.11 %}
+            <li><img src="{{ badges.11.src }}" alt="{{ badges.11.name }}" title="{{ badges.11.name }}: {{ badges.11.description }} ({{ user.badges.11|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.12 %}
+            <li><img src="{{ badges.12.src }}" alt="{{ badges.12.name }}" title="{{ badges.12.name }}: {{ badges.12.description }} ({{ user.badges.12|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.13 %}
+            <li><img src="{{ badges.13.src }}" alt="{{ badges.13.name }}" title="{{ badges.13.name }}: {{ badges.13.description }} ({{ user.badges.13|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.14 %}
+            <li><img src="{{ badges.14.src }}" alt="{{ badges.14.name }}" title="{{ badges.14.name }}: {{ badges.14.description }} ({{ user.badges.14|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.15 %}
+            <li><img src="{{ badges.15.src }}" alt="{{ badges.15.name }}" title="{{ badges.15.name }}: {{ badges.15.description }} ({{ user.badges.15|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.16 %}
+            <li><img src="{{ badges.16.src }}" alt="{{ badges.16.name }}" title="{{ badges.16.name }}: {{ badges.16.description }} ({{ user.badges.16|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.17 %}
+            <li><img src="{{ badges.17.src }}" alt="{{ badges.17.name }}" title="{{ badges.17.name }}: {{ badges.17.description }} ({{ user.badges.17|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.18 %}
+            <li><img src="{{ badges.18.src }}" alt="{{ badges.18.name }}" title="{{ badges.18.name }}: {{ badges.18.description }} ({{ user.badges.18|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.19 %}
+            <li><img src="{{ badges.19.src }}" alt="{{ badges.19.name }}" title="{{ badges.19.name }}: {{ badges.19.description }} ({{ user.badges.19|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.20 %}
+            <li><img src="{{ badges.20.src }}" alt="{{ badges.20.name }}" title="{{ badges.20.name }}: {{ badges.20.description }} ({{ user.badges.20|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.50 %}
+            <li><img src="{{ badges.50.src }}" alt="{{ badges.50.name }}" title="{{ badges.50.name }}: {{ badges.50.description }} ({{ user.badges.50|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.51 %}
+            <li><img src="{{ badges.51.src }}" alt="{{ badges.51.name }}" title="{{ badges.51.name }}: {{ badges.51.description }} ({{ user.badges.51|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.52 %}
+            <li><img src="{{ badges.52.src }}" alt="{{ badges.52.name }}" title="{{ badges.52.name }}: {{ badges.52.description }} ({{ user.badges.52|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.53 %}
+            <li><img src="{{ badges.53.src }}" alt="{{ badges.53.name }}" title="{{ badges.53.name }}: {{ badges.53.description }} ({{ user.badges.53|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.54 %}
+            <li><img src="{{ badges.54.src }}" alt="{{ badges.54.name }}" title="{{ badges.54.name }}: {{ badges.54.description }} ({{ user.badges.54|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.55 %}
+            <li><img src="{{ badges.55.src }}" alt="{{ badges.55.name }}" title="{{ badges.55.name }}: {{ badges.55.description }} ({{ user.badges.55|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.56 %}
+            <li><img src="{{ badges.56.src }}" alt="{{ badges.56.name }}" title="{{ badges.56.name }}: {{ badges.56.description }} ({{ user.badges.56|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.57 %}
+            <li><img src="{{ badges.57.src }}" alt="{{ badges.57.name }}" title="{{ badges.57.name }}: {{ badges.57.description }} ({{ user.badges.57|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.58 %}
+            <li><img src="{{ badges.58.src }}" alt="{{ badges.58.name }}" title="{{ badges.58.name }}: {{ badges.58.description }} ({{ user.badges.58|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.59 %}
+            <li><img src="{{ badges.59.src }}" alt="{{ badges.59.name }}" title="{{ badges.59.name }}: {{ badges.59.description }} ({{ user.badges.59|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+            {% if user.badges.60 %}
+            <li><img src="{{ badges.60.src }}" alt="{{ badges.60.name }}" title="{{ badges.60.name }}: {{ badges.60.description }} ({{ user.badges.60|date:"jS F Y \a\t H:i" }})"></li>
+            {% endif %}
+        </ul>
+        <a href="http://wiki.to.uri.st/Badges" rel="ext help" class="ext">What is this?</a>
     </div>
     {% endif %}
     
