@@ -613,22 +613,43 @@ ol.diff li.pic img.old {
     height: 200px;
 }
 
-ul#badges {
+#user p span {
+    font-size: 75%;
+    color: #999;
+    padding-left: 4px;
+}
+
+div#badges {
     width: 300px;
-    margin: 0;
     float: right;
+}
+
+div#badges ul {
+    margin: 0;
     list-style: none;
 }
 
-ul#badges li {
+div#badges ul li {
     float: left;
 }
 
-ul#badges img {
+div#badges ul li.xp {
+    padding-right: 10px;
+    color: #f80;
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow: 1px 0 2px #000;
+}
+
+div#badges ul img {
     margin: 0 10px 10px 0;
     width: 50px;
     height: 50px;
     border: none;
+}
+
+div#badges a {
+    font-size: 75%;
 }
 
 ul#locations {

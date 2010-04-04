@@ -322,6 +322,25 @@ $(function () {
         
         break;
         
+    case "user":
+        
+        var editUrl = $("#attraction-nav a[rel=edit]").attr("href");
+        if (editUrl) {
+            $("#content p")
+                .hover(function () {
+                    $(this).append('<span>click to edit</span>');
+                }, function () {
+                    $(this).find("span").remove();
+                })
+                .css("cursor", "pointer")
+                .attr("title", "Click to edit")
+                .click(function () {
+                    document.location = editUrl;
+                });
+        }
+        
+        break;
+        
     case "map":
         
         if ($("#header:visible").length == 0) {

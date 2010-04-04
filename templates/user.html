@@ -11,10 +11,11 @@
     </div>
     {% endif %}
     
-    <h2 title="{{ user.username|escape }} has {{ user.activity }} experience points">{{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}</h2>
+    <h2>{{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}</h2>
     
     {% if user.badges %}
-    <ul id="badges">
+    <div id="badges"><ul>
+        <li class="xp" title="{{ user.username|escape }} has {{ user.activity }} experience points">{{ user.activity }}</li>
         {% if user.badges.1 %}
         <li><img src="{{ badges.1.src }}" alt="{{ badges.1.name }}" title="{{ badges.1.name }}: {{ badges.1.description }} ({{ user.badges.1|date:"jS F Y \a\t H:i" }})"></li>
         {% endif %}
@@ -109,6 +110,8 @@
         <li><img src="{{ badges.60.src }}" alt="{{ badges.60.name }}" title="{{ badges.60.name }}: {{ badges.60.description }} ({{ user.badges.60|date:"jS F Y \a\t H:i" }})"></li>
         {% endif %}
     </ul>
+    <a href="http://wiki.to.uri.st/Badges" rel="ext help" class="ext">What is this?</a>
+    </div>
     {% endif %}
     
     {% if user.description %}
@@ -158,7 +161,7 @@
         {% endfor %}
     </ol>
     <div class="nav">
-        <span class="kml"><a href="http://maps.google.co.uk/?q={{ kml|escape }}" rel="ext">View on Google Maps</a> (<a href="{{ kml|escape }}" rel="alternate" type="application/vnd.google-earth.kml+xml">KML data</a>)</span>
+        <span class="kml"><a href="http://maps.google.co.uk/?q={{ kml|escape }}" rel="ext">View recommendations on Google Maps</a> (<a href="{{ kml|escape }}" rel="alternate" type="application/vnd.google-earth.kml+xml">KML data</a>)</span>
     </div>
     {% endif %}
     
@@ -173,7 +176,7 @@
         {% endfor %}
     </ol>
     <div class="nav">
-        <a class="gmap" href="http://maps.google.co.uk/?q=from:{% for attraction in itinerary %}{% if not forloop.first %} to:{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}" rel="ext">View on Google Maps</a>
+        <a class="gmap" href="http://maps.google.co.uk/?q=from:{% for attraction in itinerary %}{% if not forloop.first %} to:{% endif %}{{ attraction.location.lat|escape }},{{ attraction.location.lon|escape }}{% endfor %}" rel="ext">View itinerary on Google Maps</a>
     </div>
     {% endif %}
     
