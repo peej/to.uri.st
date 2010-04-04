@@ -371,7 +371,7 @@ class Controller(webapp.RequestHandler):
         '53': {
             'tag': 'church',
             'src': '/_/badges/53.png',
-            'name': '',
+            'name': 'Saint',
             'description': 'Well done, that\'s 10 edits to churches'
         },
         '54': {
