@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.1">
+	<Document>
+		<name>Recent changes to attractions{% if coords %} (at {{ coords|escape }}){% endif %}</name>
+{% for attraction in attractions %}
+		<Placemark id="{{ attraction.id }}">
+            <name>{{ attraction.name }}</name>
+			{% ifequal attraction.free "y" %}
+			<description><![CDATA[
+				{{ attraction.description|truncatewords:20 }}
+                <p><a href="http://to.uri.st/attractions/{{ attraction.id }}">More</a></p>
+			]]></description>
+			{% else %}
+			<description><![CDATA[
+				<p><a href="http://to.uri.st/atractions/{{ attraction.id }}">View information at to.uri.st</a></p>
+			]]></description>
+			{% endifequal %}
+			<Point>
+				<coordinates>{{ attraction.location.lon|escape }},{{ attraction.location.lat|escape }},0</coordinates>
+			</Point>
+		</Placemark>
+{% endfor %}
+	</Document>
+</kml>
