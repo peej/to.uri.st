@@ -365,6 +365,10 @@ form#lookat input {
     margin: 10px 0;
 }
 
+form#lookat input[type=submit] {
+    padding: 6px;
+}
+
 form#lookat p {
     font-size: 80%;
 }
