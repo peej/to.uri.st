@@ -15,10 +15,10 @@
     <div class="homepage-list">
         <h3>Recent changes</h3>
         {% ifnotequal recent.count 0 %}
-            <ul>
+            <ul id="recent">
             {% for attraction in recent %}
-                <li>
-                    <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
+                    <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
                     {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.username %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
                 </li>
             {% endfor %}
@@ -31,10 +31,10 @@
     <div class="homepage-list">
         <h3>Popular attractions</h3>
         {% ifnotequal popular.count 0 %}
-            <ul>
+            <ul id="popular">
             {% for attraction in popular %}
-                <li>
-                    <a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a>
+                <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
+                    <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
                     {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.username %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
                 </li>
             {% endfor %}

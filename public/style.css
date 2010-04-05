@@ -376,6 +376,25 @@ div.homepage-list {
     margin: 0 5% 20px 0;
 }
 
+div.homepage-list ul#recent,
+div.homepage-list ul#popular {
+    list-style: none;
+    margin: 0;
+}
+
+div.homepage-list ul#recent li,
+div.homepage-list ul#popular li {
+    background: url(/_/default-img.png) no-repeat center left;
+    padding: 5px 0 0 80px;
+    min-height: 75px;
+}
+
+div.homepage-list h4 {
+    margin: 0 0 5px;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+}
+
 /* search */
 
 #search-results ol {

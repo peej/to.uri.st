@@ -26,5 +26,11 @@ class HomePage(Controller):
             'opensearch': '/home.search'
         }
         
+        for attraction in template_values['recent']:
+            attraction.thumbnail = self.convertFlickrUrl(attraction.picture, 's')
+        
+        for attraction in template_values['popular']:
+            attraction.thumbnail = self.convertFlickrUrl(attraction.picture, 's')
+        
         self.output('home', type, template_values)
         
