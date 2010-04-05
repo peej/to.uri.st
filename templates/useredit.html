@@ -17,9 +17,9 @@
     <form action="/users/{{ user.id }}/edit.html" method="post">
         
         <label{% if errors.name %} class="error"{% endif %}>
-            User name:
+            Display name:
             {% if errors.name_empty %}You must have a name{% endif %}
-            {% if errors.name_long %}The user name must be under a 100 characters long{% endif %}
+            {% if errors.name_long %}Your name must be under a 100 characters long{% endif %}
             <input type="text" name="name" value="{{ user.name|escape }}" maxlength="100">
         </label>
         
@@ -30,7 +30,7 @@
         
         <label{% if errors.href %} class="error"{% endif %}>
             More information URL:
-            {% if errors.href %}Enter a valid HTTP URL{% endif %}
+            {% if errors.href %}Enter a valid HTTP URL including the "http://"{% endif %}
             <input type="text" name="href" value="{% if user.href %}{{ user.href|escape }}{% endif %}">
         </label>
         
