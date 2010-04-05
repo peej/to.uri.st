@@ -574,7 +574,7 @@ class Controller(webapp.RequestHandler):
         },
         '126': {
             'location': 'Clark, NV, USA',
-            'src': '/_/badges/99.png',
+            'src': '/_/badges/126.png',
             'name': 'Viva Las Vegas',
             'description': 'Well done, that\'s 10 edits in Las Vegas'
         },
@@ -592,7 +592,7 @@ class Controller(webapp.RequestHandler):
         },
         '129': {
             'location': 'New York, NY, USA',
-            'src': '/_/badges/99.png',
+            'src': '/_/badges/129.png',
             'name': 'Big apple',
             'description': 'Well done, that\'s 10 edits in New York City'
         },
@@ -694,7 +694,7 @@ class Controller(webapp.RequestHandler):
         },
         '146': {
             'location': '東京都, 日本',
-            'src': '/_/badges/99.png',
+            'src': '/_/badges/146.png',
             'name': 'Big in Japan',
             'description': 'Well done, that\'s 10 edits in Tokyo'
         },
