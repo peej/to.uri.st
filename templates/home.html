@@ -35,7 +35,7 @@
             {% for attraction in popular %}
                 <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
                     <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
-                    {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.username %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
+                    {% if attraction.description %}{{ attraction.description|truncatewords:10|escape|linebreaks }}{% endif %}
                 </li>
             {% endfor %}
             </ul>
