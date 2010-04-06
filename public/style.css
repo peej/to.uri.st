@@ -380,14 +380,18 @@ div.homepage-list {
     margin: 0 5% 20px 0;
 }
 
-div.homepage-list ul#recent,
-div.homepage-list ul#popular {
+ol#recent,
+ol#popular,
+ol#recommended,
+ol#itinerary {
     list-style: none;
     margin: 0;
 }
 
-div.homepage-list ul#recent li,
-div.homepage-list ul#popular li {
+ol#recent li,
+ol#popular li,
+ol#recommended li,
+ol#itinerary li {
     background: url(/_/default-img.png) no-repeat center left;
     padding: 5px 0 0 80px;
     min-height: 75px;
@@ -675,6 +679,7 @@ div#badges a {
     display: block;
     clear: left;
     text-align: center;
+    margin: 0 0 1em;
 }
 
 ul#locations {

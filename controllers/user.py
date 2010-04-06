@@ -39,6 +39,8 @@ class UserPage(Controller):
             
             if edited.count() > 0:
                 template_values['edited'] = edited.fetch(10)
+                for attraction in template_values['edited']:
+                    attraction.thumbnail = self.convertFlickrUrl(attraction.picture, 's')
             
             template_values['updated'] = None
             for attraction in edited:
@@ -48,18 +50,22 @@ class UserPage(Controller):
             recommended = Attraction.all()
             recommended.filter("root IN", userObject.recommended)
             recommended.filter("next =", None)
-            recommended.order("name")
+            recommended.order("-datetime")
             
             if recommended.count() > 0:
-                template_values['recommended'] = recommended
+                template_values['recommended'] = recommended.fetch(10)
+                for attraction in template_values['recommended']:
+                    attraction.thumbnail = self.convertFlickrUrl(attraction.picture, 's')
             
             itinerary = Attraction.all()
             itinerary.filter("root IN", userObject.itinerary)
             itinerary.filter("next =", None)
-            itinerary.order("name")
+            itinerary.order("-datetime")
             
             if itinerary.count() > 0:
-                template_values['itinerary'] = itinerary
+                template_values['itinerary'] = itinerary.fetch(10)
+                for attraction in template_values['itinerary']:
+                    attraction.thumbnail = self.convertFlickrUrl(attraction.picture, 's')
             
             template_values['url'] = self.request.path
             template_values['atomtag'] = 'user:' + userid

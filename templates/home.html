@@ -15,14 +15,14 @@
     <div class="homepage-list">
         <h3>Recent changes</h3>
         {% ifnotequal recent.count 0 %}
-            <ul id="recent">
+            <ol id="recent">
             {% for attraction in recent %}
                 <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
                     <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
                     {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.username %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
                 </li>
             {% endfor %}
-            </ul>
+            </ol>
         {% else %}
             <p>No changes</p>
         {% endifnotequal %}
@@ -31,14 +31,14 @@
     <div class="homepage-list">
         <h3>Popular attractions</h3>
         {% ifnotequal popular.count 0 %}
-            <ul id="popular">
+            <ol id="popular">
             {% for attraction in popular %}
                 <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
                     <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
                     {% if attraction.description %}{{ attraction.description|truncatewords:10|escape|linebreaks }}{% endif %}
                 </li>
             {% endfor %}
-            </ul>
+            </ol>
         {% else %}
             <p>Nothing is popular</p>
         {% endifnotequal %}
@@ -47,7 +47,7 @@
     <div class="homepage-list">
         <h3>Top users</h3>
         {% ifnotequal users.count 0 %}
-            <ul>
+            <ol>
             {% for user in users %}
                 <li><a href="/users/{{ user.id }}.html">
                     {{ user.username|escape }}{% ifnotequal user.name user.username %} ({{ user.name|escape }}){% endifnotequal %}
@@ -56,7 +56,7 @@
             {% ifnotequal users.count 5 %}
                 <li>You could be here, get editing today</li>
             {% endifnotequal %}
-            </ul>
+            </ol>
         {% endifnotequal %}
     </div>
     
