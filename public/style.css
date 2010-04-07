@@ -397,7 +397,10 @@ ol#itinerary li {
     min-height: 75px;
 }
 
-div.homepage-list h4 {
+ol#recent h4,
+ol#popular h4,
+ol#recommended h4,
+ol#itinerary h4 {
     margin: 0 0 5px;
     font-size: 1em;
     font-family: Arial, sans-serif;
@@ -636,7 +639,6 @@ ol.diff li.pic img.old {
     float: right;
     color: #f80;
     font-weight: bold;
-    text-shadow: 1px 0 2px #000;
 }
 
 #user h3 {
