@@ -1,5 +1,5 @@
 {% if get.callback %}{{ get.callback }}({% endif %}
-{% if attractions %}[
+{% if recommended %}[
     {% for attraction in recommended %}
 {
     "id": "{{ attraction.id }}",
