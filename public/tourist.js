@@ -326,7 +326,7 @@ $(function () {
         
         var editUrl = $("#attraction-nav a[rel=edit]").attr("href");
         if (editUrl) {
-            $("#content p")
+            $("#content em")
                 .hover(function () {
                     $(this).append('<span>click to edit</span>');
                 }, function () {
