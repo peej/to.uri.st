@@ -75,6 +75,7 @@ class SearchPage(Controller):
         search = self.request.get("q")
         coords = self.request.get("c")
         tag = self.request.get("t")
+        attractions = self.request.get("a")
         
         template_values = {}
         
@@ -221,6 +222,20 @@ class SearchPage(Controller):
                         )
                 except KeyError:
                     pass
+                
+        elif attractions:
+            
+            template_values['attractions'] = []
+            
+            for attractionId in attractions.split(","):
+                
+                query = Attraction.all()
+                query.filter("id =", attractionId)
+                
+                attraction = query.get()
+                if attraction:
+                    template_values['attractions'].append(attraction)
+                
             
         template_values['url'] = self.request.url
         template_values['atomtag'] = self.request.path
