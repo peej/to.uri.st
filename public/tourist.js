@@ -406,7 +406,7 @@ $(function () {
             center: center,
             zoom: zoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false
+            mapTypeControl: true
         };
         $("input.map").wrap('<div id="map"></div>');
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -416,14 +416,20 @@ $(function () {
             "http://www.google.com/intl/en_ALL/mapfiles/marker_orange.png",
             new google.maps.Size(20, 34),
             new google.maps.Point(0, 0),
-            new google.maps.Point(20, 34)
+            new google.maps.Point(10, 30)
+        );
+        var shadow = new google.maps.MarkerImage(
+            "http://maps.gstatic.com/intl/en_uk/mapfiles/shadow50.png",
+            new google.maps.Size(37, 34),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(10, 30)
         );
         
         var marker = new google.maps.Marker({
             position: center,
             map: map,
             icon: icon,
-            shadow: "http://maps.gstatic.com/intl/en_uk/mapfiles/shadow50.png",
+            shadow: shadow,
             draggable: true,
             title: "Drag to set attraction location"
         });
