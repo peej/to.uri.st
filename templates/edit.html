@@ -42,7 +42,7 @@
         <label{% if errors.href %} class="error"{% endif %}>
             More information URL:
             {% if errors.href %}Enter a valid HTTP URL{% endif %}
-            <input type="text" name="href" value="{{ attraction.href|escape }}">
+            <input type="url" name="href" value="{{ attraction.href|escape }}">
         </label>
         
         <label class="picture{% if errors.picture %} error{% endif %}">
@@ -50,7 +50,7 @@
             {% if attraction.picture %}
             <img src="{{ attraction.picture|escape }}" class="picture" alt="">
             {% endif %}
-            <input type="text" name="picture" value="{{ attraction.picture|escape }}">
+            <input type="url" name="picture" value="{{ attraction.picture|escape }}">
         </label>
         
         <label class="tags{% if errors.tags %} error{% endif %}">

@@ -31,7 +31,7 @@
             {% endif %}
             </ul>
             <form method="get" action="/search.html">
-                <label>Go to <input type="text" name="q" value="{{ q|escape }}"></label>
+                <label>Go to <input type="search" name="q" placeholder="a location name" value="{{ q|escape }}"></label>
                 <input type="submit" value="Go">
             </form>
         </div>
