@@ -11,9 +11,9 @@
         <a href="/attractions/{{ attraction.id }}/history.html">History</a>
     </div>
     
-    <h2>Edit "{{ attraction.name|escape }}"</h2>
+    <h1>Edit "{{ attraction.name|escape }}"</h1>
     {% else %}
-    <h2>Add a new attraction</h2>
+    <h1>Add a new attraction</h1>
     {% endif %}
     
     {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}

@@ -8,7 +8,7 @@
     {% endif %}{% endif %}{% endif %}{% endif %}to.uri.st{% endblock %}
 
 {% block content %}
-    <h2>{% if results and search %}
+    <h1>{% if results and search %}
         Locations found for "{{ search|escape }}"
     {% else %}{% if search %}
         Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
@@ -18,7 +18,7 @@
         Attractions tagged as "{{ tag|escape }}"
     {% else %}
         Attraction search results
-    {% endif %}{% endif %}{% endif %}{% endif %}</h2>
+    {% endif %}{% endif %}{% endif %}{% endif %}</h1>
     
     {% if results %}
     

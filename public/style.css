@@ -39,16 +39,18 @@ body {
     font-size: 80%;
 }
 
-h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: Georgia, Times New Roman, Century Schoolbook L, Times, serif;
     margin: 0.5em 0;
 }
 
-h2 {
+h1 {
+    font-size: 1.6em;
     border-bottom: 1px solid #000;
 }
 
-h3 {
+h2 {
+    font-size: 1.2em;
     margin-top: 1em;
 }
 
@@ -122,13 +124,10 @@ a.ext {
 
 /* header */
 
-#header h1 {
+#header a#title {
     float: left;
     font-size: 40px;
-}
-
-#header h1 a {
-    display: block;
+    font-weight: bold;
     background: url(/_/icon.png) no-repeat center left;
     padding: 10px 0 10px 60px;
     color: #000;
@@ -397,10 +396,10 @@ ol#itinerary li {
     min-height: 75px;
 }
 
-ol#recent h4,
-ol#popular h4,
-ol#recommended h4,
-ol#itinerary h4 {
+ol#recent h3,
+ol#popular h3,
+ol#recommended h3,
+ol#itinerary h3 {
     margin: 0 0 5px;
     font-size: 1em;
     font-family: Arial, sans-serif;
@@ -635,13 +634,13 @@ ol.diff li.pic img.old {
 
 /* user */
 
-#user h2 span {
+#user h1 span {
     float: right;
     color: #f80;
     font-weight: bold;
 }
 
-#user h3 {
+#user h2 {
     clear: right;
 }
 
@@ -707,7 +706,7 @@ div.badge img {
     margin: 10px 10px 10px 0;
 }
 
-div.badge h3 {
+div.badge h2 {
     font-size: 200%;
     margin-bottom: 0;
 }

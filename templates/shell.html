@@ -20,7 +20,7 @@
     <body id="{{ page }}">
         
         <div id="header">
-            <h1><a href="/" rel="home">to.uri.st</a></h1>
+            <a id="title" href="/" rel="home">to.uri.st</a>
             <ul>
             {% if signedin %}
                 <li><a href="/users/{{ signedin.userid|escape }}.html">{{ signedin.nickname|escape }}</a></li>
@@ -31,7 +31,7 @@
             {% endif %}
             </ul>
             <form method="get" action="/search.html">
-                <label>Go to <input type="search" name="q" placeholder="a location name" value="{{ q|escape }}"></label>
+                <label>Go to <input type="search" name="q" placeholder="a location" value="{{ q|escape }}"></label>
                 <input type="submit" value="Go">
             </form>
         </div>

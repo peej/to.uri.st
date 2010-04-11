@@ -10,8 +10,8 @@
         <a rel="history" href="/attractions/{{ attraction.id }}/history.html">History</a>
     </div>
     
-    <h2>{{ attraction.name|escape }}</h2>
-    <h3>{{ attraction.region|escape }}</h3>
+    <h1>{{ attraction.name|escape }}</h1>
+    <h2>{{ attraction.region|escape }}</h2>
     
     {% if attraction.next %}
     <div class="info old">

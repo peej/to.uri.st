@@ -1,7 +1,7 @@
 {% extends "shell.html" %}
 
 {% block content %}
-    <h2>Find and share tourist attractions</h2>
+    <h1>Find and share tourist attractions</h1>
     <p>Going away is great, but what you really need is someone who knows the places to visit.</p>
     <p>to.uri.st is the free database of tourist attractions anyone can edit, if you're passionate about seeing things and want to help others discover places around the World that you love, we need your help.</p>
     <a href="about.html">About the site</a> | <a href="http://wiki-to.uri.st/">Community wiki</a>
@@ -13,12 +13,12 @@
     </form>
     
     <div class="homepage-list">
-        <h3>Recent changes</h3>
+        <h2>Recent changes</h2>
         {% ifnotequal recent.count 0 %}
             <ol id="recent">
             {% for attraction in recent %}
                 <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
-                    <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
+                    <h3><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h3>
                     {{ attraction.datetime|date:"jS F Y \a\t H:i" }} by {% if attraction.username %}<a href="/users/{{ attraction.userid|escape }}.html">{{ attraction.username|escape }}</a>{% else %}Anonymous{% endif %}
                 </li>
             {% endfor %}
@@ -29,12 +29,12 @@
     </div>
     
     <div class="homepage-list">
-        <h3>Popular attractions</h3>
+        <h2>Popular attractions</h2>
         {% ifnotequal popular.count 0 %}
             <ol id="popular">
             {% for attraction in popular %}
                 <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
-                    <h4><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h4>
+                    <h3><a href="/attractions/{{ attraction.id }}.html">{{ attraction.name|escape }}</a></h3>
                     {% if attraction.description %}{{ attraction.description|truncatewords:10|escape|linebreaks }}{% endif %}
                 </li>
             {% endfor %}
@@ -45,7 +45,7 @@
     </div>
     
     <div class="homepage-list">
-        <h3>Top users</h3>
+        <h2>Top users</h2>
         {% ifnotequal users.count 0 %}
             <ol>
             {% for user in users %}

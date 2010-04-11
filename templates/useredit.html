@@ -9,7 +9,7 @@
         <span>Edit</span>
     </div>
     
-    <h2>Edit "{{ user.name|escape }}"</h2>
+    <h1>Edit "{{ user.name|escape }}"</h1>
     
     {% if errors.save %}<p class="error">There was a problem saving the attraction, please try again later.</p>{% endif %}
     {% if errors.permission %}<p class="error">You must be logged in as this user to edit it.</p>{% endif %}
