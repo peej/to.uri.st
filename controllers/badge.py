@@ -10,12 +10,14 @@ class Badge(Controller):
         else:
             username = self.request.remote_addr
         
-        template_values = {
-            'src': self.badges[badge]['src'],
-            'name': self.badges[badge]['name'],
-            'description': self.badges[badge]['description'],
-            'username': self.getUserId(username)
-        }
-        
-        self.output('badge', 'html', template_values)
-        
+        try:
+            template_values = {
+                'src': self.badges[badge]['src'],
+                'name': self.badges[badge]['name'],
+                'description': self.badges[badge]['description'],
+                'username': self.getUserId(username)
+            }
+            
+            self.output('badge', 'html', template_values)
+        except KeyError:
+            self.output('404', 'html')
