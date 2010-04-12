@@ -379,6 +379,7 @@ div.homepage-list {
     margin: 0 5% 20px 0;
 }
 
+#search-results ol,
 ol#recent,
 ol#popular,
 ol#recommended,
@@ -387,6 +388,7 @@ ol#itinerary {
     margin: 0;
 }
 
+#search-results li,
 ol#recent li,
 ol#popular li,
 ol#recommended li,
@@ -396,6 +398,7 @@ ol#itinerary li {
     min-height: 75px;
 }
 
+#search-results h3,
 ol#recent h3,
 ol#popular h3,
 ol#recommended h3,
@@ -406,10 +409,6 @@ ol#itinerary h3 {
 }
 
 /* search */
-
-#search-results ol {
-    list-style-type: upper-alpha;
-}
 
 #map-big {
     float: right;

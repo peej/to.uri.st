@@ -11,9 +11,9 @@
     <h1>{% if results and search %}
         Locations found for "{{ search|escape }}"
     {% else %}{% if search %}
-        Attractions in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
+        Attractions {% if tag %}tagged as "{{ tag|escape }}" {% endif %}in "{{ search|escape }}"{% if coords %} ({{ coords|escape }}){% endif %}
     {% else %}{% if coords %}
-        Attractions at {{ coords|escape }}
+        Attractions {% if tag %}tagged as "{{ tag|escape }}" {% endif %}at {{ coords|escape }}
     {% else %}{% if tag %}
         Attractions tagged as "{{ tag|escape }}"
     {% else %}
@@ -39,10 +39,9 @@
         </a>
         <ol>
             {% for attraction in attractions %}
-            <li>
-                <a href="/attractions/{{ attraction.id }}.html" data-lat="{{ attraction.location.lat }}" data-lon="{{ attraction.location.lon }}">
-                    {{ attraction.name|escape }}
-                </a>
+            <li{% if attraction.thumbnail %} style="background-image: url({{ attraction.thumbnail|escape }})"{% endif %}>
+                <h3><a href="/attractions/{{ attraction.id }}.html" data-lat="{{ attraction.location.lat }}" data-lon="{{ attraction.location.lon }}">{{ attraction.name|escape }}</a></h3>
+                {{ attraction.region|escape }}
             </li>
             {% endfor %}
         </ol>
