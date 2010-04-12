@@ -83,17 +83,17 @@ class SearchPage(Controller):
         
         # special search strings
         if search[0:10] == "tagged as ":
-            search = search[10:]
             if " in " not in search:
                 tag = search[10:].strip(" ")
                 if tag in self.tags:
                     tag = self.tags[tag]
+            search = search[10:]
         elif search[0:12] == "tagged with ":
-            search = search[12:]
             if " in " not in search:
                 tag = search[12:].strip(" ")
                 if tag in self.tags:
                     tag = self.tags[tag]
+            search = search[12:]
         
         if search[-11:] == " everywhere":
             tag = search[0:-11].strip(" ")
