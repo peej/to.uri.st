@@ -89,6 +89,8 @@ class RecentPage(Controller):
                 attraction.label = chr(attractionCount)
             if updated == None or attraction.datetime > updated:
                 updated = attraction.datetime
+            if attraction.picture:
+                attraction.thumbnail = self.convertFlickrUrl(attraction.picture, "s")
         
         template_values['attractions'] = attractions
         template_values['updated'] = updated
