@@ -68,7 +68,40 @@ class SearchPage(Controller):
             if updated == None or attraction.datetime > updated:
                 updated = attraction.datetime
             
-        return (attractions, updated)
+        return (attractions, updated, accuracy)
+    
+    def getLocationName(self, data):
+        try:
+            if data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'] == data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                raise KeyError
+            return (
+                data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
+                data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+            )
+        except KeyError:
+            try:
+                if data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'] == data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                    raise KeyError
+                return (
+                    data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                    data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                    data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                )
+            except KeyError:
+                try:
+                    return (
+                        data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
+                        data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                    )
+                except KeyError:
+                    try:
+                        return (
+                            data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                            data['Placemark'][0]['AddressDetails']['Country']['CountryName']
+                        )
+                    except KeyError:
+                        return ()
     
     def get(self, type):
         
@@ -123,34 +156,19 @@ class SearchPage(Controller):
                     try:
                         lat = data['Placemark'][0]['Point']['coordinates'][1]
                         lon = data['Placemark'][0]['Point']['coordinates'][0]
-                        (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
-                        if (
-                            'Country' in data['Placemark'][0]['AddressDetails'] and 
-                            'AdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country'] and
-                            'SubAdministrativeArea' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea'] and
-                            'CountryName' in data['Placemark'][0]['AddressDetails']['Country']
-                        ):
-                            if 'AddressLine' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']:
-                                template_values['search'] = "%s, %s" % (
-                                    data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
-                                    data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                                )
-                            elif 'SubAdministrativeAreaName' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']:
-                                template_values['search'] = "%s, %s" % (
-                                    data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                                    data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                                )
+                        (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type)
+                        template_values['search'] = ', '.join(self.getLocationName(data))
                     except KeyError:
                         pass
                 else:
                     lat = float(coords[0])
                     lon = float(coords[1])
-                    (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
+                    (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type)
             else:
                 lat = float(coords[0])
                 lon = float(coords[1])
-                (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type)
-        
+                (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type)
+            
         elif tag:
             page = int(self.request.get("page", 1));
                         
@@ -206,20 +224,8 @@ class SearchPage(Controller):
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
                     template_values['coords'] = "%.1f,%.1f" % (lat, lon)
-                    #if len(data['Placemark']) > 1:
-                    #    template_values['results'] = data['Placemark']
-                    #else:
-                    (template_values['attractions'], template_values['updated']) = self.getAttractions(lat, lon, type, tag, bounds)
-                    if 'AddressLine' in data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']:
-                        template_values['search'] = "%s, %s" % (
-                            data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'][0],
-                            data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                        )
-                    else:
-                        template_values['search'] = "%s, %s" % (
-                            data['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                            data['Placemark'][0]['AddressDetails']['Country']['CountryName']
-                        )
+                    (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type, tag, bounds)
+                    template_values['search'] = ', '.join(self.getLocationName(data))
                 except KeyError:
                     pass
                 
@@ -235,8 +241,34 @@ class SearchPage(Controller):
                 attraction = query.get()
                 if attraction:
                     template_values['attractions'].append(attraction)
-                
+        
+        template_values['otherPlaces'] = []
+        if lat and lon:
+            if accuracy:
+                size = accuracy
+            else:
+                size = 0.05
+            coords = [
+                "%.2f,%.2f" % (lat + size, lon - size),
+                "%.2f,%.2f" % (lat + size, lon),
+                "%.2f,%.2f" % (lat + size, lon + size),
+                "%.2f,%.2f" % (lat - size, lon - size),
+                "%.2f,%.2f" % (lat - size, lon),
+                "%.2f,%.2f" % (lat - size, lon + size),
+                "%.2f,%.2f" % (lat, lon - size),
+                "%.2f,%.2f" % (lat, lon + size)
+            ]
+            for coord in coords:
+                url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % coord
+                jsonString = urllib.urlopen(url).read()
+                if jsonString:
+                    data = simplejson.loads(jsonString)
+                    name = ', '.join(self.getLocationName(data))
+                    if name is not None and name != template_values['search'] and name not in template_values['otherPlaces']:
+                        template_values['otherPlaces'].append(name)
             
+        template_values['manyResults'] = len(template_values['attractions']) > 5
+        
         template_values['url'] = self.request.url
         template_values['atomtag'] = self.request.path
         

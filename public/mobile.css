@@ -19,11 +19,15 @@
     padding: 4px 0 4px 60px;
 }
 
-#search-results img,
+#search-results a.map,
 #user img,
 #attraction #map {
     float: none;
     margin: 10px auto;
+}
+
+#search-results ol {
+    margin: 0.5em 0;
 }
 
 #fdbk_tab {
