@@ -20,5 +20,7 @@ class Redirect(Controller):
             url = '/search.html?q=%s' % self.request.get('q')
         elif self.request.path[0:10] == '/edit.html' and self.request.get('id'):
             url = '/attractions/%s/edit.html' % self.request.get('id')
+        else:
+            url = '/search.html?q=%s' % one
         
         self.redirect(url)
