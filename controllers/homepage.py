@@ -16,7 +16,7 @@ class HomePage(Controller):
         popular.order("-rating")
         
         users = User.all()
-        users.order("activity")
+        users.order("-activity")
         
         template_values = {
             'recent': recent.fetch(10),
