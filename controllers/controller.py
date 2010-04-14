@@ -883,8 +883,8 @@ class Controller(webapp.RequestHandler):
             if type(user) == users.User:
                 userObject = User(
                     id = userId,
-                    username = user.nickname(),
-                    name = user.nickname()
+                    username = user.nickname().split('@')[0],
+                    name = user.nickname().split('@')[0]
                 )
             else:
                 userObject = User(
@@ -895,6 +895,39 @@ class Controller(webapp.RequestHandler):
             userObject.put()
         
         return userObject
+    
+    def getLocationName(self, placemark):
+        try:
+            if placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                raise KeyError
+            return (
+                placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
+                placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                placemark['AddressDetails']['Country']['CountryName']
+            )
+        except KeyError:
+            try:
+                if placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                    raise KeyError
+                return (
+                    placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                    placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                    placemark['AddressDetails']['Country']['CountryName']
+                )
+            except KeyError:
+                try:
+                    return (
+                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
+                        placemark['AddressDetails']['Country']['CountryName']
+                    )
+                except KeyError:
+                    try:
+                        return (
+                            placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                            placemark['AddressDetails']['Country']['CountryName']
+                        )
+                    except KeyError:
+                        return ()
     
     def get(self):
         

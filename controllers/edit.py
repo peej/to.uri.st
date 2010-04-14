@@ -160,7 +160,10 @@ class EditPage(Controller):
                         self.redirect('/badges/%s.html' % newBadges.pop(0))
                         return
                 
-                self.redirect('/attractions/' + newAttraction.id + '.html')
+                if newAttraction:
+                    self.redirect('/attractions/' + newAttraction.id + '.html')
+                else:
+                    self.redirect('/')
                 return
                 
             except db.TransactionFailedError:
@@ -188,49 +191,17 @@ class EditPage(Controller):
             attractionData['userid'] = None
             attractionData['username'] = self.request.remote_addr
         
+        region = 'Unknown location'
+        
         url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(attractionData['location']['lat']), float(attractionData['location']['lon']))
         jsonString = urllib.urlopen(url).read()
         if jsonString:
             data = simplejson.loads(jsonString)
             for placemark in data['Placemark']:
-                try:
-                    if placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
-                        raise KeyError
-                    region = "%s, %s, %s" % (
-                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                        placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
-                        placemark['AddressDetails']['Country']['CountryName']
-                    )
-                    break;
-                except KeyError:
-                    try:
-                        if placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
-                            raise KeyError
-                        region = "%s, %s, %s" % (
-                            placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
-                            placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
-                            placemark['AddressDetails']['Country']['CountryName']
-                        )
-                        break;
-                    except KeyError:
-                        try:
-                            region = "%s, %s" % (
-                                placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
-                                placemark['AddressDetails']['Country']['CountryName']
-                            )
-                            break;
-                        except KeyError:
-                            try:
-                                region = "%s, %s" % (
-                                    placemark['AddressDetails']['Country']['SubAdministrativeArea']['SubAdministrativeAreaName'],
-                                    placemark['AddressDetails']['Country']['CountryName']
-                                )
-                                break;
-                            except KeyError:
-                                region = 'Unknown location'
-        else:
-            region = 'Unknown location'
-            
+                region = ", ".join(self.getLocationName(placemark))
+                if region:
+                    break
+        
         if key:
             oldAttraction = db.get(key)
             attractionData['root'] = oldAttraction.root
