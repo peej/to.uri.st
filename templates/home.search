@@ -5,7 +5,7 @@
     <Image height="16" width="16" type="image/x-icon">http://to.uri.st/favicon.ico</Image>
     <Tags>tourism tourist attractions</Tags>
     <Contact>feedback@to.uri.st</Contact>
-    <Url type="application/atom+xml" template="/search.atom?c={geo:lat},{geo:lon}"/>
-    <Url type="application/atom+xml" template="/search.atom?q={searchQuery}"/>
-    <Url type="application/atom+xml" template="/recent.atom?c={geo:lat},{geo:lon}"/>
+    <Url type="application/atom+xml" template="http://{{ hostname }}/search.atom?c={geo:lat},{geo:lon}"/>
+    <Url type="application/atom+xml" template="http://{{ hostname }}/search.atom?q={searchQuery}"/>
+    <Url type="application/atom+xml" template="http://{{ hostname }}/recent.atom?c={geo:lat},{geo:lon}"/>
 </OpenSearchDescription>

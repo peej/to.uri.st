@@ -825,6 +825,8 @@ class Controller(webapp.RequestHandler):
         
         if not 'self' in values:
             values['self'] = self.request.path
+            
+        values['hostname'] = self.request.host
         
         from google.appengine.api import users
         user = users.get_current_user()

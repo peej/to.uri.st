@@ -7,16 +7,16 @@
 >
 	<workspace title="to.uri.st">
 		<collection
-			href="/search.atom"
-			os:template="/search.atom?c={geo:lat},{geo:lon}&amp;q={searchTerms?}"
+			href="http://{{ hostname }}/search.atom"
+			os:template="http://{{ hostname }}/search.atom?c={geo:lat},{geo:lon}&amp;q={searchTerms?}"
 			atom:type="application/atom+xml"
 			atom:rel="start"
 		>
 			<atom:title>Attractions</atom:title>
 		</collection>
 		<collection
-			href="/recent.atom"
-			os:template="/recent.atom?c={geo:lat},{geo:lon}"
+			href="http://{{ hostname }}/recent.atom"
+			os:template="http://{{ hostname }}/recent.atom?c={geo:lat},{geo:lon}"
 			atom:type="application/atom+xml"
 			atom:rel="changes"
 		>
