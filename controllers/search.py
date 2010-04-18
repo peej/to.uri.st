@@ -232,9 +232,9 @@ class SearchPage(Controller):
                     jsonString = urllib.urlopen(url).read()
                     if jsonString:
                         data = simplejson.loads(jsonString)
-                        name = ', '.join(self.getLocationName(data['Placemark'][0]))
+                        name = ', '.join(self.getLocationName(data['Placemark'][0])).encode('utf-8')
                         if name is not None and name != template_values['search'] and name not in template_values['otherPlaces']:
-                            template_values['otherPlaces'].append(name.encode('utf-8'))
+                            template_values['otherPlaces'].append(name)
             except (UnboundLocalError, KeyError):
                 pass
         
