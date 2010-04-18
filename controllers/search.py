@@ -124,8 +124,10 @@ class SearchPage(Controller):
                         lat = data['Placemark'][0]['Point']['coordinates'][1]
                         lon = data['Placemark'][0]['Point']['coordinates'][0]
                         (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format)
-                        template_values['search'] = ', '.join(self.getLocationName(data['Placemark'][0]))
-                    except KeyError:
+                        location = self.getLocationName(data['Placemark'][0])
+                        template_values['search'] = ', '.join(location).encode('utf-8')
+                        template_values['location'] = location[0].encode('utf-8')
+                    except KeyError, IndexError:
                         pass
                 else:
                     lat = float(coords[0])
@@ -192,8 +194,10 @@ class SearchPage(Controller):
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
                     template_values['coords'] = "%.1f,%.1f" % (lat, lon)
                     (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format, tag, bounds)
-                    template_values['search'] = ', '.join(self.getLocationName(data['Placemark'][0]))
-                except KeyError:
+                    location = self.getLocationName(data['Placemark'][0])
+                    template_values['search'] = ', '.join(location).encode('utf-8')
+                    template_values['location'] = location[0].encode('utf-8')
+                except KeyError, IndexError:
                     pass
                 
         elif attractions:
@@ -232,9 +236,13 @@ class SearchPage(Controller):
                     jsonString = urllib.urlopen(url).read()
                     if jsonString:
                         data = simplejson.loads(jsonString)
-                        name = ', '.join(self.getLocationName(data['Placemark'][0])).encode('utf-8')
-                        if name is not None and name != template_values['search'] and name not in template_values['otherPlaces']:
-                            template_values['otherPlaces'].append(name)
+                        location = self.getLocationName(data['Placemark'][0])
+                        try:
+                            name = self.getLocationName(data['Placemark'][0])[0].encode('utf-8')
+                            if name is not None and name != template_values['location'] and name not in template_values['otherPlaces']:
+                                template_values['otherPlaces'].append((name, ', '.join(location).encode('utf-8')))
+                        except:
+                            pass
             except (UnboundLocalError, KeyError):
                 pass
         

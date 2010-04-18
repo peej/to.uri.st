@@ -11,7 +11,7 @@
     <h1>{% if results and search %}
         Locations found for "{{ search|escape }}"
     {% else %}{% if search %}
-        Attractions {% if tag %}tagged as "{{ tag|escape }}" {% endif %}in "{{ search|escape }}"
+        Attractions {% if tag %}tagged as "{{ tag|escape }}" {% endif %}in "{% if location %}{{ location|escape }}{% else %}{{ search|escape }}{% endif %}"
     {% else %}{% if coords %}
         Attractions {% if tag %}tagged as "{{ tag|escape }}" {% endif %}at {{ coords|escape }}
     {% else %}{% if tag %}
@@ -63,7 +63,7 @@
     <div id="other">
         Other places nearby:
         {% for place in otherPlaces %}
-        <a href="/search.html?q={% if tag %}{{ tag|escape }} in {% endif %}{{ place|lower|urlencode|escape }}">{{ place|escape }}</a>
+        <a href="/search.html?q={% if tag %}{{ tag|escape }} in {% endif %}{{ place.1|lower|urlencode|escape }}">{{ place.0|escape }}</a>
         {% endfor %}
     </div>
     {% endif %}
@@ -72,12 +72,12 @@
         {% if previous %}<a class="prev" href="{{ previous|escape }}" rel="prev">Previous page</a>{% endif %}
         {% if next %}<a class="next" href="{{ next|escape }}" rel="next">Next page</a>{% endif %}
         {% if coords %}
-            <a class="recent" href="/recent.html?c={{ coords|escape }}">Recent changes {% if search %}in {{ search|escape }}{% else %}at {{ coords|escape }}{% endif %}</a>
+            <a class="recent" href="/recent.html?c={{ coords|escape }}">Recent changes {% if search %}in {% if location %}{{ location|escape }}{% else %}{{ search|escape }}{% endif %}{% else %}at {{ coords|escape }}{% endif %}</a>
         {% endif %}
         <a class="map" href="/map.html{% if coords %}?c={{ coords|escape }}{% endif %}">View on the big map</a>
         <a class="feed" href="{{ atom|escape }}" rel="alternate" type="application/atom+xml">Atom feed</a>
         <a class="gps" href="{{ gpx|escape }}" rel="alternate" type="application/gpx+xml">GPS data for this search (GPX)</a>
-        <a class="add" href="/add.html{% if coords %}?c={{ coords|escape }}{% endif %}">Add a new attraction {% if search %}in {{ search|escape }}{% else %}{%if coords %}near {{ coords|escape }}{% endif %}{% endif %}</a>
+        <a class="add" href="/add.html{% if coords %}?c={{ coords|escape }}{% endif %}">Add a new attraction {% if search %}in {% if location %}{{ location|escape }}{% else %}{{ search|escape }}{% endif %}{% else %}{%if coords %}near {{ coords|escape }}{% endif %}{% endif %}</a>
     </div>
     
 {% endblock %}
