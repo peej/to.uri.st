@@ -7,7 +7,7 @@ from models.attraction import Attraction
 
 class SearchPage(Controller):
     
-    def getAttractions(self, lat = None, lon = None, type = 'html', tag = '', bounds = {}):
+    def getAttractions(self, lat = None, lon = None, format = 'html', tag = '', bounds = {}):
         
         attractions = []
         updated = None
@@ -27,7 +27,7 @@ class SearchPage(Controller):
         except KeyError:
             accuracy = defaultAccuracy
         
-        if type == 'js' or accuracy < defaultAccuracy:
+        if format == 'js' or accuracy < defaultAccuracy:
             lats = [boxLat]
             lons = [boxLon]
         else:
@@ -70,7 +70,7 @@ class SearchPage(Controller):
             
         return (attractions, updated, accuracy)
     
-    def get(self, type):
+    def get(self, format):
         
         search = self.request.get("q")
         coords = self.request.get("c")
@@ -113,7 +113,7 @@ class SearchPage(Controller):
                 self.send404()
                 return
             
-            if type != 'js':
+            if format != 'js':
                 
                 url = "http://maps.google.com/maps/geo?q=%.2f,%.2f&sensor=false" % (float(coords[0]), float(coords[1]))
                 
@@ -123,18 +123,18 @@ class SearchPage(Controller):
                     try:
                         lat = data['Placemark'][0]['Point']['coordinates'][1]
                         lon = data['Placemark'][0]['Point']['coordinates'][0]
-                        (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type)
+                        (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format)
                         template_values['search'] = ', '.join(self.getLocationName(data['Placemark'][0]))
                     except KeyError:
                         pass
                 else:
                     lat = float(coords[0])
                     lon = float(coords[1])
-                    (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type)
+                    (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format)
             else:
                 lat = float(coords[0])
                 lon = float(coords[1])
-                (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type)
+                (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format)
             
         elif tag:
             page = int(self.request.get("page", 1));
@@ -163,7 +163,7 @@ class SearchPage(Controller):
                 if template_values['updated'] == None or attraction.datetime > template_values['updated']:
                     template_values['updated'] = attraction.datetime
             
-            template_values['tag'] = tag
+            template_values['tag'] = tag.encode('utf-8')
         
         elif search:
             
@@ -175,13 +175,13 @@ class SearchPage(Controller):
                 if tag in self.tags:
                     tag = self.tags[tag]
                     
-                template_values['tag'] = tag
+                template_values['tag'] = tag.encode('utf-8')
             
             search = search.strip(" ")
             
             url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % urllib.quote(search)
             
-            template_values['search'] = search
+            template_values['search'] = search.encode('utf-8')
             
             jsonString = urllib.urlopen(url).read()
             if jsonString:
@@ -191,7 +191,7 @@ class SearchPage(Controller):
                     lat = data['Placemark'][0]['Point']['coordinates'][1]
                     lon = data['Placemark'][0]['Point']['coordinates'][0]
                     template_values['coords'] = "%.1f,%.1f" % (lat, lon)
-                    (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, type, tag, bounds)
+                    (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format, tag, bounds)
                     template_values['search'] = ', '.join(self.getLocationName(data['Placemark'][0]))
                 except KeyError:
                     pass
@@ -209,33 +209,34 @@ class SearchPage(Controller):
                 if attraction:
                     template_values['attractions'].append(attraction)
         
-        template_values['otherPlaces'] = []
-        
-        try:
-            if accuracy:
-                size = accuracy
-            else:
-                size = 0.05
-            coords = [
-                "%.2f,%.2f" % (lat + size, lon - size),
-                "%.2f,%.2f" % (lat + size, lon),
-                "%.2f,%.2f" % (lat + size, lon + size),
-                "%.2f,%.2f" % (lat - size, lon - size),
-                "%.2f,%.2f" % (lat - size, lon),
-                "%.2f,%.2f" % (lat - size, lon + size),
-                "%.2f,%.2f" % (lat, lon - size),
-                "%.2f,%.2f" % (lat, lon + size)
-            ]
-            for coord in coords:
-                url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % coord
-                jsonString = urllib.urlopen(url).read()
-                if jsonString:
-                    data = simplejson.loads(jsonString)
-                    name = ', '.join(self.getLocationName(data['Placemark'][0]))
-                    if name is not None and name != template_values['search'] and name not in template_values['otherPlaces']:
-                        template_values['otherPlaces'].append(name)
-        except UnboundLocalError:
-            pass
+        if format == 'html':
+            template_values['otherPlaces'] = []
+            
+            try:
+                if accuracy:
+                    size = accuracy
+                else:
+                    size = 0.05
+                coords = [
+                    "%.2f,%.2f" % (lat + size, lon - size),
+                    "%.2f,%.2f" % (lat + size, lon),
+                    "%.2f,%.2f" % (lat + size, lon + size),
+                    "%.2f,%.2f" % (lat - size, lon - size),
+                    "%.2f,%.2f" % (lat - size, lon),
+                    "%.2f,%.2f" % (lat - size, lon + size),
+                    "%.2f,%.2f" % (lat, lon - size),
+                    "%.2f,%.2f" % (lat, lon + size)
+                ]
+                for coord in coords:
+                    url = "http://maps.google.com/maps/geo?q=%s&sensor=false" % coord
+                    jsonString = urllib.urlopen(url).read()
+                    if jsonString:
+                        data = simplejson.loads(jsonString)
+                        name = ', '.join(self.getLocationName(data['Placemark'][0]))
+                        if name is not None and name != template_values['search'] and name not in template_values['otherPlaces']:
+                            template_values['otherPlaces'].append(name.encode('utf-8'))
+            except (UnboundLocalError, KeyError):
+                pass
         
         try:
             template_values['manyResults'] = len(template_values['attractions']) > 5
@@ -250,5 +251,5 @@ class SearchPage(Controller):
         template_values['json'] = self.request.url.replace('.html', '.json')
         template_values['gpx'] = self.request.url.replace('.html', '.gpx')
 
-        self.output('search', type, template_values)
+        self.output('search', format, template_values)
 

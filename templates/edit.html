@@ -27,6 +27,8 @@
             <input type="text" name="name" value="{{ attraction.name|escape }}" maxlength="100">
         </label>
         
+        <input type="text" class="spam" name="title" value="don't spam me bro!">
+        
         <label>
             Description:
             <textarea name="description">{{ attraction.description|escape }}</textarea>

@@ -17,9 +17,13 @@ class EditPage(Controller):
             query.filter("id =", attractionId)
             attraction = query.get()
             
-            attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
-            
-            template_values['attraction'] = attraction
+            if attraction:
+                attraction.picture = self.convertFlickrUrl(attraction.picture, 'm')
+                template_values['attraction'] = attraction
+                
+            else:
+                self.output('404', 'html')
+                return
         
         else:
             try:
@@ -50,6 +54,13 @@ class EditPage(Controller):
             attraction['location']['lon'] = float(attraction['location']['lon']) + ((float(self.request.get('location.x')) - 150) / 12000)
         
         errors = {}
+        
+        if self.request.get('title') != 'don\'t spam me bro!':
+            try:
+                self.redirect('/attractions/' + attractionId + '.html')
+            except:
+                self.redirect('/')
+            return
         
         if len(attraction['name']) == 0:
             errors['name'] = True
@@ -160,9 +171,9 @@ class EditPage(Controller):
                         self.redirect('/badges/%s.html' % newBadges.pop(0))
                         return
                 
-                if newAttraction:
+                try:
                     self.redirect('/attractions/' + newAttraction.id + '.html')
-                else:
+                except:
                     self.redirect('/')
                 return
                 

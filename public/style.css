@@ -209,6 +209,10 @@ form label.error {
     font-weight: bold;
 }
 
+input.spam {
+    display: none;
+}
+
 /* nav */
 
 .nav {
