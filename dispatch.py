@@ -42,7 +42,7 @@ application = webapp.WSGIApplication(
         ('/badges/([0-9]+)(?:\.html)?', Badge),
         
         ('/m\.html', Redirect),
-        ('/places(?:\.(html|atom))?', Redirect),
+        ('/places(?:\.(html|atom|kml))?', Redirect),
         ('/places/([a-f0-9]{32})(?:\.(html|gpx))?', Redirect),
         ('/places/([a-f0-9]{32})/history(?:\.(html|atom))?', Redirect),
         ('/edit\.html', Redirect),
