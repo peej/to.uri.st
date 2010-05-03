@@ -918,18 +918,33 @@ class Controller(webapp.RequestHandler):
                 )
             except KeyError:
                 try:
+                    if placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'] == placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName']:
+                        raise KeyError
                     return (
-                        placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
+                        placemark['AddressDetails']['Country']['AdministrativeArea']['Locality']['LocalityName'],
+                        placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
                         placemark['AddressDetails']['Country']['CountryName']
                     )
                 except KeyError:
                     try:
                         return (
-                            placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                            placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['AddressLine'],
                             placemark['AddressDetails']['Country']['CountryName']
                         )
                     except KeyError:
-                        return ()
+                        try:
+                            return (
+                                placemark['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'],
+                                placemark['AddressDetails']['Country']['CountryName']
+                            )
+                        except KeyError:
+                            try:
+                                return (
+                                    placemark['AddressDetails']['Country']['AdministrativeArea']['AdministrativeAreaName'],
+                                    placemark['AddressDetails']['Country']['CountryName']
+                                )
+                            except KeyError:
+                                return ()
     
     def get(self):
         
@@ -960,7 +975,7 @@ class Controller(webapp.RequestHandler):
             error += "\t" + line
         
         import md5
-        errorHash = md5.new(unicode(error)).hexdigest()[0:8]
+        errorHash = md5.new(unicode(exceptionValue)).hexdigest()[0:8]
         
         if not debug_mode:
             
