@@ -7,7 +7,7 @@
 			<name>{{ attraction.name|escape }}</name>
 			<description><![CDATA[
 				{{ attraction.description|truncatewords:50|escape|linebreaks }}
-                <p><a href="http://to.uri.st/#{$place->md5}">More</a></p>
+                <p><a href="http://to.uri.st/attractions/{{ attraction.id }}">More</a></p>
 			]]></description>
 			<Point>
 				<coordinates>{{ attraction.lon|escape }},{{ attraction.lat|escape }},0</coordinates>
