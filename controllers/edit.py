@@ -38,6 +38,10 @@ class EditPage(Controller):
     
     def post(self, attractionId = None):
         
+        template_values = {}
+        template_values['lat'] = 0
+        template_values['lon'] = 0
+        
         attraction = {}
         attraction['id'] = attractionId
         attraction['name'] = self.request.get('name')
@@ -94,10 +98,8 @@ class EditPage(Controller):
             
             attraction['picture'] = self.convertFlickrUrl(attraction['picture'], 'm')
             
-            template_values = {
-                'attraction': attraction,
-                'errors': errors
-            }
+            template_values['attraction'] = attraction,
+            template_values['errors'] = errors
             
             self.output('edit', 'html', template_values)
             
@@ -179,11 +181,9 @@ class EditPage(Controller):
                 
             except db.TransactionFailedError:
             
-                template_values = {
-                    'attraction': attraction,
-                    'errors': {
-                        'save': True
-                    }
+                template_values['attraction'] = attraction
+                template_values['errors'] = {
+                    'save': True
                 }
                 
                 self.output('edit', 'html', template_values)
