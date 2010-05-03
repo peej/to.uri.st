@@ -126,7 +126,10 @@ class SearchPage(Controller):
                         (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format)
                         location = self.getLocationName(data['Placemark'][0])
                         template_values['search'] = ', '.join(location).encode('utf-8')
-                        template_values['location'] = location[0].encode('utf-8')
+                        try:
+                            template_values['location'] = location[0].encode('utf-8')
+                        except:
+                            pass
                     except KeyError, IndexError:
                         pass
                 else:
@@ -196,9 +199,17 @@ class SearchPage(Controller):
                     (template_values['attractions'], template_values['updated'], accuracy) = self.getAttractions(lat, lon, format, tag, bounds)
                     location = self.getLocationName(data['Placemark'][0])
                     template_values['search'] = ', '.join(location).encode('utf-8')
-                    template_values['location'] = location[0].encode('utf-8')
+                    try:
+                        template_values['location'] = location[0].encode('utf-8')
+                    except:
+                        self.output('500', 'html')
+                        return
                 except KeyError, IndexError:
-                    pass
+                    self.output('500', 'html')
+                    return
+            else:
+                self.output('500', 'html')
+                return
                 
         elif attractions:
             
